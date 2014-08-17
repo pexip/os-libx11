@@ -112,7 +112,7 @@ XOpenDisplay (
 /*
  * Attempt to allocate a display structure. Return NULL if allocation fails.
  */
-	if ((dpy = (Display *)Xcalloc(1, sizeof(Display))) == NULL) {
+	if ((dpy = Xcalloc(1, sizeof(Display))) == NULL) {
 		return(NULL);
 	}
 
@@ -127,28 +127,9 @@ XOpenDisplay (
  */
 
 	if(!_XConnectXCB(dpy, display, &iscreen)) {
-		/* Try falling back on other transports if no transport specified */
-		const char *slash = strrchr(display_name, '/');
-		if(slash == NULL) {
-			const char *protocols[] = {"local", "unix", "tcp", "inet6", "inet", NULL};
-			const char **s;
-			size_t buf_size = strlen(display_name) + 7; // max strlen + 2 (null + /)
-			char *buf = Xmalloc(buf_size * sizeof(char));
-
-			if(buf) {
-				for(s = protocols; buf && *s; s++) {
-					snprintf(buf, buf_size, "%s/%s", *s, display_name);
-					if(_XConnectXCB(dpy, buf, &iscreen))
-						goto fallback_success;
-				}
-				Xfree(buf);
-			}
-		}
-
 		OutOfMemory(dpy);
 		return NULL;
 	}
-fallback_success:
 
 	/* Initialize as much of the display structure as we can.
 	 * Initialize pointers to NULL so that XFreeDisplayStructure will
@@ -265,9 +246,7 @@ fallback_success:
 	dpy->qlen = 0;
 
 	/* Set up free-function record */
-	if ((dpy->free_funcs = (_XFreeFuncRec *)Xcalloc(1,
-							sizeof(_XFreeFuncRec)))
-	    == NULL) {
+	if ((dpy->free_funcs = Xcalloc(1, sizeof(_XFreeFuncRec))) == NULL) {
 	    OutOfMemory (dpy);
 	    return(NULL);
 	}
@@ -335,7 +314,7 @@ fallback_success:
 	    return (NULL);
 	}
 
-	dpy->vendor = (char *) Xmalloc((unsigned) (u.setup->nbytesVendor + 1));
+	dpy->vendor = Xmalloc(u.setup->nbytesVendor + 1);
 	if (dpy->vendor == NULL) {
 	    OutOfMemory(dpy);
 	    return (NULL);
@@ -361,9 +340,7 @@ fallback_success:
 /*
  * Now iterate down setup information.....
  */
-	dpy->pixmap_format =
-	    (ScreenFormat *)Xmalloc(
-		(unsigned) (dpy->nformats *sizeof(ScreenFormat)));
+	dpy->pixmap_format = Xcalloc(dpy->nformats, sizeof(ScreenFormat));
 	if (dpy->pixmap_format == NULL) {
 	        OutOfMemory (dpy);
 		return(NULL);
@@ -391,8 +368,7 @@ fallback_success:
 /*
  * next the Screen structures.
  */
-	dpy->screens =
-	    (Screen *)Xmalloc((unsigned) dpy->nscreens*sizeof(Screen));
+	dpy->screens = Xcalloc(dpy->nscreens, sizeof(Screen));
 	if (dpy->screens == NULL) {
 	        OutOfMemory (dpy);
 		return(NULL);
@@ -434,8 +410,7 @@ fallback_success:
 /*
  * lets set up the depth structures.
  */
-	    sp->depths = (Depth *)Xmalloc(
-			(unsigned)sp->ndepths*sizeof(Depth));
+	    sp->depths = Xcalloc(sp->ndepths, sizeof(Depth));
 	    if (sp->depths == NULL) {
 		OutOfMemory (dpy);
 		return(NULL);
@@ -457,8 +432,7 @@ fallback_success:
 		dp->nvisuals = u.dp->nVisuals;
 		u.dp = (xDepth *) (((char *) u.dp) + sz_xDepth);
 		if (dp->nvisuals > 0) {
-		    dp->visuals =
-		      (Visual *)Xmalloc((unsigned)dp->nvisuals*sizeof(Visual));
+		    dp->visuals = Xcalloc(dp->nvisuals, sizeof(Visual));
 		    if (dp->visuals == NULL) {
 			OutOfMemory (dpy);
 			return(NULL);
@@ -518,6 +492,9 @@ fallback_success:
 	    return(NULL);
 	}
 
+/*
+ * get availability of large requests
+ */
 	dpy->bigreq_size = xcb_get_maximum_request_length(dpy->xcb->connection);
 	if(dpy->bigreq_size <= dpy->max_request_size)
 		dpy->bigreq_size = 0;
@@ -544,7 +521,6 @@ fallback_success:
 	(void) XSynchronize(dpy, _Xdebug);
 
 /*
- * get availability of large requests, and
  * get the resource manager database off the root window.
  */
 	LockDisplay(dpy);
@@ -569,7 +545,7 @@ fallback_success:
 		    dpy->xdefaults[reply.nItems] = '\0';
 		}
 		else if (reply.propertyType != None)
-		    _XEatData(dpy, reply.nItems * (reply.format >> 3));
+		    _XEatDataWords(dpy, reply.length);
 	    }
 	}
 	UnlockDisplay(dpy);
@@ -616,7 +592,7 @@ void _XFreeDisplayStructure(Display *dpy)
 	    dpy->ext_procs = ext->next;
 	    if (ext->name)
 		Xfree (ext->name);
-	    Xfree ((char *)ext);
+	    Xfree (ext);
 	}
 	if (dpy->im_filters)
 	   (*dpy->free_funcs->im_filters)(dpy);
@@ -658,17 +634,17 @@ void _XFreeDisplayStructure(Display *dpy)
 
 			   for (k = 0; k < dp->nvisuals; k++)
 			     _XFreeExtData (dp->visuals[k].ext_data);
-			   Xfree ((char *) dp->visuals);
+			   Xfree (dp->visuals);
 			   }
 			}
 
-		   Xfree ((char *) sp->depths);
+		   Xfree (sp->depths);
 		   }
 
 		_XFreeExtData (sp->ext_data);
 		}
 
-	    Xfree ((char *)dpy->screens);
+	    Xfree (dpy->screens);
 	    }
 
 	if (dpy->pixmap_format) {
@@ -676,7 +652,7 @@ void _XFreeDisplayStructure(Display *dpy)
 
 	    for (i = 0; i < dpy->nformats; i++)
 	      _XFreeExtData (dpy->pixmap_format[i].ext_data);
-            Xfree ((char *)dpy->pixmap_format);
+            Xfree (dpy->pixmap_format);
 	    }
 
 	free(dpy->display_name);
@@ -686,15 +662,15 @@ void _XFreeDisplayStructure(Display *dpy)
         if (dpy->buffer)
 	   Xfree (dpy->buffer);
 	if (dpy->keysyms)
-	   Xfree ((char *) dpy->keysyms);
+	   Xfree (dpy->keysyms);
 	if (dpy->xdefaults)
 	   Xfree (dpy->xdefaults);
 	if (dpy->error_vec)
-	    Xfree ((char *)dpy->error_vec);
+	    Xfree (dpy->error_vec);
 
 	_XFreeExtData (dpy->ext_data);
 	if (dpy->free_funcs)
-	    Xfree ((char *)dpy->free_funcs);
+	    Xfree (dpy->free_funcs);
  	if (dpy->scratch_buffer)
  	    Xfree (dpy->scratch_buffer);
 	FreeDisplayLock(dpy);
@@ -704,7 +680,7 @@ void _XFreeDisplayStructure(Display *dpy)
 
 	    while (qelt) {
 		register _XQEvent *qnxt = qelt->next;
-		Xfree ((char *) qelt);
+		Xfree (qelt);
 		qelt = qnxt;
 	    }
 	}
@@ -725,7 +701,7 @@ void _XFreeDisplayStructure(Display *dpy)
 
 	_XFreeX11XCBStructure(dpy);
 
-	Xfree ((char *)dpy);
+	Xfree (dpy);
 }
 
 /* OutOfMemory is called if malloc fails.  XOpenDisplay returns NULL

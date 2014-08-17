@@ -4,11 +4,12 @@
 <chapter id='Inter_Client_Communication_Functions'>
 <title>Inter-Client Communication Functions</title>
 <para>
-The Inter-Client Communication Conventions Manual, hereafter referred to as the <acronym>ICCCM</acronym>,
+The <citetitle>Inter-Client Communication Conventions Manual</citetitle>,
+hereafter referred to as the <acronym>ICCCM</acronym>,
 details the X Consortium approved conventions that govern inter-client communications. These
 conventions ensure peer-to-peer client cooperation in the use of selections, cut buffers, and shared
 resources as well as client cooperation with window and session managers. For further information,
-see the Inter-Client Communication Conventions Manual.
+see the <olink targetdoc='icccm' targetptr='icccm'><citetitle>Inter-Client Communication Conventions Manual</citetitle></olink>.
 </para>
 <para>
 Xlib provides a number of standard properties and programming interfaces that are <acronym>ICCCM</acronym>
@@ -30,18 +31,19 @@ The standard properties that are of special interest for communicating with wind
 managers are:
 </para>
 
-<informaltable>
-  <tgroup cols='4'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
-  <colspec colname='c4'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='4' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='3.0*'/>
+  <colspec colname='c2' colwidth='2.3*'/>
+  <colspec colname='c3' colwidth='0.9*'/>
+  <colspec colname='c4' colwidth='2.7*'/>
   <thead>
-    <row>
-      <entry align='center'>Name</entry>
-      <entry align='center'>Type</entry>
-      <entry align='center'>Format</entry>
-      <entry align='center'>Description</entry>
+    <row rowsep='1'>
+      <entry>Name</entry>
+      <entry>Type</entry>
+      <entry>Format</entry>
+      <entry>Description</entry>
     </row>
   </thead>
   <tbody>
@@ -312,8 +314,9 @@ function sends a <property>WM_CHANGE_STATE</property>
 <symbol>ClientMessage</symbol>
 event with a format of 32 and a first data element of 
 <symbol>IconicState</symbol>
-(as described in section 4.1.4 of the 
-<emphasis remap='I'>Inter-Client Communication Conventions Manual</emphasis>)
+(as described in <olink targetdoc='icccm' targetptr='Changing_Window_State'
+>section 4.1.4 of the
+<citetitle>Inter-Client Communication Conventions Manual</citetitle></olink>)
 and a window of w
 to the root window of the specified screen
 with an event mask set to
@@ -796,7 +799,6 @@ structure to be used.
     <listitem>
       <para>
 Returns a list of null-terminated character strings.
-<!-- .ds Cn strings -->
       </para>
     </listitem>
   </varlistentry>
@@ -806,7 +808,7 @@ Returns a list of null-terminated character strings.
     </term>
     <listitem>
       <para>
-Returns the number of (Cn.
+Returns the number of strings.
     </para>
   </listitem>
   </varlistentry>
@@ -1005,7 +1007,6 @@ structure, use
     <listitem>
       <para>
 Specifies a list of null-terminated character strings.
-<!-- .ds Cn strings -->
       </para>
     </listitem>
   </varlistentry>
@@ -1015,7 +1016,7 @@ Specifies a list of null-terminated character strings.
     </term>
     <listitem>
       <para>
-Specifies the number of (Cn.
+Specifies the number of strings.
       </para>
     </listitem>
   </varlistentry>
@@ -1092,7 +1093,6 @@ structure to be used.
     <listitem>
       <para>
 Returns a list of null-terminated character strings.
-<!-- .ds Cn strings -->
       </para>
     </listitem>
   </varlistentry>
@@ -1102,7 +1102,7 @@ Returns a list of null-terminated character strings.
     </term>
     <listitem>
       <para>
-Returns the number of (Cn.
+Returns the number of strings.
     </para>
   </listitem>
   </varlistentry>
@@ -3218,7 +3218,6 @@ Specifies the window.
     <listitem>
       <para>
 Specifies the list of protocols.
-<!-- .ds Cn protocols in the list -->
       </para>
     </listitem>
   </varlistentry>
@@ -3228,7 +3227,7 @@ Specifies the list of protocols.
     </term>
     <listitem>
       <para>
-Specifies the number of (Cn.
+Specifies the number of protocols in the list.
     </para>
   </listitem>
   </varlistentry>
@@ -3305,7 +3304,6 @@ Specifies the window.
     <listitem>
       <para>
 Returns the list of protocols.
-<!-- .ds Cn protocols in the list -->
       </para>
     </listitem>
   </varlistentry>
@@ -3315,7 +3313,7 @@ Returns the list of protocols.
     </term>
     <listitem>
       <para>
-Returns the number of (Cn.
+Returns the number of protocols in the list.
     </para>
   </listitem>
   </varlistentry>
@@ -3404,7 +3402,6 @@ Specifies the window.
     <listitem>
       <para>
 Specifies the list of windows.
-<!-- .ds Cn windows in the list -->
       </para>
     </listitem>
   </varlistentry>
@@ -3414,7 +3411,7 @@ Specifies the list of windows.
     </term>
     <listitem>
       <para>
-Specifies the number of (Cn.
+Specifies the number of windows in the list.
     </para>
   </listitem>
   </varlistentry>
@@ -3491,7 +3488,6 @@ Specifies the window.
     <listitem>
       <para>
 Returns the list of windows.
-<!-- .ds Cn windows in the list -->
       </para>
     </listitem>
   </varlistentry>
@@ -3501,7 +3497,7 @@ Returns the list of windows.
     </term>
     <listitem>
       <para>
-Returns the number of (Cn.
+Returns the number of windows in the list.
     </para>
   </listitem>
   </varlistentry>
@@ -4977,7 +4973,6 @@ Specifies the window.
 Specifies the
 <structname>XStandardColormap</structname>
 structure to be used.
-<!-- .ds Cn colormaps -->
       </para>
     </listitem>
   </varlistentry>
@@ -4987,7 +4982,7 @@ structure to be used.
     </term>
     <listitem>
       <para>
-Specifies the number of (Cn.
+Specifies the number of colormaps.
       </para>
     </listitem>
   </varlistentry>
@@ -5157,7 +5152,6 @@ Specifies the window.
 Returns the
 <structname>XStandardColormap</structname>
 structure.
-<!-- .ds Cn colormaps -->
       </para>
     </listitem>
   </varlistentry>
@@ -5167,7 +5161,7 @@ structure.
     </term>
     <listitem>
       <para>
-Returns the number of (Cn.
+Returns the number of colormaps.
       </para>
     </listitem>
   </varlistentry>

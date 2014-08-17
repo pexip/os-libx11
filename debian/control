@@ -1,11 +1,9 @@
 Source: libx11
 Section: x11
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-XSBC-Original-Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
-Uploaders: Cyril Brulebois <kibi@debian.org>
+Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
 Build-Depends:
- debhelper (>= 5.0.0),
+ debhelper (>= 7),
  dpkg-dev (>= 1.16.0),
  pkg-config,
  xtrans-dev,
@@ -21,7 +19,7 @@ Build-Depends:
  xutils-dev (>= 1:7.6+2),
 # specs
  xmlto,
- xorg-sgml-doctools (>= 1:1.5),
+ xorg-sgml-doctools (>= 1:1.10),
  w3m,
 Standards-Version: 3.9.2
 Vcs-Git: git://git.debian.org/git/pkg-xorg/lib/libx11
@@ -105,7 +103,7 @@ Depends:
  libx11-6 (= ${binary:Version}),
  libxau-dev (>= 1:1.0.0-1),
  libxdmcp-dev (>= 1:1.0.0-1),
- x11proto-core-dev (>= 6.8.99.8-1),
+ x11proto-core-dev (>= 7.0.17),
  x11proto-input-dev,
  x11proto-kb-dev,
  xtrans-dev,
@@ -174,6 +172,7 @@ Description: Xlib/XCB interface library (debug package)
 Package: libx11-xcb-dev
 Section: libdevel
 Architecture: any
+Multi-Arch: same
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
@@ -202,9 +201,8 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
-# for xorg.css
- xorg-sgml-doctools (>= 1:1.5),
 Replaces: libx11-dev (<< 2:1.4.4-3)
+Breaks: libx11-dev (<< 2:1.4.4-3)
 Description: X11 client-side library (development documentation)
  This package provides a client interface to the X Window System, otherwise
  known as 'Xlib'.  It provides a complete API for the basic functions of the

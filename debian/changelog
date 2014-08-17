@@ -1,59 +1,116 @@
-libx11 (2:1.4.99.1-0ubuntu2.3) precise-security; urgency=medium
+libx11 (2:1.6.2-3) unstable; urgency=medium
 
-  * SECURITY UPDATE: buffer overflow in MakeBigReq (LP: #1441381)
-    - debian/patches/makebigreq_overflow.patch: don't move the last word in
-      MakeBigReq in include/X11/Xlibint.h.
-    - CVE number pending
+  [ Julien Cristau ]
+  * libx11-6.symbols: yet another 64bit arch (ppc64el).  Closes: #749728.
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 08 Apr 2015 08:01:09 -0400
+ -- Cyril Brulebois <kibi@debian.org>  Mon, 18 Aug 2014 01:39:32 +0200
 
-libx11 (2:1.4.99.1-0ubuntu2.2) precise; urgency=low
+libx11 (2:1.6.2-2) unstable; urgency=low
 
-  * Rebuild against SRUed x11-proto-core (LP: #408903)
+  [ Julien Cristau ]
+  * Yet more 64 bit archs in symbols file: mips64{,el} (closes: #722088).
+  * Remove Cyril Brulebois from Uploaders.
+  * Bump debhelper compat level from 5 to 7.
+  * Switch from xsfbs.mk to standard quilt patching.
 
- -- Iain Lane <iain.lane@canonical.com>  Mon, 22 Jul 2013 11:09:59 +0100
+  [ Colin Watson ]
+  * Declare libx11-xcb-dev Multi-Arch: same (closes: #727231).
 
-libx11 (2:1.4.99.1-0ubuntu2.1) precise-security; urgency=low
+ -- Julien Cristau <jcristau@debian.org>  Sun, 11 May 2014 18:04:23 +0200
 
-  * SECURITY UPDATE: denial of service and possible code execution via
-    incorrect memory size calculations
-    - debian/patches/CVE-2013-1981.patch: fix multiple integer overflows.
-    - CVE-2013-1981
-  * SECURITY UPDATE: denial of service and possible code execution via
-    incorrect length and bounds checking
-    - debian/patches/CVE-2013-1997.patch: properly calculate lengths.
-    - CVE-2013-1997
-  * SECURITY UPDATE: denial of service and possible code execution via
-    stack overflow from recursive #include
-    - debian/patches/CVE-2013-2004.patch: set limit on depth.
-    - CVE-2013-2004
-  * debian/patches/001_hide_xeatdatawords.diff: Hide _XEatDataWords by
-    default.
+libx11 (2:1.6.2-1) unstable; urgency=low
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 29 May 2013 16:20:21 -0400
+  [ Julien Cristau ]
+  * So apparently the 64-bit powerpc port is called ppc64 (closes: #613820).
 
-libx11 (2:1.4.99.1-0ubuntu2) precise; urgency=low
-
-  * No change rebuild.  Previous package was built with a version of gcc
-    that had memory initialization bug 871083.
-    (LP: #928090, #931758)
-
- -- Bryce Harrington <bryce@ubuntu.com>  Tue, 28 Feb 2012 11:36:58 -0800
-
-libx11 (2:1.4.99.1-0ubuntu1) precise; urgency=low
-
+  [ Maarten Lankhorst ]
   * New upstream release.
-  * Refreshed 006_tailor_pt_BR.UTF-8_Compose.diff
-  * Add _XGetRequest to symbols
 
- -- Chase Douglas <chase.douglas@ubuntu.com>  Wed, 21 Dec 2011 18:20:16 -0800
+ -- Maarten Lankhorst <maarten.lankhorst@ubuntu.com>  Thu, 03 Oct 2013 09:46:46 +0200
 
-libx11 (2:1.4.4-5) UNRELEASED; urgency=low
+libx11 (2:1.6.1-1) unstable; urgency=low
 
+  [ Julien Cristau ]
+  * New upstream release
+  * libx11-6.symbols: add powerpc64 to the list of 64bit archs (closes: #613820)
+
+  [ Wookey ]
+  * Update symbols file for arm64
+
+ -- Julien Cristau <jcristau@debian.org>  Mon, 12 Aug 2013 17:55:45 +0200
+
+libx11 (2:1.6.0-1) unstable; urgency=low
+
+  * Bump libx11-dev's x11proto-core-dev dependency to 7.0.17 for _X_NORETURN
+    (closes: #649866).
+  * New upstream release
+    - Fix unbounded recursion when reading resource files (closes: #145048)
+    - XmbLookupString man page no longer warns (closes: #300819)
+    - Fix build with automake 1.13 (closes: #710467)
+  * Update 003_recognize_glibc_2.3.2_locale_names.diff.
+  * Update 006_tailor_pt_BR.UTF-8_Compose.diff.
+  * Refresh 008_remove_ko_Compose.diff.
+  * Update 009_remove_th_Compose.diff.
+  * Refresh 015_russian_locale_alias.diff.
+  * Bump shlibs and symbols for _XEatDataWords.
+  * Add new locales to configure.ac so they can get installed.
+  * Disable silent rules.
+  * Use dpkg-buildflags.
+
+ -- Julien Cristau <jcristau@debian.org>  Sat, 15 Jun 2013 18:31:27 +0200
+
+libx11 (2:1.5.0-1) unstable; urgency=low
+
+  * New upstream release. Visible changes:
+    - Add APL support, yay!
+    - A few duplicated Compose sequences were tweaked or removed. Affected
+      characters are: Ã / µ / Ñ / ñ / ¹ / ² / ³ / Ó / ó / Ǻ / ǻ.
+  * Drop patch, fixed upstream:
+    - 001-configure-check-if-issetugid-is-declared.diff
+
+ -- Cyril Brulebois <kibi@debian.org>  Sat, 16 Jun 2012 20:32:52 +0000
+
+libx11 (2:1.4.99.901-2) unstable; urgency=low
+
+  * Add AC_CHECK_DECL(issetugid) to fix FTBFS on kfreebsd (closes: #669670).
+
+ -- Julien Cristau <jcristau@debian.org>  Sun, 29 Apr 2012 16:55:39 +0200
+
+libx11 (2:1.4.99.901-1) unstable; urgency=low
+
+  * New upstream release candidate (1.5 RC1)
+    - XQueryColors: split a request into multiple requests if necessary
+      (closes: #278984)
+    - Revert "xcb: Add TCP fallback" (closes: #659558)
+  * Don't require (fake)root for debian/rules clean.
+  * Drop xorg-sgml-doctools dependency from libx11-doc, the css is now
+    included in the html files directly.  Also add Breaks in addition to the
+    Replaces on old libx11-dev.
+  * Add build-indep and build-arch targets, don't build specs in build-arch.
+  * Rediff 006_tailor_pt_BR.UTF-8_Compose.diff and
+    015_russian_locale_alias.diff.
+  * Upload to unstable.
+
+ -- Julien Cristau <jcristau@debian.org>  Thu, 19 Apr 2012 22:58:30 +0200
+
+libx11 (2:1.4.99.1-1) experimental; urgency=low
+
+  [ Julien Cristau ]
   * Move xorg-sgml-doctools dependency from -dev to -doc.
   * Move libx11-doc from section libdevel to doc (closes: #648706).
 
- -- Julien Cristau <jcristau@debian.org>  Fri, 11 Nov 2011 20:38:39 +0100
+  [ Cyril Brulebois ]
+  * New upstream release candidate:
+    - Bug fixes, specs clean-up, new compose sequences.
+    - Add GetRequestSized.
+  * Bump xorg-sgml-doctools build-dep.
+  * Refresh patch:
+    - 006_tailor_pt_BR.UTF-8_Compose.diff
+  * Add symbol:
+    - _XGetRequest@Base
+  * Bump shlibs accordingly, for the udeb.
+
+ -- Cyril Brulebois <kibi@debian.org>  Thu, 22 Dec 2011 12:58:15 +0100
 
 libx11 (2:1.4.4-4) unstable; urgency=low
 
