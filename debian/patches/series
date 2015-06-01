@@ -8,3 +8,4 @@ CVE-2013-1981.patch
 CVE-2013-1997.patch
 CVE-2013-2004.patch
 001_hide_xeatdatawords.diff
+makebigreq_overflow.patch

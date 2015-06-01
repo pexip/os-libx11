@@ -1,3 +1,18 @@
+libx11 (2:1.4.99.1-0ubuntu2.3pexip1) pexip; urgency=low
+
+  * New upstream release
+
+ -- John-Mark Bell <jmb@pexip.com>  Mon, 01 Jun 2015 16:36:12 +0100
+
+libx11 (2:1.4.99.1-0ubuntu2.3) precise-security; urgency=medium
+
+  * SECURITY UPDATE: buffer overflow in MakeBigReq (LP: #1441381)
+    - debian/patches/makebigreq_overflow.patch: don't move the last word in
+      MakeBigReq in include/X11/Xlibint.h.
+    - CVE number pending
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Wed, 08 Apr 2015 08:01:09 -0400
+
 libx11 (2:1.4.99.1-0ubuntu2.2pexip1) pexip; urgency=low
 
   * Prepare Pexip packaging
