@@ -136,14 +136,15 @@ typedef struct {
 <!-- .eM  -->
 The default GC values are:
 </para>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
   <thead>
-    <row>
-      <entry align='center'>Component</entry>
-      <entry align='center'>Default</entry>
+    <row rowsep='1'>
+      <entry>Component</entry>
+      <entry>Default</entry>
     </row>
   </thead>
   <tbody>
@@ -278,16 +279,17 @@ are:
 <!-- .\" and operation. -->
 <!-- .\".CP T 1 -->
 <!-- .\"Display Functions -->
-<informaltable>
-  <tgroup cols='3'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='1.0*'/>
   <thead>
-    <row>
-      <entry align='center'>Function Name</entry>
-      <entry align='center'>Value</entry>
-      <entry align='center'>Operation</entry>
+    <row rowsep='1'>
+      <entry>Function Name</entry>
+      <entry>Value</entry>
+      <entry>Operation</entry>
     </row>
   </thead>
   <tbody>
@@ -626,11 +628,12 @@ when the cap-style is applied to both endpoints,
 the semantics depends on the line-width and the cap-style:
 </para>
 
-<informaltable>
-  <tgroup cols='3'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='3.0*'/>
   <tbody>
     <row>
       <entry><symbol>CapNotLast</symbol></entry>
@@ -741,10 +744,11 @@ or
 the following apply:
 </para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>FillSolid</symbol></entry>
@@ -775,10 +779,11 @@ When drawing lines with line-style
 the odd dashes are controlled by the fill-style in the following manner:
 </para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>FillSolid</symbol></entry>
@@ -989,7 +994,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the drawable. 
-<!-- .ds Vm set using the information in the specified values structure -->
       </para>
     </listitem>
   </varlistentry>
@@ -999,7 +1003,8 @@ Specifies the drawable.
     </term>
     <listitem>
       <para>
-Specifies which components in the GC are to be (Vm. 
+Specifies which components in the GC are to be set using the information in
+the specified values structure.
 This argument is the bitwise inclusive OR of zero or more of the valid
 GC component mask bits.
       </para>
@@ -1076,7 +1081,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the components of the source GC.
-<!-- .ds Vm copied to the destination GC -->
       </para>
     </listitem>
   </varlistentry>
@@ -1086,7 +1090,8 @@ Specifies the components of the source GC.
     </term>
     <listitem>
       <para>
-Specifies which components in the GC are to be (Vm. 
+Specifies which components in the GC are to be copied to the destination
+GC.
 This argument is the bitwise inclusive OR of zero or more of the valid
 GC component mask bits.
       </para>
@@ -1163,7 +1168,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the GC.
-<!-- .ds Vm changed using information in the specified values structure -->
       </para>
     </listitem>
   </varlistentry>
@@ -1173,7 +1177,8 @@ Specifies the GC.
     </term>
     <listitem>
       <para>
-Specifies which components in the GC are to be (Vm. 
+Specifies which components in the GC are to be changed using information in
+the specified values structure.
 This argument is the bitwise inclusive OR of zero or more of the valid
 GC component mask bits.
       </para>
@@ -1259,7 +1264,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the GC.
-<!-- .ds Vm returned in the values_return argument -->
       </para>
     </listitem>
   </varlistentry>
@@ -1269,7 +1273,8 @@ Specifies the GC.
     </term>
     <listitem>
       <para>
-Specifies which components in the GC are to be (Vm. 
+Specifies which components in the GC are to be returned in the
+values_return argument.
 This argument is the bitwise inclusive OR of zero or more of the valid
 GC component mask bits.
       </para>
@@ -1404,7 +1409,6 @@ resource ID for a given GC, use
 </funcprototype>
 </funcsynopsis>
 <!-- .FN -->
-<!-- .ds Gc for which you want the resource ID -->
 <variablelist>
   <varlistentry>
     <term>
@@ -1412,7 +1416,7 @@ resource ID for a given GC, use
     </term>
     <listitem>
       <para>
-Specifies the GC (Gc.
+Specifies the GC for which you want the resource ID.
     </para>
   </listitem>
   </varlistentry>
