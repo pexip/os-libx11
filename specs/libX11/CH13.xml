@@ -286,16 +286,17 @@ For each locale-dependent function,
 the following table describes the locale (and modifiers) dependency:
 </para>
 
-<informaltable>
-  <tgroup cols='3'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.5*'/>
+  <colspec colname='c3' colwidth='1.5*'/>
   <thead>
-    <row>
-      <entry align='center'>Locale from</entry>
-      <entry align='center'>Affects the Function</entry>
-      <entry align='center'>In</entry>
+    <row rowsep='1'>
+      <entry>Locale from</entry>
+      <entry>Affects the Function</entry>
+      <entry>In</entry>
     </row>
   </thead>
   <tbody>
@@ -861,7 +862,6 @@ To set output method attributes, use
     <listitem>
       <para>
 Specifies the output method.
-<!-- .ds Al \ to set <acronym>XOM</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -871,7 +871,8 @@ Specifies the output method.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to set <acronym>XOM</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -914,7 +915,6 @@ To query an output method, use
     <listitem>
       <para>
 Specifies the output method.
-<!-- .ds Al \ to get XOM values -->
       </para>
     </listitem>
   </varlistentry>
@@ -924,7 +924,7 @@ Specifies the output method.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to get XOM values.
     </para>
   </listitem>
   </varlistentry>
@@ -1028,14 +1028,15 @@ how each of the <acronym>XOM</acronym> values are treated by a particular output
 The following key applies to this table.
 </para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='4.0*'/>
   <thead>
-    <row>
-      <entry align='left'>Key</entry>
-      <entry align='left'>Explanation</entry>
+    <row rowsep='1'>
+      <entry>Key</entry>
+      <entry>Explanation</entry>
     </row>
   </thead>
   <tbody>
@@ -1049,14 +1050,15 @@ The following key applies to this table.
 
 <para></para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
   <thead>
-    <row>
-      <entry align='left'><acronym>XOM</acronym> Value</entry>
-      <entry align='left'>Key</entry>
+    <row rowsep='1'>
+      <entry><acronym>XOM</acronym> Value</entry>
+      <entry>Key</entry>
     </row>
   </thead>
   <tbody>
@@ -1334,7 +1336,6 @@ To create an output context, use
     <listitem>
       <para>
 Specifies the output method.
-<!-- .ds Al \ to set <acronym>XOC</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -1344,7 +1345,8 @@ Specifies the output method.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to set <acronym>XOC</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -1501,7 +1503,6 @@ To set <acronym>XOC</acronym> values, use
     <listitem>
       <para>
 Specifies the output context.
-<!-- .ds Al \ to set <acronym>XOC</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -1511,7 +1512,8 @@ Specifies the output context.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to set <acronym>XOC</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -1578,7 +1580,6 @@ To obtain <acronym>XOC</acronym> values, use
     <listitem>
       <para>
 Specifies the output context.
-<!-- .ds Al \ to get XOC values -->
       </para>
     </listitem>
   </varlistentry>
@@ -1588,7 +1589,7 @@ Specifies the output context.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to get XOC values.
     </para>
   </listitem>
   </varlistentry>
@@ -1639,14 +1640,15 @@ The third column indicates how each of the <acronym>XOC</acronym> values is trea
 <para>
 The following keys apply to this table.
 </para>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='4.0*'/>
   <thead>
-    <row>
-      <entry align='left'>Key</entry>
-      <entry align='left'>Explanation</entry>
+    <row rowsep='1'>
+      <entry>Key</entry>
+      <entry>Explanation</entry>
     </row>
   </thead>
   <tbody>
@@ -1673,13 +1675,14 @@ The following keys apply to this table.
 
 <para></para>
 
-<informaltable>
-  <tgroup cols='3'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='1.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry align='left'><acronym>XOC</acronym> Value</entry>
       <entry align='left'>Alternative Interface</entry>
       <entry align='left'>Key</entry>
@@ -3165,7 +3168,6 @@ Specifies the number of bytes in the string argument.
     <listitem>
       <para>
 Specifies the number of characters in the string argument.
-<!-- .ds Ov dimensions -->
       </para>
     </listitem>
   </varlistentry>
@@ -3374,7 +3376,6 @@ The caller must pass in arrays of this size.
     <listitem>
       <para>
 Returns the number of characters in the string argument.
-<!-- .ds Ov extents of the entire string -->
       </para>
     </listitem>
   </varlistentry>
@@ -3621,7 +3622,7 @@ Specifies the GC.
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
+Specify the x and y coordinates of the position in the new parent window.
       </para>
     </listitem>
   </varlistentry>
@@ -3784,7 +3785,7 @@ Specifies the GC.
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
+Specify the x and y coordinates of the position in the new parent window.
       </para>
     </listitem>
   </varlistentry>
@@ -3930,7 +3931,7 @@ Specifies the GC.
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
+Specify the x and y coordinates of the position in the new parent window.
       </para>
     </listitem>
   </varlistentry>
@@ -5001,10 +5002,11 @@ Such customization may be desired without restarting the entire client.
 To support management of input methods in these cases, the following 
 functions are provided:
 </para>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
   <tbody>
     <row>
       <entry><xref linkend='XRegisterIMInstantiateCallback' xrefstyle='select: title'/></entry>
@@ -5322,7 +5324,6 @@ To set input method attributes, use
     <listitem>
       <para>
 Specifies the input method.
-<!-- .ds Al \ to set <acronym>XIM</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -5332,7 +5333,8 @@ Specifies the input method.
     </term>
     <listitem>
       <para>
-Specifies the variable-length argument list(Al.
+Specifies the variable-length argument list to set <acronym>XIM</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -5375,7 +5377,6 @@ To query an input method, use
     <listitem>
       <para>
 Specifies the input method.
-<!-- .ds Al \ to get XIM values -->
       </para>
     </listitem>
   </varlistentry>
@@ -5385,7 +5386,7 @@ Specifies the input method.
     </term>
     <listitem>
       <para>
-Specifies the variable length argument list(Al.
+Specifies the variable length argument list to get XIM values.
     </para>
   </listitem>
   </varlistentry>
@@ -5743,14 +5744,15 @@ are treated by that input style.
 <!-- .LP -->
 The following keys apply to this table.
 </para>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='4.0*'/>
   <thead>
-    <row>
-      <entry align='left'>Key</entry>
-      <entry align='left'>Explanation</entry>
+    <row rowsep='1'>
+      <entry>Key</entry>
+      <entry>Explanation</entry>
     </row>
   </thead>
   <tbody>
@@ -5775,14 +5777,15 @@ The following keys apply to this table.
 
 <para></para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
   <thead>
-    <row>
-      <entry align='left'><acronym>XIM</acronym> Value</entry>
-      <entry align='left'>Key</entry>
+    <row rowsep='1'>
+      <entry><acronym>XIM</acronym> Value</entry>
+      <entry>Key</entry>
     </row>
   </thead>
   <tbody>
@@ -5930,10 +5933,11 @@ by the input method for preedit information.
 <indexterm significance="preferred"><primary>XIMPreeditCallbacks</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMPreeditNothing</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMPreeditNone</primary></indexterm>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>XIMPreeditArea</symbol></entry>
@@ -5988,10 +5992,11 @@ by the input method for status information.
 <indexterm significance="preferred"><primary>XIMStatusCallbacks</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMStatusNothing</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMStatusNone</primary></indexterm>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>XIMStatusArea</symbol></entry>
@@ -6329,7 +6334,6 @@ To create an input context, use
     <listitem>
       <para>
 Specifies the input method.
-<!-- .ds Al \ to set <acronym>XIC</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -6339,7 +6343,8 @@ Specifies the input method.
     </term>
     <listitem>
       <para>
-Specifies the variable length argument list(Al.
+Specifies the variable length argument list to set <acronym>XIC</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -6665,7 +6670,6 @@ To set <acronym>XIC</acronym> values, use
     <listitem>
       <para>
 Specifies the input context.
-<!-- .ds Al \ to set <acronym>XIC</acronym> values -->
       </para>
     </listitem>
   </varlistentry>
@@ -6675,7 +6679,8 @@ Specifies the input context.
     </term>
     <listitem>
       <para>
-Specifies the variable length argument list(Al.
+Specifies the variable length argument list to set <acronym>XIC</acronym>
+values.
     </para>
   </listitem>
   </varlistentry>
@@ -6748,7 +6753,6 @@ To obtain <acronym>XIC</acronym> values, use
     <listitem>
       <para>
 Specifies the input context.
-<!-- .ds Al \ to get XIC values -->
       </para>
     </listitem>
   </varlistentry>
@@ -6758,7 +6762,7 @@ Specifies the input context.
     </term>
     <listitem>
       <para>
-Specifies the variable length argument list(Al.
+Specifies the variable length argument list to get XIC values.
     </para>
   </listitem>
   </varlistentry>
@@ -6831,12 +6835,13 @@ are treated by that input style.
 <!-- .LP -->
 The following keys apply to these tables.
 </para>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='4.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry align='left'>Key</entry>
       <entry align='left'>Explanation</entry>
     </row>
@@ -6895,17 +6900,18 @@ The following keys apply to these tables.
 <para></para>
 
 <!-- .LP -->
-<informaltable>
-  <tgroup cols='7'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
-  <colspec colname='c4'/>
-  <colspec colname='c5'/>
-  <colspec colname='c6'/>
-  <colspec colname='c7'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='7' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='1.0*'/>
+  <colspec colname='c4' colwidth='1.0*'/>
+  <colspec colname='c5' colwidth='1.0*'/>
+  <colspec colname='c6' colwidth='1.0*'/>
+  <colspec colname='c7' colwidth='1.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry><acronym>XIC</acronym> Value</entry>
       <entry>Geometry Mangement</entry>
       <entry>Preedit Callback</entry>
@@ -7160,16 +7166,17 @@ The following keys apply to these tables.
 <para></para>
 
 <!-- .LP -->
-<informaltable>
-  <tgroup cols='6'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
-  <colspec colname='c4'/>
-  <colspec colname='c5'/>
-  <colspec colname='c6'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='6' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='1.0*'/>
+  <colspec colname='c4' colwidth='1.0*'/>
+  <colspec colname='c5' colwidth='1.0*'/>
+  <colspec colname='c6' colwidth='1.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry><acronym>XIC</acronym> Value</entry>
       <entry>Geomentry Management</entry>
       <entry>Status Callback</entry>
@@ -7815,13 +7822,14 @@ When a modifier_mask bit is set to 0, the state of the associated modifier
 is ignored when evaluating whether the key is hot or not.
 </para>
 
-<informaltable>
-  <tgroup cols='3'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
-  <colspec colname='c3'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='3.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry>Modifier Bit</entry>
       <entry>Mask Bit</entry>
       <entry>Meaning</entry>
@@ -8382,10 +8390,11 @@ The set of preedit callbacks is as follows:
 <indexterm significance="preferred"><primary>XNPreeditDoneCallback</primary></indexterm>
 <indexterm significance="preferred"><primary>XNPreeditDrawCallback</primary></indexterm>
 <indexterm significance="preferred"><primary>XNPreeditCaretCallback</primary></indexterm>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>XNPreeditStartCallback</symbol></entry>
@@ -8418,10 +8427,11 @@ The set of status callbacks is as follows:
 <indexterm significance="preferred"><primary>XNStatusStartCallback</primary></indexterm>
 <indexterm significance="preferred"><primary>XNStatusDoneCallback</primary></indexterm>
 <indexterm significance="preferred"><primary>XNStatusDrawCallback</primary></indexterm>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>XNStatusStartCallback</symbol></entry>
@@ -9520,10 +9530,11 @@ These values are defined as follows:
 <indexterm significance="preferred"><primary>XIMBackwardWord</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMCaretUp</primary></indexterm>
 <indexterm significance="preferred"><primary>XIMCaretDown</primary></indexterm>
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.5*'/>
   <tbody>
     <row>
       <entry><constant>XIMForwardChar</constant></entry>
@@ -9864,7 +9875,6 @@ To filter an event, use
 </funcprototype>
 </funcsynopsis>
 <!-- .FN -->
-<!-- .ds Ev event to filter -->
 <variablelist>
   <varlistentry>
     <term>
@@ -9872,8 +9882,7 @@ To filter an event, use
     </term>
     <listitem>
       <para>
-Specifies the (Ev.
-<!-- .ds Wi for which the filter is to be applied -->
+Specifies the event to filter.
       </para>
     </listitem>
   </varlistentry>
@@ -9883,7 +9892,7 @@ Specifies the (Ev.
     </term>
     <listitem>
       <para>
-Specifies the window (Wi.
+Specifies the window for which the filter is to be applied.
     </para>
   </listitem>
   </varlistentry>
@@ -9972,7 +9981,6 @@ or
     <listitem>
       <para>
 Specifies the input context.
-<!-- .ds Ev key event to be used -->
       </para>
     </listitem>
   </varlistentry>
@@ -9982,7 +9990,7 @@ Specifies the input context.
     </term>
     <listitem>
       <para>
-Specifies the (Ev.
+Specifies the key event to be used.
       </para>
     </listitem>
   </varlistentry>
@@ -10104,10 +10112,11 @@ that indicates what has been returned in the other arguments.
 The possible values returned are:
 </para>
 
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+<informaltable frame='none'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <tbody>
     <row>
       <entry><symbol>XBufferOverflow</symbol></entry>

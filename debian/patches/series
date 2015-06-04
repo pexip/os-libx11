@@ -4,8 +4,3 @@
 008_remove_ko_Compose.diff
 009_remove_th_Compose.diff
 015_russian_locale_alias.diff
-CVE-2013-1981.patch
-CVE-2013-1997.patch
-CVE-2013-2004.patch
-001_hide_xeatdatawords.diff
-makebigreq_overflow.patch

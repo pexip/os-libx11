@@ -425,14 +425,15 @@ and
 <symbol>InputOnly</symbol>
 windows:
 </para>
-<informaltable>
-  <tgroup cols='4'>
-  <colspec colname='c1' align='left'/>
-  <colspec colname='c2' align='left'/>
-  <colspec colname='c3' align='center'/>
-  <colspec colname='c4' align='center'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="auto" ?>
+  <tgroup cols='4' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='1.0*'/>
+  <colspec colname='c3' colwidth='1.0*'/>
+  <colspec colname='c4' colwidth='1.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry>Attribute</entry>
       <entry>Default</entry>
       <entry>InputOutput</entry>
@@ -757,12 +758,13 @@ change of width and height, the (x, y) pairs are defined:
 </para>
 <para>
 <!-- .LP -->
-<informaltable>
-  <tgroup cols='2'>
-  <colspec colname='c1' align='left'/>
-  <colspec colname='c2' align='left'/>
+<informaltable frame='topbot'>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='2.0*'/>
   <thead>
-    <row>
+    <row rowsep='1'>
       <entry>Gravity Direction</entry>
       <entry>Coordinates</entry>
     </row>
@@ -1212,7 +1214,7 @@ you should set these properties for top-level windows before mapping them.
 <!-- .LP -->
 For further information,
 see <link linkend='Inter_Client_Communication_Functions'>chapter 14</link> and
-the <emphasis remap='I'>Inter-Client Communication Conventions Manual</emphasis>.
+the <olink targetdoc='icccm' targetptr='icccm'><citetitle>Inter-Client Communication Conventions Manual</citetitle></olink>.
 </para>
 <para>
 <!-- .LP -->
@@ -1283,8 +1285,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the parent window.
-<!-- .ds Xy , which are the top-left outside corner of the created window's \ -->
-borders and are relative to the inside of the parent window's borders
       </para>
     </listitem>
   </varlistentry>
@@ -1305,9 +1305,9 @@ borders and are relative to the inside of the parent window's borders
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
-<!-- .ds Wh , which are the created window's inside dimensions \ -->
-and do not include the created window's borders
+Specify the x and y coordinates, which are the top-left outside corner of
+the created window's borders and are relative to the inside of the parent
+window's borders.
       </para>
     </listitem>
   </varlistentry>
@@ -1328,7 +1328,8 @@ and do not include the created window's borders
     </term>
     <listitem>
       <para>
-Specify the width and height(Wh.
+Specify the width and height, which are the created window's inside
+dimensions and do not include the created window's borders.
 The dimensions must be nonzero,
 or a
 <errorname>BadValue</errorname>
@@ -1545,8 +1546,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the parent window.
-<!-- .ds Xy , which are the top-left outside corner of the new window's borders \ -->
-and are relative to the inside of the parent window's borders
       </para>
     </listitem>
   </varlistentry>
@@ -1567,9 +1566,9 @@ and are relative to the inside of the parent window's borders
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
-<!-- .ds Wh , which are the created window's inside dimensions \ -->
-and do not include the created window's borders
+Specify the x and y coordinates, which are the top-left outside corner of
+the new window's borders and are relative to the inside of the parent
+window's borders.
       </para>
     </listitem>
   </varlistentry>
@@ -1590,7 +1589,8 @@ and do not include the created window's borders
     </term>
     <listitem>
       <para>
-Specify the width and height(Wh.
+Specify the width and height, which are the created window's inside
+dimensions and do not include the created window's borders.
 The dimensions must be nonzero,
 or a
 <errorname>BadValue</errorname>
@@ -2438,9 +2438,10 @@ If a sibling and a stack_mode are specified,
 the window is restacked as follows:
 </para>
 <informaltable  frame="none">
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='3.0*'/>
   <tbody>
     <row>
       <entry><symbol>Above</symbol></entry>
@@ -2477,9 +2478,10 @@ the window is restacked as follows:
 </para>
 
 <informaltable  frame="none">
-  <tgroup cols='2'>
-  <colspec colname='c1'/>
-  <colspec colname='c2'/>
+  <?dbfo keep-together="always" ?>
+  <tgroup cols='2' align='left' colsep='0' rowsep='0'>
+  <colspec colname='c1' colwidth='1.0*'/>
+  <colspec colname='c2' colwidth='3.0*'/>
   <tbody>
     <row>
       <entry><symbol>Above</symbol></entry>
@@ -2546,7 +2548,6 @@ To configure a window's size, location, stacking, or border, use
     <listitem>
       <para>
 Specifies the connection to the X server.
-<!-- .ds Wi to be reconfigured -->
       </para>
     </listitem>
   </varlistentry>
@@ -2556,7 +2557,7 @@ Specifies the connection to the X server.
     </term>
     <listitem>
       <para>
-Specifies the window (Wi.
+Specifies the window to be reconfigured.
       </para>
     </listitem>
   </varlistentry>
@@ -2651,7 +2652,6 @@ To move a window without changing its size, use
     <listitem>
       <para>
 Specifies the connection to the X server.
-<!-- .ds Wi to be moved -->
       </para>
     </listitem>
   </varlistentry>
@@ -2661,9 +2661,7 @@ Specifies the connection to the X server.
     </term>
     <listitem>
       <para>
-Specifies the window (Wi.
-<!-- .ds Xy , which define the new location of the top-left pixel \ -->
-of the window's border or the window itself if it has no border
+Specifies the window to be moved.
       </para>
     </listitem>
   </varlistentry>
@@ -2684,7 +2682,9 @@ of the window's border or the window itself if it has no border
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
+Specify the x and y coordinates, which define the new location of the
+top-left pixel of the window's border or the window itself if it has no
+border.
     </para>
   </listitem>
   </varlistentry>
@@ -2763,8 +2763,6 @@ Specifies the connection to the X server.
     <listitem>
       <para>
 Specifies the window.
-<!-- .ds Wh , which are the interior dimensions of the window \ -->
-after the call completes
       </para>
     </listitem>
   </varlistentry>
@@ -2785,7 +2783,8 @@ after the call completes
     </term>
     <listitem>
       <para>
-Specify the width and height(Wh.
+Specify the width and height, which are the interior dimensions of the
+window after the call completes.
     </para>
   </listitem>
   </varlistentry>
@@ -2857,7 +2856,6 @@ To change the size and location of a window, use
     <listitem>
       <para>
 Specifies the connection to the X server.
-<!-- .ds Wi to be reconfigured -->
       </para>
     </listitem>
   </varlistentry>
@@ -2867,8 +2865,7 @@ Specifies the connection to the X server.
     </term>
     <listitem>
       <para>
-Specifies the window (Wi.
-<!-- .ds Xy , which define the new position of the window relative to its parent -->
+Specifies the window to be reconfigured.
       </para>
     </listitem>
   </varlistentry>
@@ -2889,8 +2886,8 @@ Specifies the window (Wi.
     </term>
     <listitem>
       <para>
-Specify the x and y coordinates(Xy.
-<!-- .ds Wh , which define the interior size of the window -->
+Specify the x and y coordinates, which define the new position of the
+window relative to its parent.
       </para>
     </listitem>
   </varlistentry>
@@ -2911,7 +2908,7 @@ Specify the x and y coordinates(Xy.
     </term>
     <listitem>
       <para>
-Specify the width and height(Wh.
+Specify the width and height, which define the interior size of the window.
     </para>
   </listitem>
   </varlistentry>
