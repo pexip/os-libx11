@@ -7,7 +7,7 @@ Index: libx11/nls/compose.dir.pre
  iso8859-15/Compose:		kw_GB.ISO8859-15
  iso8859-10/Compose:		lg_UG.ISO8859-10
 -ko/Compose:			ko_KR.eucKR
-+XCOMM Remove ko/Compose, as requested in http://bugs.debian.org/89703
++XCOMM Remove ko/Compose, as requested in https://bugs.debian.org/89703
 +XCOMM ko/Compose:			ko_KR.eucKR
  ibm-cp1133/Compose:		lo_LA.IBM-CP1133
  mulelao-1/Compose:		lo_LA.MULELAO-1

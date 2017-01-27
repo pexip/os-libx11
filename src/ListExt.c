@@ -42,7 +42,7 @@ char **XListExtensions(
 	register unsigned i;
 	register int length;
 	register xReq *req;
-	unsigned long rlen;
+	unsigned long rlen = 0;
 
 	LockDisplay(dpy);
 	GetEmptyReq (ListExtensions, req);
@@ -62,8 +62,8 @@ char **XListExtensions(
 	    }
 
 	    if ((!list) || (!ch)) {
-		if (list) Xfree(list);
-		if (ch)   Xfree(ch);
+		Xfree(list);
+		Xfree(ch);
 		_XEatDataWords(dpy, rep.length);
 		UnlockDisplay(dpy);
 		SyncHandle();

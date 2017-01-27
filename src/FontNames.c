@@ -48,7 +48,7 @@ int *actualCount)	/* RETURN */
     int count = 0;
     xListFontsReply rep;
     register xListFontsReq *req;
-    unsigned long rlen;
+    unsigned long rlen = 0;
 
     LockDisplay(dpy);
     GetReq(ListFonts, req);
@@ -74,8 +74,8 @@ int *actualCount)	/* RETURN */
 	}
 
 	if ((! flist) || (! ch)) {
-	    if (flist) Xfree(flist);
-	    if (ch) Xfree(ch);
+	    Xfree(flist);
+	    Xfree(ch);
 	    _XEatDataWords(dpy, rep.length);
 	    *actualCount = 0;
 	    UnlockDisplay(dpy);

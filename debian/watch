@@ -1,3 +1,4 @@
 #git=git://anongit.freedesktop.org/xorg/lib/libX11
 version=3
-http://xorg.freedesktop.org/releases/individual/lib/ libX11-(.*)\.tar\.gz
+opts=pgpsigurlmangle=s/$/.sig/ \
+https://xorg.freedesktop.org/releases/individual/lib/ libX11-(.*)\.tar\.gz

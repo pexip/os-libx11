@@ -149,7 +149,7 @@ _XTextPropertyToTextList(
 	return XConverterNotFound;
 
     if (is_wide_char) {
-	buf_len = (text_prop->nitems + 1) * sizeof(wchar_t);;
+	buf_len = (text_prop->nitems + 1) * sizeof(wchar_t);
     } else {
 	if (strcmp(to_type, XlcNUtf8String) == 0)
 	    buf_len = text_prop->nitems * 6 + 1;
@@ -283,8 +283,7 @@ _XwcFreeStringList(
     wchar_t **list)
 {
     if (list) {
-        if (*list)
-	     Xfree(*list);
+        Xfree(*list);
         Xfree(list);
     }
 }

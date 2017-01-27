@@ -35,7 +35,7 @@ char **XGetFontPath(
     int *npaths)	/* RETURN */
 {
 	xGetFontPathReply rep;
-	unsigned long nbytes;
+	unsigned long nbytes = 0;
 	char **flist = NULL;
 	char *ch = NULL;
 	char *chend;
@@ -57,8 +57,8 @@ char **XGetFontPath(
 	    }
 
 	    if ((! flist) || (! ch)) {
-		if (flist) Xfree(flist);
-		if (ch) Xfree(ch);
+		Xfree(flist);
+		Xfree(ch);
 		_XEatDataWords(dpy, rep.length);
 		UnlockDisplay(dpy);
 		SyncHandle();

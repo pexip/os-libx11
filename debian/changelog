@@ -1,10 +1,55 @@
-libx11 (2:1.6.2-3+deb8u1) jessie; urgency=medium
+libx11 (2:1.6.4-3) unstable; urgency=high
 
-  * Insufficient validation of data from the X server can cause out of
-    boundary memory read (XGetImage()) or write (XListFonts()).
-    Addresses CVE-2016-7942 and CVE-2016-7943.
+  [ Emilio Pozuelo Monfort ]
+  * debian/libx11-6.symbols: use arch-bits=64 rather than listing all
+    64-bits architectures, which is not future-proof.
 
- -- Julien Cristau <jcristau@debian.org>  Sat, 28 Jan 2017 14:01:35 +0100
+  [ Julien Cristau ]
+  * Fix two regressions introduced in 2:1.6.4-1:
+    + Fix wrong Xfree in XListFonts failure path
+    + Revert cs_CZ.UTF-8 XLC_LOCALE to en_US.UTF-8 (closes: #847345)
+  * Build-depend on dpkg-dev 1.18.0 for arch-bits support in dpkg-gensymbols.
+
+ -- Julien Cristau <jcristau@debian.org>  Sat, 28 Jan 2017 00:06:50 +0100
+
+libx11 (2:1.6.4-2) unstable; urgency=medium
+
+  * Fix arch:all-only build.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 06 Dec 2016 09:47:08 +0100
+
+libx11 (2:1.6.4-1) unstable; urgency=medium
+
+  [ Andreas Boll ]
+  * New upstream release.
+    - Fixes CVE-2016-7942 and CVE-2016-7943 (Closes: #840439).
+  * Bump libxcb1-dev build-dep to 1.11.1 per configure.ac.
+  * Update a bunch of URLs in packaging to https.
+
+  [ Julien Cristau ]
+  * Update d/upstream/signing-key.asc with Matthieu Herrb's key.
+
+  [ Emilio Pozuelo Monfort ]
+  * Cherry-pick upstream commit 20a3f99 to plug a memory leak in the
+    security fix.
+  * Bump debhelper compat to 10.
+  * Switch from old debhelper to dh.
+  * Drop workaround for old tarballs not shipping some files.
+  * Switch to -dbgsym packages.
+  * Bump Standards-Version to 3.9.8, no changes.
+  * Drop libtool and automake build dependencies, debhelper takes
+    care of that for us now.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 06 Dec 2016 01:38:30 +0100
+
+libx11 (2:1.6.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop 006_tailor_pt_BR.UTF-8_Compose.diff, no longer necessary.
+  * Rediff 003_recognize_glibc_2.3.2_locale_names.diff.
+  * Let uscan verify tarball signatures.
+
+ -- Julien Cristau <jcristau@debian.org>  Thu, 30 Apr 2015 22:31:01 +0200
 
 libx11 (2:1.6.2-3) unstable; urgency=medium
 
