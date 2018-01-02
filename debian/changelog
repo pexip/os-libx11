@@ -1,3 +1,17 @@
+libx11 (2:1.6.2-3+deb8u1pexip1) pexip; urgency=low
+
+  * New upstream release
+
+ -- John-Mark Bell <jmb@pexip.com>  Tue, 02 Jan 2018 13:11:16 +0000
+
+libx11 (2:1.6.2-3+deb8u1) jessie; urgency=medium
+
+  * Insufficient validation of data from the X server can cause out of
+    boundary memory read (XGetImage()) or write (XListFonts()).
+    Addresses CVE-2016-7942 and CVE-2016-7943.
+
+ -- Julien Cristau <jcristau@debian.org>  Sat, 28 Jan 2017 14:01:35 +0100
+
 libx11 (2:1.6.2-3pexip2) pexip; urgency=low
 
   * No-change rebuild
