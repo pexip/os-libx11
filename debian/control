@@ -25,7 +25,7 @@ Build-Depends:
 Standards-Version: 3.9.2
 Vcs-Git: git://git.debian.org/git/pkg-xorg/lib/libx11
 Vcs-Browser: http://git.debian.org/?p=pkg-xorg/lib/libx11.git
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
 
 Package: libx11-6
 Section: libs
