@@ -133,8 +133,8 @@ _XkbReadGetNamesReply(Display *dpy,
                 if ((nLevels[i] > 0) && (nLevels[i] != type->num_levels)) {
                     goto BAILOUT;
                 }
-                if (type->level_names != NULL)
-                    Xfree(type->level_names);
+
+                Xfree(type->level_names);
                 if (nLevels[i] == 0) {
                     type->level_names = NULL;
                     continue;
@@ -549,7 +549,7 @@ XkbChangeNames(Display *dpy, XkbDescPtr xkb, XkbNameChangesPtr changes)
     which = changes->changed;
     firstType = changes->first_type;
     nTypes = changes->num_types;
-    firstLvlType = changes->first_lvl;;
+    firstLvlType = changes->first_lvl;
     nLvlTypes = changes->num_lvls;
     if (which & XkbKeyTypeNamesMask) {
         if (nTypes < 1)
@@ -778,9 +778,14 @@ XkbNoteNameChanges(XkbNameChangesPtr old,
 {
     int first, last, old_last, new_last;
 
-    wanted &= new->changed;
-    if ((old == NULL) || (new == NULL) || (wanted == 0))
+    if ((old == NULL) || (new == NULL))
         return;
+
+    wanted &= new->changed;
+
+    if (wanted == 0)
+	return;
+
     if (wanted & XkbKeyTypeNamesMask) {
         if (old->changed & XkbKeyTypeNamesMask) {
             new_last = (new->first_type + new->num_types - 1);

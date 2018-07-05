@@ -126,13 +126,13 @@ _XcmsColorSpaceOfString(
  */
 {
     XcmsColorSpace	**papColorSpaces;
-    int n;
+    size_t n;
     char *pchar;
 
     if ((pchar = strchr(color_string, ':')) == NULL) {
 	return(XcmsFailure);
     }
-    n = (int)(pchar - color_string);
+    n = (size_t)(pchar - color_string);
 
     if (ccc == NULL) {
 	return(NULL);
@@ -198,7 +198,7 @@ _XcmsParseColorString(
     XcmsColorSpace	*pColorSpace;
     char		string_buf[64];
     char		*string_lowered;
-    int			len;
+    size_t		len;
     int			res;
 
     if (ccc == NULL) {
@@ -314,7 +314,7 @@ field2(
 
     /* Find Field 1 */
     while (!isgraph(*pBuf)) {
-	if ((*pBuf != '\n') || (*pBuf != '\0')) {
+	if ((*pBuf == '\n') || (*pBuf == '\0')) {
 	    return(XcmsFailure);
 	}
 	if (isspace(*pBuf) || (*pBuf == delim)) {
