@@ -74,27 +74,6 @@ xthread_t (*_Xthread_self_fn)(void) = NULL;
 
 #endif /* XTHREADS */
 
-/* check for both EAGAIN and EWOULDBLOCK, because some supposedly POSIX
- * systems are broken and return EWOULDBLOCK when they should return EAGAIN
- */
-#ifdef WIN32
-#define ETEST() (WSAGetLastError() == WSAEWOULDBLOCK)
-#else
-#ifdef __CYGWIN__ /* Cygwin uses ENOBUFS to signal socket is full */
-#define ETEST() (errno == EAGAIN || errno == EWOULDBLOCK || errno == ENOBUFS)
-#else
-#if defined(EAGAIN) && defined(EWOULDBLOCK)
-#define ETEST() (errno == EAGAIN || errno == EWOULDBLOCK)
-#else
-#ifdef EAGAIN
-#define ETEST() (errno == EAGAIN)
-#else
-#define ETEST() (errno == EWOULDBLOCK)
-#endif /* EAGAIN */
-#endif /* EAGAIN && EWOULDBLOCK */
-#endif /* __CYGWIN__ */
-#endif /* WIN32 */
-
 #ifdef WIN32
 #define ECHECK(err) (WSAGetLastError() == err)
 #define ESET(val) WSASetLastError(val)
@@ -105,18 +84,6 @@ xthread_t (*_Xthread_self_fn)(void) = NULL;
 #else
 #define ECHECK(err) (errno == err)
 #define ESET(val) errno = val
-#endif
-#endif
-
-#if defined(LOCALCONN) || defined(LACHMAN)
-#ifdef EMSGSIZE
-#define ESZTEST() (ECHECK(EMSGSIZE) || ECHECK(ERANGE))
-#else
-#define ESZTEST() ECHECK(ERANGE)
-#endif
-#else
-#ifdef EMSGSIZE
-#define ESZTEST() ECHECK(EMSGSIZE)
 #endif
 #endif
 
@@ -200,8 +167,12 @@ void _XPollfdCacheDel(
 
 static int sync_hazard(Display *dpy)
 {
-    unsigned long span = dpy->request - dpy->last_request_read;
-    unsigned long hazard = min((dpy->bufmax - dpy->buffer) / SIZEOF(xReq), 65535 - 10);
+    /*
+     * "span" and "hazard" need to be signed such that the ">=" comparision
+     * works correctly in the case that hazard is greater than 65525
+     */
+    int64_t span = X_DPY_GET_REQUEST(dpy) - X_DPY_GET_LAST_REQUEST_READ(dpy);
+    int64_t hazard = min((dpy->bufmax - dpy->buffer) / SIZEOF(xReq), 65535 - 10);
     return span >= 65535 - hazard - 10;
 }
 
@@ -227,7 +198,7 @@ void _XSeqSyncFunction(
     xGetInputFocusReply rep;
     register xReq *req;
 
-    if ((dpy->request - dpy->last_request_read) >= (65535 - BUFSIZE/SIZEOF(xReq))) {
+    if ((X_DPY_GET_REQUEST(dpy) - X_DPY_GET_LAST_REQUEST_READ(dpy)) >= (65535 - BUFSIZE/SIZEOF(xReq))) {
 	GetEmptyReq(GetInputFocus, req);
 	(void) _XReply (dpy, (xReply *)&rep, 0, xTrue);
 	sync_while_locked(dpy);
@@ -309,9 +280,9 @@ _XSetLastRequestRead(
     register Display *dpy,
     register xGenericReply *rep)
 {
-    register unsigned long	newseq, lastseq;
+    register uint64_t	newseq, lastseq;
 
-    lastseq = dpy->last_request_read;
+    lastseq = X_DPY_GET_LAST_REQUEST_READ(dpy);
     /*
      * KeymapNotify has no sequence number, but is always guaranteed
      * to immediately follow another event, except when generated via
@@ -320,20 +291,21 @@ _XSetLastRequestRead(
     if ((rep->type & 0x7f) == KeymapNotify)
 	return(lastseq);
 
-    newseq = (lastseq & ~((unsigned long)0xffff)) | rep->sequenceNumber;
+    newseq = (lastseq & ~((uint64_t)0xffff)) | rep->sequenceNumber;
 
     if (newseq < lastseq) {
 	newseq += 0x10000;
-	if (newseq > dpy->request) {
+	if (newseq > X_DPY_GET_REQUEST(dpy)) {
 	    (void) fprintf (stderr,
-	    "Xlib: sequence lost (0x%lx > 0x%lx) in reply type 0x%x!\n",
-			    newseq, dpy->request,
+	    "Xlib: sequence lost (0x%llx > 0x%llx) in reply type 0x%x!\n",
+			    (unsigned long long)newseq,
+			    (unsigned long long)(X_DPY_GET_REQUEST(dpy)),
 			    (unsigned int) rep->type);
 	    newseq -= 0x10000;
 	}
     }
 
-    dpy->last_request_read = newseq;
+    X_DPY_SET_LAST_REQUEST_READ(dpy, newseq);
     return(newseq);
 }
 
@@ -431,8 +403,7 @@ _XUnregisterInternalConnection(
 		 watch=watch->next, wd++) {
 		(*watch->fn) (dpy, watch->client_data, fd, False, wd);
 	    }
-	    if (info_list->watch_data)
-		Xfree (info_list->watch_data);
+	    Xfree (info_list->watch_data);
 	    Xfree (info_list);
 	    break;
 	}
@@ -1290,7 +1261,7 @@ int _XDefaultIOError(
 
 	}
 	exit(1);
-        return(0); /* dummy - function should never return */
+	/*NOTREACHED*/
 }
 
 
@@ -1397,10 +1368,10 @@ static int _XPrintDefaultError(
 			  mesg, BUFSIZ);
     fputs("  ", fp);
     (void) fprintf(fp, mesg, event->serial);
-    XGetErrorDatabaseText(dpy, mtype, "CurrentSerial", "Current Serial #%d",
+    XGetErrorDatabaseText(dpy, mtype, "CurrentSerial", "Current Serial #%lld",
 			  mesg, BUFSIZ);
     fputs("\n  ", fp);
-    (void) fprintf(fp, mesg, dpy->request);
+    (void) fprintf(fp, mesg, (unsigned long long)(X_DPY_GET_REQUEST(dpy)));
     fputs("\n", fp);
     if (event->error_code == BadImplementation) return 0;
     return 1;
@@ -1499,7 +1470,7 @@ _XIOError (
     else
 	_XDefaultIOError(dpy);
     exit (1);
-    return 0;
+    /*NOTREACHED*/
 }
 
 
@@ -1515,8 +1486,9 @@ char *_XAllocScratch(
 	unsigned long nbytes)
 {
 	if (nbytes > dpy->scratch_length) {
-	    if (dpy->scratch_buffer) Xfree (dpy->scratch_buffer);
-	    if ((dpy->scratch_buffer = Xmalloc(nbytes)))
+	    Xfree (dpy->scratch_buffer);
+	    dpy->scratch_buffer = Xmalloc(nbytes);
+	    if (dpy->scratch_buffer)
 		dpy->scratch_length = nbytes;
 	    else dpy->scratch_length = 0;
 	}
@@ -1544,8 +1516,8 @@ void _XFreeTemp(
     char *buf,
     unsigned long nbytes)
 {
-    if (dpy->scratch_buffer)
-	Xfree(dpy->scratch_buffer);
+
+    Xfree(dpy->scratch_buffer);
     dpy->scratch_buffer = buf;
     dpy->scratch_length = nbytes;
 }
@@ -1753,7 +1725,7 @@ void *_XGetRequest(Display *dpy, CARD8 type, size_t len)
     req->reqType = type;
     req->length = len / 4;
     dpy->bufptr += len;
-    dpy->request++;
+    X_DPY_REQUEST_INCREMENT(dpy);
     return req;
 }
 

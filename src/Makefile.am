@@ -346,7 +346,6 @@ EXTRA_DIST = \
 
 libX11_xcb_la_SOURCES = x11_xcb.c Xxcbint.h
 libX11_xcb_la_LDFLAGS = -version-number 1:0:0 -no-undefined
-libX11_xcb_la_LIBADD = libX11.la
 
 #
 # Figure out which sub-libraries to link into Xlib
@@ -398,7 +397,7 @@ lintlibdir = $(libdir)
 
 lintlib_DATA = $(LINTLIB)
 
-lintlib_src = $(libX11_la_SOURCES) xcms/*.c xkb/*.c
+lintlib_src = $(libX11_la_SOURCES) $(srcdir)/xcms/*.c $(srcdir)/xkb/*.c
 
 CLEANFILES += $(lintlib_DATA)
 

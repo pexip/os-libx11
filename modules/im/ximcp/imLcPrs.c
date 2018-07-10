@@ -68,8 +68,9 @@ static void parsestringfile(FILE *fp, Xim im, int depth);
  *	COMMENT       ::= "#" {<any character except null or newline>}
  *	LHS           ::= EVENT { EVENT }
  *	EVENT         ::= [MODIFIER_LIST] "<" keysym ">"
- *	MODIFIER_LIST ::= ("!" {MODIFIER} ) | "None"
- *	MODIFIER      ::= ["~"] modifier_name
+ *	MODIFIER_LIST ::= (["!"] {MODIFIER} ) | "None"
+ *	MODIFIER      ::= ["~"] MODIFIER_NAME
+ *	MODIFIER_NAME ::= ("Ctrl"|"Lock"|"Caps"|"Shift"|"Alt"|"Meta")
  *	RHS           ::= ( STRING | keysym | STRING keysym )
  *	STRING        ::= '"' { CHAR } '"'
  *	CHAR          ::= GRAPHIC_CHAR | ESCAPED_CHAR
@@ -495,12 +496,12 @@ parseline(
             token = nexttoken(fp, tokenbuf, &lastch);
             if (token != KEY && token != STRING)
                 goto error;
-            if ((filename = TransFileName(im, tokenbuf)) == NULL)
-                goto error;
             if (++depth > 100)
                 goto error;
+            if ((filename = TransFileName(im, tokenbuf)) == NULL)
+                goto error;
             infp = _XFopenFile(filename, "r");
-                Xfree(filename);
+            Xfree(filename);
             if (infp == NULL)
                 goto error;
             parsestringfile(infp, im, depth);

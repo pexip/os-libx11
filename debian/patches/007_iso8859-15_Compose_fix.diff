@@ -4,7 +4,7 @@ This patch by Wolfgang Sourdeau and Rüdiger Kuhlmann.
 
 Account for lack of spacing diaeresis key and codepoint.
 
-http://bugs.debian.org/97433
+https://bugs.debian.org/97433
 
 --- a/nls/iso8859-15/Compose.pre
 +++ b/nls/iso8859-15/Compose.pre
