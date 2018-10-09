@@ -1,22 +1,29 @@
-libx11 (2:1.6.4-3+deb9u1) stretch; urgency=high
+libx11 (2:1.6.7-1) unstable; urgency=medium
 
-  * Non-maintainer upload.
-  * Fix CVE-2018-14598, CVE-2018-14599 and CVE-2018-14600:
-  * CVE-2018-14599:
-    The functions XGetFontPath, XListExtensions, and XListFonts are vulnerable
-    to an off-by-one override on malicious server responses.
-  * CVE-2018-14600:
-    The length value is interpreted as signed char on many systems (depending
-    on default signedness of char), which can lead to an out of boundary write
-    up to 128 bytes in front of the allocated storage, but limited to NUL
-    byte(s).
-  * CVE-2018-14598:
-    If the server sends a reply in which even the first string would overflow
-    the transmitted bytes, list[0] (or flist[0]) will be set to NULL and a
-    count of 0 is returned. This may trigger a segmentation fault leading to a
-    Denial of Service.
+  * New upstream release.
+    - fix video freezing in firefox with amdgpu
+  * upstream: Add key from Matt Turner.
 
- -- Markus Koschany <apo@debian.org>  Sat, 29 Sep 2018 14:05:05 +0200
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 09 Oct 2018 18:03:26 +0300
+
+libx11 (2:1.6.6-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Fixes CVE-2018-14598, CVE-2018-14599 and CVE-2018-14600.
+  * Move libx11-doc from Recommends to Suggests (Closes: #648443).
+  * Add debian/README.source
+  * Set source format to 1.0.
+  * Bump standards version to 4.2.0.
+
+ -- Andreas Boll <aboll@debian.org>  Wed, 22 Aug 2018 21:22:31 +0200
+
+libx11 (2:1.6.5-1) unstable; urgency=medium
+
+  * Add Matt Turner's key to d/u/signing-key.asc
+  * New upstream release.
+  * Update VCS metadata for move to salsa.
+
+ -- Julien Cristau <jcristau@debian.org>  Sun, 18 Mar 2018 16:22:50 +0100
 
 libx11 (2:1.6.4-3) unstable; urgency=high
 
