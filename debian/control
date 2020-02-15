@@ -23,7 +23,7 @@ Build-Depends:
 Standards-Version: 3.9.8
 Vcs-Git: https://anonscm.debian.org/git/pkg-xorg/lib/libx11.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-xorg/lib/libx11.git
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: libx11-6
 Section: libs
