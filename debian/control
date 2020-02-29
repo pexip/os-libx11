@@ -20,9 +20,9 @@ Build-Depends:
  xmlto,
  xorg-sgml-doctools (>= 1:1.10),
  w3m,
-Standards-Version: 3.9.8
-Vcs-Git: https://anonscm.debian.org/git/pkg-xorg/lib/libx11.git
-Vcs-Browser: https://anonscm.debian.org/cgit/pkg-xorg/lib/libx11.git
+Standards-Version: 4.2.0
+Vcs-Git: https://salsa.debian.org/xorg-team/lib/libx11
+Vcs-Browser: https://salsa.debian.org/xorg-team/lib/libx11
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: libx11-6
@@ -85,7 +85,7 @@ Depends:
  x11proto-kb-dev,
  xtrans-dev,
  libxcb1-dev,
-Recommends: libx11-doc
+Suggests: libx11-doc
 Description: X11 client-side library (development headers)
  This package provides a client interface to the X Window System, otherwise
  known as 'Xlib'.  It provides a complete API for the basic functions of the
