@@ -1,3 +1,10 @@
+libx11 (2:1.6.7-1+deb10u1) buster; urgency=medium
+
+  * CVE-2020-14344
+  * CVE-2020-14363 (Closes: #969008)
+
+ -- Moritz Mühlenhoff <jmm@debian.org>  Fri, 11 Sep 2020 19:38:11 +0200
+
 libx11 (2:1.6.7-1) unstable; urgency=medium
 
   * New upstream release.
