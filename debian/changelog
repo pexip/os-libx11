@@ -1,3 +1,10 @@
+libx11 (2:1.6.7-1+deb10u2) buster-security; urgency=medium
+
+  * Reject string longer than USHRT_MAX before sending them on the wire
+    (CVE-2021-31535)
+
+ -- Julien Cristau <jcristau@debian.org>  Fri, 21 May 2021 16:42:44 +0200
+
 libx11 (2:1.6.7-1+deb10u1) buster; urgency=medium
 
   * CVE-2020-14344
