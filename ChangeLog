@@ -1,3 +1,60 @@
+commit f3c978476e0be6813268af494efb7ac507451116
+Author: Matt Turner <mattst88@gmail.com>
+Date:   Tue Oct 9 10:26:05 2018 -0400
+
+    libX11 1.6.7
+    
+    Signed-off-by: Matt Turner <mattst88@gmail.com>
+
+commit 823a0f8a820247b6c1e092f679b49cbdc2ea5c95
+Author: Michel Dänzer <michel.daenzer@amd.com>
+Date:   Fri Sep 28 17:24:17 2018 +0200
+
+    poll_for_event: Allow using xcb_poll_for_queued_event
+    
+    It avoids reading from the display connection again in cases where that
+    was already done.
+    
+    Suggested-by: Uli Schlachter <psychon@znc.in>
+    Reviewed-by: Uli Schlachter <psychon@znc.in>
+
+commit 406afe4b0f1b655c0db19bbc9a0c48da9a46acf5
+Author: Michel Dänzer <michel.daenzer@amd.com>
+Date:   Tue Sep 25 17:10:58 2018 +0200
+
+    poll_for_response: Call poll_for_event again if xcb_poll_for_reply fails
+    
+    If xcb_poll_for_reply fails to find a reply, poll_for_response would
+    always return NULL. However, xcb_poll_for_reply may have read events
+    from the display connection while looking for a reply. In that case,
+    returning NULL from poll_for_response is wrong and can result in the
+    client hanging, e.g. because it returns to waiting for the display
+    connection file descriptor becoming readable after XPending incorrectly
+    returned 0 pending events.
+    
+    The solution is to call poll_for_event again after xcb_poll_for_reply
+    returned 0. This will return the first of any events read by
+    xcb_poll_for_reply.
+    
+    Fixes issue #79.
+    
+    Reported-by: Yuxuan Shui <yshuiv7@gmail.com>
+    Bugzilla: https://bugs.freedesktop.org/108008
+    Bugzilla: https://bugs.freedesktop.org/107992
+    Reviewed-by: Adam Jackson <ajax@redhat.com>
+
+commit d0416863d5bf75af54ce81f6c30d4c1476b5e04f
+Author: Bhavi Dhingra <b.dhingra@samsung.com>
+Date:   Mon Sep 28 08:33:40 2015 +0000
+
+    XcmsLookupColor: fully initialize XColor structs passed to _XColor_to_XcmsRGB
+    
+    Fixes https://gitlab.freedesktop.org/xorg/lib/libx11/issues/44
+    aka https://bugs.freedesktop.org/show_bug.cgi?id=92154
+    
+    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
 commit 733f64bfeb311c1d040b2f751bfdef9c9d0f89ef
 Author: Matthieu Herrb <matthieu@herrb.eu>
 Date:   Tue Aug 21 16:54:50 2018 +0200
@@ -3986,9 +4043,6 @@ Date:   Mon Feb 18 01:25:34 2013 +0000
     Reviewed-by: Jeff Muizelaar <jmuizelaar@mozilla.com>
     Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-
-Notes:
-    CVE-2013-7439
 
 commit 3cdb6c3a1646f670afa03d424ec12ac418181d1e
 Author: Quentin Glidic <sardemff7+git@sardemff7.net>
