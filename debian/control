@@ -3,24 +3,21 @@ Section: x11
 Priority: optional
 Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
 Build-Depends:
- debhelper (>= 10),
+ debhelper-compat (= 12),
  dpkg-dev (>= 1.18.0),
  pkg-config,
  xtrans-dev,
- x11proto-core-dev (>= 7.0.21),
- x11proto-kb-dev,
- x11proto-input-dev,
- x11proto-xext-dev,
- x11proto-xf86bigfont-dev (>= 1.2.0),
+ x11proto-dev,
  libxcb1-dev (>= 1.11.1),
  quilt,
  xutils-dev (>= 1:7.6+2),
+Build-Depends-Indep:
 # specs
  xmlto,
  xorg-sgml-doctools (>= 1:1.10),
  w3m,
-Standards-Version: 4.2.0
-Vcs-Git: https://salsa.debian.org/xorg-team/lib/libx11
+Standards-Version: 4.5.0
+Vcs-Git: https://salsa.debian.org/xorg-team/lib/libx11.git
 Vcs-Browser: https://salsa.debian.org/xorg-team/lib/libx11
 
 Package: libx11-6
@@ -31,6 +28,8 @@ Depends:
  ${misc:Depends},
  libx11-data,
 Pre-Depends: ${misc:Pre-Depends}
+Breaks:
+ libx11-xcb1 (<< 2:1.7.0-2),
 Multi-Arch: same
 Description: X11 client-side library
  This package provides a client interface to the X Window System, otherwise
@@ -41,7 +40,7 @@ Description: X11 client-side library
  <URL:https://www.X.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11
 
 Package: libx11-6-udeb
 XC-Package-Type: udeb
@@ -66,7 +65,7 @@ Description: X11 client-side library
  <URL:https://www.X.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11
 
 Package: libx11-dev
 Section: libdevel
@@ -78,12 +77,11 @@ Depends:
  libx11-6 (= ${binary:Version}),
  libxau-dev (>= 1:1.0.0-1),
  libxdmcp-dev (>= 1:1.0.0-1),
- x11proto-core-dev (>= 7.0.17),
- x11proto-input-dev,
- x11proto-kb-dev,
+ x11proto-dev (>= 2019.2-1),
  xtrans-dev,
  libxcb1-dev,
 Suggests: libx11-doc
+Replaces: x11proto-dev (<< 2019.2)
 Description: X11 client-side library (development headers)
  This package provides a client interface to the X Window System, otherwise
  known as 'Xlib'.  It provides a complete API for the basic functions of the
@@ -96,7 +94,7 @@ Description: X11 client-side library (development headers)
  <URL:https://www.X.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11
 
 Package: libx11-xcb1
 Section: libs
@@ -104,6 +102,7 @@ Architecture: any
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
+ libx11-6 (= ${binary:Version}),
 Pre-Depends: ${misc:Pre-Depends}
 Multi-Arch: same
 Description: Xlib/XCB interface library
@@ -117,7 +116,7 @@ Description: Xlib/XCB interface library
  <URL:https://xcb.freedesktop.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11
 
 Package: libx11-xcb-dev
 Section: libdevel
@@ -143,7 +142,7 @@ Description: Xlib/XCB interface library (development headers)
  <URL:https://xcb.freedesktop.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11
 
 Package: libx11-doc
 Section: doc
@@ -165,4 +164,4 @@ Description: X11 client-side library (development documentation)
  <URL:https://www.X.org>
  .
  This module can be found at
- git://anongit.freedesktop.org/git/xorg/lib/libX11
+ https://gitlab.freedesktop.org/xorg/lib/libX11

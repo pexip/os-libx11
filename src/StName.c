@@ -37,11 +37,11 @@ XStoreName (
     Window w,
     _Xconst char *name)
 {
-    if (strlen(name) >= USHRT_MAX)
+    if (name != NULL && strlen(name) >= USHRT_MAX)
         return 0;
     return XChangeProperty(dpy, w, XA_WM_NAME, XA_STRING, /*  */
 			   8, PropModeReplace, (_Xconst unsigned char *)name,
-			   name ? strlen(name) : 0);
+			   name ? (int) strlen(name) : 0);
 }
 
 int
@@ -50,9 +50,9 @@ XSetIconName (
     Window w,
     _Xconst char *icon_name)
 {
-    if (strlen(icon_name) >= USHRT_MAX)
+    if (icon_name != NULL && strlen(icon_name) >= USHRT_MAX)
         return 0;
     return XChangeProperty(dpy, w, XA_WM_ICON_NAME, XA_STRING, 8,
                            PropModeReplace, (_Xconst unsigned char *)icon_name,
-			   icon_name ? strlen(icon_name) : 0);
+			   icon_name ? (int) strlen(icon_name) : 0);
 }

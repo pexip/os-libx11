@@ -1,16 +1,100 @@
-libx11 (2:1.6.7-1+deb10u2) buster-security; urgency=medium
+libx11 (2:1.7.2-1) unstable; urgency=medium
 
-  * Reject string longer than USHRT_MAX before sending them on the wire
-    (CVE-2021-31535)
+  [ Timo Aaltonen ]
+  * New upstream release. (Closes: #990998)
 
- -- Julien Cristau <jcristau@debian.org>  Fri, 21 May 2021 16:42:44 +0200
+  [ Julien Cristau ]
+  * Fix Vcs-Git control field.
 
-libx11 (2:1.6.7-1+deb10u1) buster; urgency=medium
+ -- Timo Aaltonen <tjaalton@debian.org>  Mon, 26 Jul 2021 11:29:39 +0300
 
-  * CVE-2020-14344
-  * CVE-2020-14363 (Closes: #969008)
+libx11 (2:1.7.1-1) unstable; urgency=medium
 
- -- Moritz Mühlenhoff <jmm@debian.org>  Fri, 11 Sep 2020 19:38:11 +0200
+  [ Julien Cristau ]
+  * libx11-6 Breaks old libx11-xcb1, as further mitigation for bug
+    #979590.
+
+  [ Emilio Pozuelo Monfort ]
+  * New upstream release.
+  * CVE-2021-31535: X protocol command injection due to missing request
+    length checks (closes: #988737)
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Wed, 19 May 2021 17:22:09 +0200
+
+libx11 (2:1.7.0-2) unstable; urgency=medium
+
+  * Set a strict dependency of libx11-xcb1 on libx11-6, as internal ABI
+    may change across releases - and indeed did change between 1.6.12 and
+    1.7.0 (closes: #979590)
+  * Update upstream git URL in package descriptions.
+
+ -- Julien Cristau <jcristau@debian.org>  Mon, 11 Jan 2021 12:15:25 +0100
+
+libx11 (2:1.7.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * patches: Refreshed.
+  * signing-key: Added key from Keith Packard.
+  * symbols: Updated.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 06 Jan 2021 20:47:58 +0200
+
+libx11 (2:1.6.12-1) unstable; urgency=medium
+
+  * New upstream release.
+  * 001_xim_regression.diff: Dropped, upstream.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 17 Sep 2020 13:11:41 +0300
+
+libx11 (2:1.6.10-3) unstable; urgency=medium
+
+  * Fix 001_xim_regression.diff to actually build.
+
+ -- Julien Cristau <jcristau@debian.org>  Mon, 03 Aug 2020 08:44:37 +0200
+
+libx11 (2:1.6.10-2) unstable; urgency=medium
+
+  * Fix regression introduced in 1.6.10 (closes: #966691)
+
+ -- Julien Cristau <jcristau@debian.org>  Sun, 02 Aug 2020 18:58:23 +0200
+
+libx11 (2:1.6.10-1) unstable; urgency=medium
+
+  * New upstream release
+    + fixes heap corruption in the X input method client (CVE-2020-14344)
+
+ -- Julien Cristau <jcristau@debian.org>  Sat, 01 Aug 2020 12:50:40 +0200
+
+libx11 (2:1.6.9-2) unstable; urgency=medium
+
+  * control: Depend on x11proto-dev instead of the old protos, bump the
+    version.
+  * control: libx11-dev Replaces old x11proto-dev. (Closes: #952589)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 26 Feb 2020 18:40:14 +0200
+
+libx11 (2:1.6.9-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Use debhelper-compat, bump to 12.
+  * signing-key.asc: Add Adam Jackson's key.
+  * rules: Remove .la files before install.
+  * rules: Use -a instead of -s for dh_makeshlibs.
+  * watch: Update upstream url.
+  * control: Bump policy to 4.5.0.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 26 Feb 2020 14:32:15 +0200
+
+libx11 (2:1.6.8-1) unstable; urgency=medium
+
+  [ Timo Aaltonen ]
+  * New upstream release.
+  * patches: Refreshed.
+
+  [ Helmut Grohne ]
+  * Move documentation dependencies to Build-Depends-Indep. (Closes: #928878)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 18 Sep 2019 17:09:31 +0300
 
 libx11 (2:1.6.7-1) unstable; urgency=medium
 

@@ -15,8 +15,9 @@ override_dh_installdocs:
 	dh_installdocs NEWS
 
 override_dh_install:
-	# Kill *.xml files, we don't need them:
+	# Kill *.xml, *.la files, we don't need them:
 	find debian/tmp -name '*.xml' -delete
+	find debian/tmp -name '*.la' -delete
 	dh_install -plibx11-dev \
 	           --exclude=usr/include/X11/Xlib-xcb.h
 	dh_install -plibx11-doc \
@@ -26,5 +27,5 @@ override_dh_install:
 	dh_install --remaining-packages
 
 override_dh_makeshlibs:
-	dh_makeshlibs -s -plibx11-6 -V'libx11-6 (>= 2:1.6.0)' --add-udeb=libx11-6-udeb -- -c4
-	dh_makeshlibs -s -Nlibx11-6 -- -c4
+	dh_makeshlibs -a -plibx11-6 -V'libx11-6 (>= 2:1.6.0)' --add-udeb=libx11-6-udeb -- -c4
+	dh_makeshlibs -a -Nlibx11-6 -- -c4

@@ -40,7 +40,7 @@ XParseColor (
 	_Xconst char *spec,
 	XColor *def)
 {
-	register int n, i;
+	register size_t n, i;
 	int r, g, b;
 	char c;
 	XcmsCCC ccc;
@@ -64,7 +64,7 @@ XParseColor (
 		r = g;
 		g = b;
 		b = 0;
-		for (i = n; --i >= 0; ) {
+		for (i = 0; i < n; i++) {
 		    c = *spec++;
 		    b <<= 4;
 		    if (c >= '0' && c <= '9')
@@ -122,7 +122,7 @@ XParseColor (
 	    LockDisplay(dpy);
 	    GetReq (LookupColor, req);
 	    req->cmap = cmap;
-	    req->nbytes = n = strlen(spec);
+	    req->nbytes = (CARD16) (n = strlen(spec));
 	    req->length += (n + 3) >> 2;
 	    Data (dpy, spec, (long)n);
 	    if (!_XReply (dpy, (xReply *) &reply, 0, xTrue)) {

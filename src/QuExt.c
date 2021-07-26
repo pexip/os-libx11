@@ -42,12 +42,12 @@ XQueryExtension(
     xQueryExtensionReply rep;
     register xQueryExtensionReq *req;
 
-    if (strlen(name) >= USHRT_MAX)
+    if (name != NULL && strlen(name) >= USHRT_MAX)
         return false;
 
     LockDisplay(dpy);
     GetReq(QueryExtension, req);
-    req->nbytes = name ? strlen(name) : 0;
+    req->nbytes = name ? (CARD16) strlen(name) : 0;
     req->length += (req->nbytes+(unsigned)3)>>2;
     _XSend(dpy, name, (long)req->nbytes);
     (void) _XReply (dpy, (xReply *)&rep, 0, xTrue);

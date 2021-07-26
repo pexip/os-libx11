@@ -31,6 +31,7 @@ authorization from the X Consortium and the XFree86 Project.
 #include <config.h>
 #endif
 #include "Xlibint.h"
+#include "reallocarray.h"
 #include <limits.h>
 
 #if defined(XF86BIGFONT)
@@ -101,14 +102,14 @@ XFontStruct *XLoadQueryFont(
     XF86BigfontCodes *extcodes = _XF86BigfontCodes(dpy);
 #endif
 
-    if (strlen(name) >= USHRT_MAX)
+    if (name != NULL && strlen(name) >= USHRT_MAX)
         return NULL;
     if (_XF86LoadQueryLocaleFont(dpy, name, &font_result, (Font *)0))
       return font_result;
     LockDisplay(dpy);
     GetReq(OpenFont, req);
     seq = dpy->request; /* Can't use extended sequence number here */
-    nbytes = req->nbytes  = name ? strlen(name) : 0;
+    nbytes = req->nbytes = (CARD16) (name ? strlen(name) : 0);
     req->fid = fid = XAllocID(dpy);
     req->length += (nbytes+3)>>2;
     Data (dpy, name, nbytes);
@@ -247,8 +248,8 @@ _XQueryFont (
 	    /* nFontProps is a CARD16 */
 	    nbytes = reply.nFontProps * SIZEOF(xFontProp);
 	    if ((nbytes >> 2) <= reply_left) {
-		size_t pbytes = reply.nFontProps * sizeof(XFontProp);
-		fs->properties = Xmalloc (pbytes);
+		fs->properties = Xmallocarray (reply.nFontProps,
+                                               sizeof(XFontProp));
 	    }
 	    if (! fs->properties) {
 		Xfree(fs);
@@ -268,8 +269,8 @@ _XQueryFont (
 	if (reply.nCharInfos < (INT_MAX / sizeof(XCharStruct))) {
 	    nbytes = reply.nCharInfos * SIZEOF(xCharInfo);
 	    if ((nbytes >> 2) <= reply_left) {
-		size_t cibytes = reply.nCharInfos * sizeof(XCharStruct);
-		fs->per_char = Xmalloc (cibytes);
+		fs->per_char = Xmallocarray (reply.nCharInfos,
+                                             sizeof(XCharStruct));
 	    }
 	}
 	if (! fs->per_char) {
@@ -491,8 +492,8 @@ _XF86BigfontQueryFont (
 	/* nFontProps is a CARD16 */
 	nbytes = reply.nFontProps * SIZEOF(xFontProp);
 	if ((nbytes >> 2) <= reply_left) {
-	    size_t pbytes = reply.nFontProps * sizeof(XFontProp);
-	    fs->properties = Xmalloc (pbytes);
+	    fs->properties = Xmallocarray (reply.nFontProps,
+                                           sizeof(XFontProp));
 	}
 	if (! fs->properties) {
 	    Xfree(fs);
@@ -531,7 +532,8 @@ _XF86BigfontQueryFont (
 		_XEatDataWords(dpy, reply_left);
 		return (XFontStruct *)NULL;
 	    }
-	    if (! (fs->per_char = Xmalloc (reply.nCharInfos * sizeof(XCharStruct)))) {
+	    if (! (fs->per_char = Xmallocarray (reply.nCharInfos,
+                                                sizeof(XCharStruct)))) {
 		Xfree(pUniqCI);
 		Xfree(fs->properties);
 		Xfree(fs);
@@ -654,7 +656,7 @@ int _XF86LoadQueryLocaleFont(
    XFontStruct **xfp,
    Font *fidp)
 {
-    int l;
+    size_t l;
     const char *charset, *p;
     char buf[256];
     XFontStruct *fs;
@@ -675,7 +677,7 @@ int _XF86LoadQueryLocaleFont(
 	charset = "ISO8859-1";
 	p = charset + 7;
     }
-    if (l - 2 - (p - charset) < 0)
+    if (l - 2 < p - charset)
 	return 0;
     if (_XlcNCompareISOLatin1(name + l - 2 - (p - charset), charset, p - charset))
 	return 0;

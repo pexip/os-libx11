@@ -47,7 +47,7 @@ int flags)  /* DoRed, DoGreen, DoBlue */
     XcmsColor cmsColor_exact;
     XColor scr_def;
 
-    if (strlen(name) >= USHRT_MAX)
+    if (name != NULL && strlen(name) >= USHRT_MAX)
         return 0;
 #ifdef XCMS
     /*
@@ -79,7 +79,7 @@ int flags)  /* DoRed, DoGreen, DoBlue */
     req->cmap = cmap;
     req->flags = flags;
     req->pixel = pixel;
-    req->nbytes = nbytes = strlen(name);
+    req->nbytes = (CARD16) (nbytes = (unsigned) strlen(name));
     req->length += (nbytes + 3) >> 2; /* round up to multiple of 4 */
     Data(dpy, name, (long)nbytes);
     UnlockDisplay(dpy);
