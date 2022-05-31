@@ -1,7 +1,7 @@
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([libX11], [1.6.7],
+AC_INIT([libX11], [1.7.2],
         [https://gitlab.freedesktop.org/xorg/lib/libx11/issues], [libX11])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([src/config.h include/X11/XlibConf.h])
@@ -18,6 +18,8 @@ AM_INIT_AUTOMAKE([foreign dist-bzip2])
 
 # Initialize libtool
 AC_PROG_LIBTOOL
+
+AC_SYS_LARGEFILE
 
 # Require xorg-macros minimum of 1.15 for fop minimum version
 m4_ifndef([XORG_MACROS_VERSION],
@@ -65,10 +67,18 @@ if test x"$LDFLAGS_FOR_BUILD" = x; then
 fi
 AC_SUBST(LDFLAGS_FOR_BUILD)
 
+if test x"$EXEEXT_FOR_BUILD" = x; then
+	if test x"$cross_compiling" = xno; then
+		EXEEXT_FOR_BUILD=${EXEEXT}
+	fi
+	# If cross-compiling and not provided, assume EXEEXT_FOR_BUILD is empty
+fi
+AC_SUBST([EXEEXT_FOR_BUILD])
+
 # Checks for pkg-config packages
 
 # Always required
-X11_REQUIRES='xproto >= 7.0.17 xextproto xtrans xcb >= 1.11.1'
+X11_REQUIRES='xproto >= 7.0.25 xextproto xtrans xcb >= 1.11.1'
 X11_EXTRA_DEPS="xcb >= 1.11.1"
 
 PKG_PROG_PKG_CONFIG()
@@ -139,12 +149,14 @@ fi
 AC_MSG_RESULT($XLIB_LOADABLE_XCURSOR)
 
 # Checks for header files.
-AC_CHECK_HEADERS([sys/select.h])
+AC_CHECK_HEADERS([sys/filio.h sys/select.h sys/ioctl.h sys/socket.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AX_GCC_BUILTIN([__builtin_popcountl])
 
 # Checks for library functions.
 AC_CHECK_FUNCS([strtol seteuid])
+AC_REPLACE_FUNCS([reallocarray])
 # Used in lcFile.c (see also --enable-xlocaledir settings below)
 XLOCALEDIR_IS_SAFE="no"
 AC_CHECK_DECL([issetugid])
@@ -364,7 +376,7 @@ locales="\
  ja_JP.UTF-8  ja.SJIS     km_KH.UTF-8 ko           koi8-c       koi8-r \
  koi8-u       ko_KR.UTF-8 microsoft-cp1251         microsoft-cp1255 \
  microsoft-cp1256         mulelao-1   nokhchi-1    pt_BR.UTF-8  pt_PT.UTF-8 \
- ru_RU.UTF-8  sr_CS.UTF-8 tatar-cyr   th_TH        th_TH.UTF-8  tscii-0 \
+ ru_RU.UTF-8  sr_RS.UTF-8 tatar-cyr   th_TH        th_TH.UTF-8  tscii-0 \
  vi_VN.tcvn   vi_VN.viscii            zh_CN        zh_CN.gb18030 \
  zh_CN.gbk    zh_CN.UTF-8 zh_HK.big5  zh_HK.big5hkscs           zh_HK.UTF-8 \
  zh_TW        zh_TW.big5  zh_TW.UTF-8"
