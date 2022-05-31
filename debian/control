@@ -23,7 +23,7 @@ Build-Depends:
 Standards-Version: 4.2.0
 Vcs-Git: https://salsa.debian.org/xorg-team/lib/libx11
 Vcs-Browser: https://salsa.debian.org/xorg-team/lib/libx11
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
 
 Package: libx11-6
 Section: libs
