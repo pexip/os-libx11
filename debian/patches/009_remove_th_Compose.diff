@@ -1,8 +1,6 @@
-Index: libx11/nls/compose.dir.pre
-===================================================================
---- libx11.orig/nls/compose.dir.pre	2013-06-15 17:42:46.000000000 +0200
-+++ libx11/nls/compose.dir.pre	2013-06-15 17:44:32.355730938 +0200
-@@ -484,7 +484,9 @@
+--- a/nls/compose.dir.pre
++++ b/nls/compose.dir.pre
+@@ -484,7 +484,9 @@ en_US.UTF-8/Compose:		sv_SE.UTF-8
  en_US.UTF-8/Compose:		ta_IN.UTF-8
  en_US.UTF-8/Compose:		te_IN.UTF-8
  en_US.UTF-8/Compose:		tg_TJ.UTF-8

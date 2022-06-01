@@ -49,7 +49,7 @@ XColor *exact_def) /* RETURN */
     XcmsColor cmsColor_exact;
     Status ret;
 
-    if (strlen(colorname) >= USHRT_MAX)
+    if (colorname != NULL && strlen(colorname) >= USHRT_MAX)
         return (0);
 
 #ifdef XCMS
@@ -87,7 +87,7 @@ XColor *exact_def) /* RETURN */
     GetReq(AllocNamedColor, req);
 
     req->cmap = cmap;
-    nbytes = req->nbytes = strlen(colorname);
+    nbytes = req->nbytes = (CARD16) strlen(colorname);
     req->length += (nbytes + 3) >> 2; /* round up to mult of 4 */
 
     _XSend(dpy, colorname, nbytes);
