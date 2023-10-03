@@ -1,3 +1,13 @@
+libx11 (2:1.7.2-1+deb11u2) bullseye-security; urgency=medium
+
+  * CVE-2023-43785: out-of-bounds memory access in _XkbReadKeySyms()
+  * CVE-2023-43786: stack exhaustion from infinite recursion in PutSubImage()
+  * CVE-2023-43787: integer overflow in XCreateImage() leading to a heap overflow
+  * XPutImage: clip images to maximum height & width allowed by protocol
+  * XCreatePixmap: trigger BadValue error for out-of-range dimensions
+
+ -- Julien Cristau <jcristau@debian.org>  Tue, 03 Oct 2023 11:01:59 +0200
+
 libx11 (2:1.7.2-1+deb11u1) bullseye-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
