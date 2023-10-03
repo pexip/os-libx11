@@ -1,4 +1,4 @@
-.\" Copyright 1999 Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1999, Oracle and/or its affiliates.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -32,13 +32,13 @@ XkbCopyKeyTypes \- Copy more than one XkbKeyTypeRec structure
 .if t .ti +.5i
 .SH ARGUMENTS
 .TP
-.I \- from
+.I from
 pointer to array of XkbKeyTypeRecs to copy
 .TP
-.I \- into
+.I into
 pointer to array of XkbKeyTypeRecs to change
 .TP
-.I \- num_types
+.I num_types
 number of types to copy
 .SH DESCRIPTION
 .LP
@@ -96,14 +96,10 @@ Key types are defined using the following structure:
 
 typedef struct {                   /\&* Key Type */
     XkbModsRec        mods;        /\&* modifiers used to compute shift level */
-    unsigned char     num_levels;  /\&* total # shift levels, do not modify 
-directly */
-    unsigned char     map_count;   /\&* # entries in map, preserve (if non-NULL) 
-*/
-    XkbKTMapEntryPtr  map;         /\&* vector of modifiers for each shift level 
-*/
-    XkbModsPtr        preserve;    /\&* mods to preserve for corresponding map 
-entry */
+    unsigned char     num_levels;  /\&* total # shift levels, do not modify directly */
+    unsigned char     map_count;   /\&* # entries in map, preserve (if non-NULL) */
+    XkbKTMapEntryPtr  map;         /\&* vector of modifiers for each shift level */
+    XkbModsPtr        preserve;    /\&* mods to preserve for corresponding map entry */
     Atom              name;        /\&* name of key type */
     Atom *            level_names; /\&* array of names of each shift level */
 } XkbKeyTypeRec, *XkbKeyTypePtr;

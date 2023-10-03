@@ -676,8 +676,10 @@ parseline(
 		    goto error;
 		b->tree = new;
 		b->treesize = newsize;
-		if (top >= (DTIndex *) old && top < (DTIndex *) &old[oldsize])
-		    top = (DTIndex *) (((char *) top) + (((char *)b->tree)-(char *)old));
+		/* Re-derive top after realloc() to avoid undefined behaviour
+		   (and crashes on architectures that track pointer bounds). */
+		if (old && top >= (DTIndex *) old && top < (DTIndex *) &old[oldsize])
+		    top = (DTIndex *) (((char *)new) + (((char *)top)-(char *)old));
 	    }
 	    p = &b->tree[b->treeused];
 	    p->keysym        = buf[i].keysym;

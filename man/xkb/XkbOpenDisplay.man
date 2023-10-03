@@ -1,4 +1,4 @@
-.\" Copyright 1999 Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1999, Oracle and/or its affiliates.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ the library and the server, and initializes the extension for use.
 .SH SYNOPSIS
 .HP
 .B Display *XkbOpenDisplay
-.BI "(\^char *" "display_name" "\^,"
+.BI "(\^_Xconst char *" "display_name" "\^,"
 .BI "int *" "event_rtrn" "\^,"
 .BI "int *" "error_rtrn" "\^,"
 .BI "int *" "major_in_out" "\^,"

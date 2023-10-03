@@ -1,8 +1,8 @@
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([libX11], [1.7.2],
-        [https://gitlab.freedesktop.org/xorg/lib/libx11/issues], [libX11])
+AC_INIT([libX11], [1.8.4],
+        [https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues], [libX11])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([src/config.h include/X11/XlibConf.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -14,7 +14,7 @@ AC_CANONICAL_HOST
 AC_USE_SYSTEM_EXTENSIONS
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([foreign dist-bzip2])
+AM_INIT_AUTOMAKE([foreign dist-xz])
 
 # Initialize libtool
 AC_PROG_LIBTOOL
@@ -148,6 +148,15 @@ if test x$XLIB_LOADABLE_XCURSOR = xyes; then
 fi
 AC_MSG_RESULT($XLIB_LOADABLE_XCURSOR)
 
+AC_ARG_ENABLE(thread-safety-constructor,
+              AS_HELP_STRING([--disable-thread-safety-constructor],
+                             [Controls mandatory thread safety support]),
+              [USE_THREAD_SAFETY_CONSTRUCTOR=$enableval],
+              [USE_THREAD_SAFETY_CONSTRUCTOR="yes"])
+if test "x$USE_THREAD_SAFETY_CONSTRUCTOR" = "xyes"; then
+        AC_DEFINE(USE_THREAD_SAFETY_CONSTRUCTOR,1,[Call XInitThreads() from the library constructor])
+fi
+
 # Checks for header files.
 AC_CHECK_HEADERS([sys/filio.h sys/select.h sys/ioctl.h sys/socket.h])
 
@@ -213,9 +222,6 @@ xyes)
 	;;
 esac
 
-AC_CHECK_LIB(c, pthread_self, [thrstubs="no"], [thrstubs="yes"])
-AM_CONDITIONAL(THRSTUBS, test x$thrstubs = xyes)
-
 # XXX incomplete, please fill this in
 if test x$xthreads = xyes ; then
     case $host_os in
@@ -235,6 +241,17 @@ if test x$xthreads = xyes ; then
 fi
 AC_SUBST(XTHREADLIB)
 AC_SUBST(XTHREAD_CFLAGS)
+
+if test "x$USE_THREAD_SAFETY_CONSTRUCTOR" = "xyes"; then
+    USE_THREAD_LIBS="$XTHREADLIB"
+else
+    # This should be kept in sync with libxcb
+    case $host_os in
+    linux*|darwin*|solaris*) ;;
+         *) X11_REQUIRES="$X11_REQUIRES pthread-stubs" ;;
+    esac
+fi
+AC_SUBST(USE_THREAD_LIBS)
 
 AC_CHECK_FUNC(poll, [AC_DEFINE(USE_POLL, 1, [poll() function is available])], )
 
@@ -423,12 +440,12 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 echo ""
-echo "X11 will be built with the following settings:"
+echo "$PACKAGE_STRING will be built with the following settings:"
 echo " Loadable i18n module support:            "$XLIB_LOADABLE_I18N
 echo " Loadable xcursor library support:        "$XLIB_LOADABLE_XCURSOR
 echo " Threading support:                       "$xthreads
 echo " Use Threads safe API:                    "$mtsafeapi
-echo " Threads stubs in libX11:                 "$thrstubs
+echo " Use thread safety constructor:           "$USE_THREAD_SAFETY_CONSTRUCTOR
 echo " XCMS:                                    "$XCMS
 echo " Internationalization support:            "$XLOCALE
 echo " XF86BigFont support:                     "$XF86BIGFONT
