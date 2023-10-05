@@ -49,6 +49,12 @@ Major "forward port" by Nathanael Nerode.
 Partially submitted upstream.  This is so large I don't expect it to all go in at once,
 but any bit would help.  --Nathanael
 
+---
+ nls/compose.dir.pre  |   58 +++++++++++++++++++++++++++++++++++++++++----------
+ nls/locale.alias.pre |   24 +++++++++++++++++----
+ nls/locale.dir.pre   |   55 +++++++++++++++++++++++++++++++++++++++++-------
+ 3 files changed, 114 insertions(+), 23 deletions(-)
+
 --- a/nls/compose.dir.pre
 +++ b/nls/compose.dir.pre
 @@ -4,8 +4,13 @@ XCOMM	The first word is the compose tabl
@@ -254,7 +260,7 @@ but any bit would help.  --Nathanael
  en_US.UTF-8/Compose:		tr_TR.UTF-8
 --- a/nls/locale.alias.pre
 +++ b/nls/locale.alias.pre
-@@ -316,6 +316,12 @@ en_CA.iso88591:					en_CA.ISO8859-1
+@@ -317,6 +317,12 @@ en_CA.iso88591:					en_CA.ISO8859-1
  en_CA.ISO-8859-1:				en_CA.ISO8859-1
  en_CA.ISO_8859-1:				en_CA.ISO8859-1
  en_CA.utf8:					en_CA.UTF-8
@@ -267,7 +273,7 @@ but any bit would help.  --Nathanael
  en_DL.utf8:					en_DL.UTF-8
  en_GB:						en_GB.ISO8859-1
  en_GB.88591:					en_GB.ISO8859-1
-@@ -369,6 +375,16 @@ en_US.8859-15:					en_US.ISO8859-15
+@@ -370,6 +376,16 @@ en_US.8859-15:					en_US.ISO8859-15
  en_US.ISO8859-15@euro:				en_US.ISO8859-15
  en_US.utf8:					en_US.UTF-8
  EN_US.UTF-8:					en_US.UTF-8
@@ -284,7 +290,7 @@ but any bit would help.  --Nathanael
  en_ZA:						en_ZA.ISO8859-1
  en_ZA.88591:					en_ZA.ISO8859-1
  en_ZA.88591.en:					en_ZA.ISO8859-1
-@@ -926,7 +942,6 @@ pt_BR.88591.en:					pt_BR.ISO8859-1
+@@ -927,7 +943,6 @@ pt_BR.88591.en:					pt_BR.ISO8859-1
  pt_BR.iso88591:					pt_BR.ISO8859-1
  pt_BR.ISO-8859-1:				pt_BR.ISO8859-1
  pt_BR.ISO_8859-1:				pt_BR.ISO8859-1
@@ -292,7 +298,7 @@ but any bit would help.  --Nathanael
  pt_BR.utf8:					pt_BR.UTF-8
  pt_PT:						pt_PT.ISO8859-1
  pt_PT.88591:					pt_PT.ISO8859-1
-@@ -983,6 +998,7 @@ se_NO:						se_NO.UTF-8
+@@ -984,6 +999,7 @@ se_NO:						se_NO.UTF-8
  se_NO.utf8:					se_NO.UTF-8
  si:						si_LK.UTF-8
  si_LK:						si_LK.UTF-8
@@ -300,7 +306,7 @@ but any bit would help.  --Nathanael
  sk:						sk_SK.ISO8859-2
  sk_SK:						sk_SK.ISO8859-2
  sk_SK.iso88592:					sk_SK.ISO8859-2
-@@ -1184,7 +1200,7 @@ XCOMM The following locale names are use
+@@ -1185,7 +1201,7 @@ XCOMM The following locale names are use
  american.iso88591:				en_US.ISO8859-1
  arabic.iso88596:				ar_AA.ISO8859-6
  bokmal:						nb_NO.ISO8859-1
@@ -309,7 +315,7 @@ but any bit would help.  --Nathanael
  bulgarian:					bg_BG.CP1251
  c-french.iso88591:				fr_CA.ISO8859-1
  catalan:					ca_ES.ISO8859-1
-@@ -1199,11 +1215,11 @@ deutsch:					de_DE.ISO8859-1
+@@ -1200,11 +1216,11 @@ deutsch:					de_DE.ISO8859-1
  dutch:						nl_NL.ISO8859-1
  dutch.iso88591:					nl_BE.ISO8859-1
  eesti:						et_EE.ISO8859-1

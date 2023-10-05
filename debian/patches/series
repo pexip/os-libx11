@@ -4,3 +4,8 @@
 009_remove_th_Compose.diff
 015_russian_locale_alias.diff
 016_InitExt.c-Add-bounds-checks-for-extension-request-ev.diff
+0001-CVE-2023-43785-out-of-bounds-memory-access-in-_XkbRe.patch
+0002-CVE-2023-43786-stack-exhaustion-from-infinite-recurs.patch
+0003-XPutImage-clip-images-to-maximum-height-width-allowe.patch
+0004-XCreatePixmap-trigger-BadValue-error-for-out-of-rang.patch
+0005-CVE-2023-43787-Integer-overflow-in-XCreateImage-lead.patch

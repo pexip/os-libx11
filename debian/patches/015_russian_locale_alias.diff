@@ -10,9 +10,13 @@ appropriate perjorative language here.
 Suggestion: can the russian default be changed to UTF-8 instead of KOI8-R?  
 This will make it easier for russians to fit in with the rest of the world.
 
+---
+ nls/locale.alias.pre |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 --- a/nls/locale.alias.pre
 +++ b/nls/locale.alias.pre
-@@ -1249,7 +1249,7 @@ portuguese:					pt_PT.ISO8859-1
+@@ -1250,7 +1250,7 @@ portuguese:					pt_PT.ISO8859-1
  portuguese.iso88591:				pt_PT.ISO8859-1
  romanian:					ro_RO.ISO8859-2
  rumanian:					ro_RO.ISO8859-2
