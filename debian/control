@@ -20,7 +20,7 @@ Build-Depends-Indep:
 Standards-Version: 4.5.0
 Vcs-Git: https://salsa.debian.org/xorg-team/lib/libx11.git
 Vcs-Browser: https://salsa.debian.org/xorg-team/lib/libx11
-XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bookworm
 
 Package: libx11-6
 Section: libs
