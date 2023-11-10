@@ -1,10 +1,4 @@
-libx11 (2:1.7.2-1+deb11u2pexip1) pexip; urgency=medium
-
-  * New upstream release with security updates
-
- -- Steve McIntyre <steve.mcintyre@pexip.com>  Thu, 05 Oct 2023 21:37:06 +0100
-
-libx11 (2:1.7.2-1+deb11u2) bullseye-security; urgency=medium
+libx11 (2:1.8.4-2+deb12u2) bookworm-security; urgency=high
 
   * CVE-2023-43785: out-of-bounds memory access in _XkbReadKeySyms()
   * CVE-2023-43786: stack exhaustion from infinite recursion in PutSubImage()
@@ -12,21 +6,110 @@ libx11 (2:1.7.2-1+deb11u2) bullseye-security; urgency=medium
   * XPutImage: clip images to maximum height & width allowed by protocol
   * XCreatePixmap: trigger BadValue error for out-of-range dimensions
 
- -- Julien Cristau <jcristau@debian.org>  Tue, 03 Oct 2023 11:01:59 +0200
+ -- Julien Cristau <jcristau@debian.org>  Tue, 03 Oct 2023 10:52:32 +0200
+
+libx11 (2:1.8.4-2+deb12u1) bookworm-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * InitExt.c: Add bounds checks for extension request, event, & error codes
+    (CVE-2023-3138) (Closes: #1038133)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 15 Jun 2023 21:54:32 +0200
+
+libx11 (2:1.8.4-2) unstable; urgency=medium
+
+  * rules: Drop --disable-thread-safety-constructor again.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Mon, 27 Feb 2023 20:31:15 +0200
+
+libx11 (2:1.8.4-1) unstable; urgency=medium
+
+  * New upstream version. (Closes: #1031697)
+  * patches: Drop reverts, as the issues should be fixed upstream.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Mon, 27 Feb 2023 10:29:38 +0200
+
+libx11 (2:1.8.3-3) unstable; urgency=medium
+
+  * Revert yet another commit causing regressions. (Closes: #1026809)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 23 Dec 2022 12:57:26 +0200
+
+libx11 (2:1.8.3-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster (oldstable):
+    + Build-Depends: Drop versioned constraint on dpkg-dev, libxcb1-dev and
+      xutils-dev.
+    + Build-Depends-Indep: Drop versioned constraint on xorg-sgml-doctools.
+    + libx11-data: Drop versioned constraint on libx11-6 in Breaks.
+    + libx11-dev: Drop versioned constraint on libxau-dev and libxdmcp-dev in
+      Depends.
+    + libx11-xcb-dev: Drop versioned constraint on libxcb1-dev in Depends.
+    + libx11-doc: Drop versioned constraint on libx11-dev in Replaces.
+    + libx11-doc: Drop versioned constraint on libx11-dev in Breaks.
+
+  [ Timo Aaltonen ]
+  * patches: Revert four commits to fix a regression which is still
+    unfixed.
+  * rules: Add --disable-thread-safety-constructor again.
+  * rules: NEWS got removed, don't try to install it.
+  * symbols: Updated.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 20 Dec 2022 17:02:56 +0200
+
+libx11 (2:1.8.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * rules: The new upstream release allows to drop --disable-thread-
+    safety-constructor build option.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 20 Dec 2022 16:01:24 +0200
+
+libx11 (2:1.8.1-2) unstable; urgency=medium
+
+  * rules: Disable thread safety constructor. (Closes: #1016363)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 04 Aug 2022 09:21:33 +0300
+
+libx11 (2:1.8.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 29 Jul 2022 11:11:37 +0300
+
+libx11 (2:1.7.5-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #1008890)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Sun, 03 Apr 2022 22:29:52 +0300
+
+libx11 (2:1.7.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * 0001-makekeys..patch: Deleted, upstream.
+  * patches: Refreshed.
+  * Update signing-key.asc.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 31 Mar 2022 22:21:59 +0300
+
+libx11 (2:1.7.2-2) unstable; urgency=medium
+
+  * Add an upstream commit to handle new _EVDEVK symbols.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 15 Sep 2021 09:18:20 +0300
+
+libx11 (2:1.7.2-1+deb11u2pexip1) pexip; urgency=medium
+
+  * New upstream release with security updates
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Thu, 05 Oct 2023 21:37:06 +0100
 
 libx11 (2:1.7.2-1+deb11u1pexip1) pexip; urgency=medium
 
   * New upstream release with security update
 
  -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 10 Jul 2023 12:35:55 +0100
-
-libx11 (2:1.7.2-1+deb11u1) bullseye-security; urgency=high
-
-  * Non-maintainer upload by the Security Team.
-  * InitExt.c: Add bounds checks for extension request, event, & error codes
-    (CVE-2023-3138) (Closes: #1038133)
-
- -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 15 Jun 2023 21:58:56 +0200
 
 libx11 (2:1.7.2-1pexip3) pexip-bullseye; urgency=medium
 

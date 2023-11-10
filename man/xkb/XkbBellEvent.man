@@ -1,5 +1,5 @@
 '\" t
-.\" Copyright 1999 Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1999, Oracle and/or its affiliates.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -35,16 +35,16 @@ without ringing the bell
 .if t .ti +.5i
 .SH ARGUMENTS
 .TP
-.I \- display
+.I display
 connection to the X server
 .TP
-.I \- window
+.I window
 the event window, or None 
 .TP
-.I \- percent,
+.I percent
 relative volume, which can range from -100 to 100 inclusive
 .TP
-.I \- name
+.I name
 a bell name, or NULL
 .SH DESCRIPTION
 .LP
@@ -295,8 +295,7 @@ The structure for the XkbBellNotify event type contains:
        Display *      display;     /\&* server connection where event generated */
        Time           time;        /\&* server time when event generated */
        int            xkb_type;    /\&* XkbBellNotify */
-       unsigned int   device;      /\&* Xkb device ID, will not be XkbUseCoreKbd 
-*/
+       unsigned int   device;      /\&* Xkb device ID, will not be XkbUseCoreKbd */
        int            percent;     /\&* requested volume as % of max */
        int            pitch;       /\&* requested pitch in Hz */
        int            duration;    /\&* requested duration in microseconds */
@@ -304,8 +303,7 @@ The structure for the XkbBellNotify event type contains:
        unsigned int   bell_id;     /\&* X input extension feedback ID */
        Atom           name;        /\&* "name" of requested bell */
        Window         window;      /\&* window associated with event */
-       Bool           event_only;  /\&* False -> the server did not produce a beep 
-*/
+       Bool           event_only;  /\&* False -> the server did not produce a beep */
    } XkbBellNotifyEvent;
    
 .fi   

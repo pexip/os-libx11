@@ -1,5 +1,5 @@
 '\" t
-.\" Copyright 1999 Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1999, Oracle and/or its affiliates.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ XkbSAGroup \- Returns the group_XXX field of act converted to a signed int
 .BI "(\^XkbAction " "act" "\^);"
 .SH ARGUMENTS
 .TP
-.I \- act
+.I act
 action from which to extract group
 .SH DESCRIPTION
 .LP
@@ -48,8 +48,7 @@ pressed and released:
 .ft CW
     typedef struct _XkbGroupAction {
         unsigned char    type;       /\&* XkbSA_{Set|Latch|Lock}Group */
-        unsigned char    flags;      /\&* with type, controls the effect on groups 
-*/
+        unsigned char    flags;      /\&* with type, controls the effect on groups */
         char             group_XXX;  /\&* represents a group index or delta */
     } XkbGroupAction;
 .ft

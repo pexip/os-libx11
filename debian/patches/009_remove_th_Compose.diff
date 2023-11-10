@@ -1,6 +1,6 @@
 --- a/nls/compose.dir.pre
 +++ b/nls/compose.dir.pre
-@@ -484,7 +484,9 @@ en_US.UTF-8/Compose:		sv_SE.UTF-8
+@@ -473,7 +473,9 @@ en_US.UTF-8/Compose:		sv_SE.UTF-8
  en_US.UTF-8/Compose:		ta_IN.UTF-8
  en_US.UTF-8/Compose:		te_IN.UTF-8
  en_US.UTF-8/Compose:		tg_TJ.UTF-8
