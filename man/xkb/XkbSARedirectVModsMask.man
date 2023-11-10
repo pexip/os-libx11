@@ -1,4 +1,4 @@
-.\" Copyright 1999 Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1999, Oracle and/or its affiliates.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,7 @@ converted to an unsigned int
 .if t .ti +.5i
 .SH ARGUMENTS
 .TP
-.I \- act
+.I act
 action from which to extract vmods
 .SH DESCRIPTION
 .LP
@@ -104,14 +104,10 @@ converted to an unsigned int.
         unsigned char   new_key;     /\&* keycode to be put in event */
         unsigned char   mods_mask;   /\&* mask of real mods to be reset */
         unsigned char   mods;        /\&* mask of real mods to take values from */
-        unsigned char   vmods_mask0; /\&* first half of mask of virtual mods to be 
-reset */
-        unsigned char   vmods_mask1; /\&* other half of mask of virtual mods to be 
-reset */
-        unsigned char   vmods0;      /\&* first half of mask of virtual mods to 
-take values from */
-        unsigned char   vmods1;      /\&* other half of mask of virtual mods to 
-take values from */
+        unsigned char   vmods_mask0; /\&* first half of mask of virtual mods to be reset */
+        unsigned char   vmods_mask1; /\&* other half of mask of virtual mods to be reset */
+        unsigned char   vmods0;      /\&* first half of mask of virtual mods to take values from */
+        unsigned char   vmods1;      /\&* other half of mask of virtual mods to take values from */
     } XkbRedirectKeyAction;
     
 .fi
