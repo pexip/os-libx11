@@ -1,3 +1,9 @@
+libx11 (2:1.8.4-2+deb12u2pexip1) pexip-bookworm; urgency=medium
+
+  * Initial bookworm build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 16 Nov 2023 10:08:43 +0000
+
 libx11 (2:1.8.4-2+deb12u2) bookworm-security; urgency=high
 
   * CVE-2023-43785: out-of-bounds memory access in _XkbReadKeySyms()
