@@ -1,3 +1,9 @@
+libx11 (2:1.8.4-2+deb12u2+pexip24u3) pexip-bookworm; urgency=medium
+
+  * New versioning scheme
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 01 Feb 2024 16:08:22 +0000
+
 libx11 (2:1.8.4-2+deb12u2pexip2) pexip-bookworm; urgency=medium
 
   * Bookworm build for product distribution
