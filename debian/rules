@@ -24,5 +24,6 @@ override_dh_install:
 	dh_install --remaining-packages
 
 override_dh_makeshlibs:
-	dh_makeshlibs -a -plibx11-6 -V'libx11-6 (>= 2:1.6.0)' --add-udeb=libx11-6-udeb -- -c4
-	dh_makeshlibs -a -Nlibx11-6 -- -c4
+	dh_makeshlibs -plibx11-6 -V'libx11-6 (>= 2:1.6.0)' --add-udeb=libx11-6-udeb -- -c4
+	dh_makeshlibs -plibx11-xcb1 -V'libx11-xcb1' -- -c4
+	dh_makeshlibs -a -Nlibx11-6 -Nlibx11-xcb1 -- -c4

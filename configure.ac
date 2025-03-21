@@ -1,7 +1,7 @@
 
 # Initialize Autoconf
-AC_PREREQ([2.60])
-AC_INIT([libX11], [1.8.4],
+AC_PREREQ([2.70])
+AC_INIT([libX11], [1.8.12],
         [https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues], [libX11])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([src/config.h include/X11/XlibConf.h])
@@ -9,7 +9,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 # Set common system defines for POSIX extensions, such as _GNU_SOURCE
-# Must be called before any macros that run the compiler (like AC_PROG_LIBTOOL)
+# Must be called before any macros that run the compiler (like LT_INIT)
 # to avoid autoconf errors.
 AC_USE_SYSTEM_EXTENSIONS
 
@@ -17,7 +17,7 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([foreign dist-xz])
 
 # Initialize libtool
-AC_PROG_LIBTOOL
+LT_INIT
 
 AC_SYS_LARGEFILE
 
@@ -98,20 +98,13 @@ m4_pattern_forbid([^XTRANS_CONNECTION_FLAGS$])
 XTRANS_CONNECTION_FLAGS
 
 # Check for dlopen
-AC_MSG_CHECKING([if run-time linking is supported])
 AC_SEARCH_LIBS(dlopen,[dl svld])
-if test "x$ac_cv_search_dlopen" = xno; then
-	AC_SEARCH_LIBS(shl_load,[dld])
-	if test "x$ac_cv_search_shl_load" != xno; then
-		AC_DEFINE(HAVE_SHL_LOAD,1,
-			  [Use shl_load to load shared libraries])
-		AC_CHECK_HEADERS([dl.h])
-	fi
-else
+if test "x$ac_cv_search_dlopen" != xno; then
 	AC_DEFINE(HAVE_DLOPEN,1,[Use dlopen to load shared libraries])
 	AC_CHECK_HEADERS([dlfcn.h])
 fi
-if test "x$ac_cv_header_dlfcn_h" = xyes -o "x$ac_cv_header_dl_h" = xyes; then
+AC_MSG_CHECKING([if run-time linking is supported])
+if test "x$ac_cv_header_dlfcn_h" = xyes; then
 	HAVE_LOADABLE_MODULES=yes
 else
 	HAVE_LOADABLE_MODULES=no
@@ -247,7 +240,7 @@ if test "x$USE_THREAD_SAFETY_CONSTRUCTOR" = "xyes"; then
 else
     # This should be kept in sync with libxcb
     case $host_os in
-    linux*|darwin*|solaris*) ;;
+    linux*|darwin*|solaris*|dragonfly*|freebsd*|netbsd*) ;;
          *) X11_REQUIRES="$X11_REQUIRES pthread-stubs" ;;
     esac
 fi
@@ -260,7 +253,7 @@ AC_CHECK_FUNC(poll, [AC_DEFINE(USE_POLL, 1, [poll() function is available])], )
 #
 AC_MSG_CHECKING([keysym definitions])
 AC_ARG_WITH([keysymdefdir],
-        [AC_HELP_STRING([--with-keysymdefdir=DIR], [The location of keysymdef.h (defaults to xproto include dir)])],
+        [AS_HELP_STRING([--with-keysymdefdir=DIR], [The location of keysymdef.h (defaults to xproto include dir)])],
         [KEYSYMDEFDIR=$withval],
         [KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11])
 
