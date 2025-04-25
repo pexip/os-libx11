@@ -31,12 +31,6 @@ Major "forward port" by Nathanael Nerode.
 Partially submitted upstream.  This is so large I don't expect it to all go in at once,
 but any bit would help.  --Nathanael
 
----
- nls/compose.dir.pre  |   54 +++++++++++++++++++++++++++++++++++++++++----------
- nls/locale.alias.pre |   14 +++++++++----
- nls/locale.dir.pre   |   39 +++++++++++++++++++++++++++++++++---
- 3 files changed, 89 insertions(+), 18 deletions(-)
-
 --- a/nls/compose.dir.pre
 +++ b/nls/compose.dir.pre
 @@ -4,8 +4,13 @@ XCOMM	The first word is the compose tabl

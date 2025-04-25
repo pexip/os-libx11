@@ -305,7 +305,7 @@ typedef unsigned char XrmBits;
 static XrmBits const xrmtypes[256] = {
     EOS,0,0,0,0,0,0,0,
     0,SPACE,EOL,0,0,
-#if defined(WIN32) || defined(__UNIXOS2__)
+#ifdef WIN32
                     EOL,	/* treat CR the same as LF, just in case */
 #else
                     0,
@@ -1183,12 +1183,12 @@ static void GetDatabase(
 	if (c == '#') { /* Directive */
 	    /* remove extra whitespace */
 	    only_pcs = True;
-	    while (is_space(bits = next_char(c, str))) {};
+	    while (is_space(bits = next_char(c, str))) {}
 	    /* only "include" directive is currently defined */
 	    if (!strncmp(str, "include", 7)) {
 		str += (7-1);
 		/* remove extra whitespace */
-		while (is_space(bits = next_char(c, str))) {};
+		while (is_space(bits = next_char(c, str))) {}
 		/* must have a starting " */
 		if (c == '"') {
 		    _Xconst char *fname = str+1;
@@ -1575,9 +1575,6 @@ ReadInFile(_Xconst char *filename)
     register int fd, size;
     char * filebuf;
 
-#ifdef __UNIXOS2__
-    filename = __XOS2RedirRoot(filename);
-#endif
 
     /*
      * MS-Windows and OS/2 note: Default open mode includes O_TEXT
@@ -1609,18 +1606,6 @@ ReadInFile(_Xconst char *filename)
 	return (char *)NULL;
     }
     size = read (fd, filebuf, size);
-
-#ifdef __UNIXOS2__
-    { /* kill CRLF */
-      int i,k;
-      for (i=k=0; i<size; i++)
-	if (filebuf[i] != 0x0d) {
-	   filebuf[k++] = filebuf[i];
-	}
-	filebuf[k] = 0;
-    }
-#endif
-
     if (size < 0) {
 	close (fd);
 	Xfree(filebuf);
