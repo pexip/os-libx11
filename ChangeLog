@@ -1,3 +1,2180 @@
+commit 59917d28a3c41ad22d6fc52e323cafe2cdd596d5
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Mar 8 15:23:04 2025 -0800
+
+    libX11 1.8.12
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 5f8077b257ea27a5fd6f114d2bc15284b2416b3c
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Thu Nov 28 14:09:04 2024 +0100
+
+    xkb: Fix buffer overflow in XkbChangeTypesOfKey()
+    
+    If XkbChangeTypesOfKey() is called with nGroups == 0, it will resize the
+    key syms to 0 but leave the key actions unchanged.
+    
+    If later, the same function is called with a non-zero value for nGroups,
+    this will cause a buffer overflow because the key actions are of the wrong
+    size.
+    
+    To avoid the issue, make sure to resize both the key syms and key actions
+    when nGroups is 0.
+    
+    (cherry picked from xorg/xserver@0e4ed94952b255c04fe910f6a1d9c852878dcd64)
+    
+    Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+    Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit 865fd56aeb5c5d1812cce46ed197873c48b08692
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 1 15:45:08 2020 -0800
+
+    xkb: always set *mask_rtrn in XkbVirtualModsToReal
+    
+    Resolves warning from Oracle Parfait static analyser:
+    
+    Error: Uninitialised memory
+       Uninitialised memory variable [uninitialised-mem-var] (CWE 457):
+          Possible access to uninitialised memory referenced by variable 'mask'
+            at line 721 of xkb/XKBMisc.c in function 'XkbUpdateKeyTypeVirtualMods'.
+            Path in callee avoiding write at line 720
+              mask allocated at line 718
+    
+    (cherry picked from xorg/xserver@a6574033f464c7cde02bce8f1b130ff6b2b2d9eb)
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit 88d1a84ca3c0f87ffcb83b9b96e34a7121d5e2d3
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Feb 22 11:59:13 2025 -0800
+
+    XkbChangeTypesOfKey: verify newTypesIn is not null before using it
+    
+    Based on xorg/xserver@97c9e6a7139e07a0761be05034fae42fcd65ba36
+    
+    Fixes: 8ba0ca32 ("Janitor: ansification, make distcheck, compiler warnings.")
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit 48a1335cab13d883e15b4eb5e9a5e080289a5c64
+Author: Siddhesh Poyarekar <siddhesh.poyarekar@gmail.com>
+Date:   Tue May 29 10:17:50 2012 +0530
+
+    xkb: Allocate size_syms correctly when width of a type increases
+    
+    The current code seems to skip syms with width less than
+    type->num_levels when calculating the total size for the new
+    size_syms. This leads to less space being allocated than necessary
+    during the next phase, which is to copy over the syms to the new
+    location. This results in an overflow leading to a crash.
+    
+    (cherry picked from xorg/xserver@42ae2e8199fe875319978249963de7499607988b)
+    
+    Signed-off-by: Siddhesh Poyarekar <siddhesh.poyarekar@gmail.com>
+    Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit 158be3ebd7d1da4d16bfc2dee82aac477fbcb833
+Author: Daniel Stone <daniel@fooishbar.org>
+Date:   Wed Mar 21 02:04:12 2007 +0200
+
+    XKB: Fix size_syms calculation bug
+    
+    Apparently it needed to be nSyms*15/10, not *12/10; make it match the
+    other allocation code.
+    
+    (cherry picked from xorg/xserver@f292de2ef13dc994a38029cee9e2642576893332)
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit d6e1ca046aef42ec5465ece5edbdffe0bc7c0cb6
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Feb 22 10:13:52 2025 -0800
+
+    XkbFreeKeyboard: set xkb->geom to NULL after freeing it
+    
+    Because XkbFreeGeometry takes a pointer to the geometry structure,
+    and not the overall xkb structure like the other XkbFree*() calls,
+    the caller is responsible for clearing the xkb->geom pointer to
+    ensure it is not used after free.
+    
+    Based on xorg/xserver@629798c73ad76a77fa6a55bc6403fd9b95ade2bb
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/279>
+
+commit 4a3ca6eeced253aacb0e2ecf640b9eb93863badc
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 23 15:19:54 2025 -0800
+
+    x11.pc: Add URL field
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/280>
+
+commit 23f0352eca362515d598bfdbd8ecec070dcd1b28
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 2 13:54:27 2025 -0800
+
+    libX11 1.8.11
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 4665733565eda7ae32302c3abf1aaf5075b8abde
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Jan 11 10:31:08 2025 -0800
+
+    configure: drop `pthread-stubs` dependency on Dragonfly, FreeBSD, & NetBSD
+    
+    syncs with changes to libxcb 1.16 & 1.16.1
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/277>
+
+commit ba15d51bfe789e84e291ccfb31d5f0ae6192969e
+Author: Aaron Muir Hamilton <aaron@correspondwith.me>
+Date:   Sun Oct 27 21:42:23 2024 -0400
+
+    ximcp/imRm.c: allow XNArea with OnTheSpot
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/270>
+
+commit 61175323a8a374aaedb139894987ddaf2bb2ba27
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Dec 30 10:27:23 2024 -0800
+
+    cmsColNm: remove obsolete comment about FirstCmp being public
+    
+    It was made a static function in May 14, 1991 by rws in
+    commit "make FirstCmp static" for X11R5
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/276>
+
+commit 7c75a066454fbafe586f7c24aeee65348f9d2bcc
+Author: Pierre Le Marre <dev@wismill.eu>
+Date:   Mon Dec 9 14:51:17 2024 +0100
+
+    Fix misuse of UCSConvertCase in XConvertCase
+    
+    There are two issues with the use of `UCSConvertCase` in `XConvertCase`:
+    
+    - Some Latin-1 keysyms do not map within Latin-1, e.g. `ssharp`.
+      Only Latin-1 keysyms have the same value as the Unicode code point of
+      their corresponding character. So `UCSConvertCase` does not work for
+      some Latin-1 keysyms as it returns Unicode code points outside Latin-1
+      that do not match their corresponding keysyms values.
+    - Some Unicode keysyms should map to Latin-1 keysyms (<0x100). But the
+      Unicode keysym mask 0x01000000 is applied blindly to the result of
+      `UCSConvertCase`, resulting in invalid Unicode keysyms (0x010000nn)
+      while they should be Latin-1 keysyms.
+    
+    Example with ß/ẞ:
+    
+    ```c
+    KeySym lower, upper;
+    
+    XConvertCase(XK_ssharp, &lower, &upper);
+    // Expected: lower == XK_ssharp, upper == U1E9E
+    // Got:      lower == XK_ssharp, upper == 0x1E9E
+    
+    XConvertCase(U1E9E, &lower, &upper);
+    // Expected: lower == XK_ssharp, upper == U1E9E
+    // Got:      lower == 0x10000df, upper == U1E9E
+    ```
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/274>
+
+commit 5a7d94e07fc7e4a10d6399f5e44793fa0c896af6
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Tue Nov 12 12:40:04 2024 -0800
+
+    xkb: avoid undefined behavior due to left shift overflow
+    
+    Closes: #225
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/273>
+
+commit 1ef3c6f010c03eade038b4e662c0eef47014800d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 15:38:25 2024 -0800
+
+    XIM_SET_PAD: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 8 warnings from clang of the form:
+    
+    imDefIc.c:366:29: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+            XIM_SET_PAD(&buf_s[2], len);            /* pad */
+                                       ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 22ded6890e9d11cc9eca59737fc531d40ec284a6
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 15:30:48 2024 -0800
+
+    Xrm.c: remove unneccessary ; after {}
+    
+    Clears 2 clang warnings:
+    
+    Xrm.c:1186:51: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                while (is_space(bits = next_char(c, str))) {};
+                                                             ^
+    Xrm.c:1191:48: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                    while (is_space(bits = next_char(c, str))) {};
+                                                                 ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit b7f59114abb4a4766d7fd5805d0435d023cd0c4b
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 15:29:21 2024 -0800
+
+    DL_APPEND/DL_DELETE: remove trailing semicolon from definitions
+    
+    Clears 2 clang warnings:
+    
+    XlibInt.c:672:26: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        DL_APPEND(*head, add);
+                             ^
+    XlibInt.c:694:36: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                DL_DELETE(*head, event);
+                                       ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit da431b8f7ff21d36b5a88237c991ca43b185d65f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 15:25:40 2024 -0800
+
+    xcb_io.c: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 10 warnings from clang of the form:
+    
+    xcb_io.c:177:56: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                                             xcb_xlib_unknown_req_in_deq);
+                                                                         ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit a53c45d69e88799e59dfbd324843df65a30cf4a9
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 13:16:41 2024 -0800
+
+    CI_GET_*_INFO_*: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 24 warnings from clang of the form:
+    
+    TextExt16.c:63:34: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+            CI_GET_DEFAULT_INFO_1D (fs, def);
+                                            ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 68912288218527846b04cbe8d647a2c252e82e20
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 13:11:12 2024 -0800
+
+    RETURN: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 5 warnings from clang of the form:
+    
+    RdBitF.c:141:32: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                RETURN (BitmapFileInvalid);
+                                          ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 38c642c8ebd69f761fdda03664eba6889a331598
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 13:08:31 2024 -0800
+
+    poly.h: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 3 warnings from clang of the form:
+    
+    PolyReg.c:224:67: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                BRESINITPGONSTRUCT(dy, top->x, bottom->x, pETEs->bres);
+                                                                      ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 906bf4a86d174ed20fda925d8f82de023aa26d2d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 12:37:53 2024 -0800
+
+    PutCommandResource: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 4 warnings from clang of the form:
+    
+    ParseCmd.c:158:43: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                        PutCommandResource(options[i].value);
+                                                            ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit c0768ab687fa07f83d0030dd161f4aa49cbe84f8
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 12:35:44 2024 -0800
+
+    GetFunc: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 4 warnings from clang of the form:
+    
+    CrGlCur.c:140:64: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        GetFunc (TryShapeCursorFunc, "XcursorTryShapeCursor", func);
+                                                                   ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 49350501687d9633a86ae317d5311228e7d812e8
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 12:33:01 2024 -0800
+
+    _XCreateMutex/_XFreeMutex: remove trailing semicolon from definitions
+    
+    Makes them match the style of the other macros here and clears
+    up 5 clang warnings of the form:
+    
+    Context.c:194:27: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+            _XCreateMutex(&db->linfo);
+                                     ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 41c4aa408c3488e920e1f08eb946442faa051e6c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 11:52:19 2024 -0800
+
+    OneDataCard32: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 13 warnings from clang of the form:
+    
+    Backgnd.c:44:72: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        OneDataCard32 (dpy, NEXTPTR(req,xChangeWindowAttributesReq), pixel);
+                                                                           ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 68e6caad8fcad28143769384536d4529fe0161c4
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 11:48:41 2024 -0800
+
+    _XkbCheckPendingRefresh: add do ... while (0) to avoid -Wextra-semi-stmt
+    
+    Clears 6 warnings from clang of the form:
+    
+    XKBBind.c:74:48: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        _XkbCheckPendingRefresh(dpy, dpy->xkb_info);
+                                                   ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 563ddd4ff5575e3f8bbf635cbdc339b09a7e285e
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 11:09:56 2024 -0800
+
+    BufAlloc: add do { ... } while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 46 warnings from clang of the form:
+    
+    XKB.c:207:69: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+            BufAlloc(char *, out, (((size * 2) + (unsigned) 3) / 4) * 4);
+                                                                        ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 5e22c4b3d56d8327d8610faabc8ecfc0c45399de
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 11:06:28 2024 -0800
+
+    set_toupper: add do { ... } while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 4 warnings from clang of the form:
+    
+    lcUtil.c:53:18: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+            set_toupper(ch1);
+                            ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 4cb567d9a05b4a995a50e2fe178c2e697d339668
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 10:27:39 2024 -0800
+
+    Data: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 38 warnings from clang of the form:
+    
+    cmsLkCol.c:155:35: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        Data (dpy, colorname, (long)n);
+                                      ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 9ab8f6a5f73cbe0675d1555504f6ec269c9dde8d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Nov 10 10:14:49 2024 -0800
+
+    DeqAsyncHandler: add do ... while (0) to avoid -Wextra-semi-stmt warnings
+    
+    Clears 12 warnings from clang of the form:
+    
+    cmsCmap.c:194:34: warning: empty expression statement has no effect;
+     remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                DeqAsyncHandler(dpy, &async);
+                                            ^
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/272>
+
+commit 8703ecf105d5bf6e5b105bc25ceaee8f43344c71
+Author: Julien Cristau <jcristau@debian.org>
+Date:   Fri Nov 1 13:03:56 2024 +0100
+
+    ximcp: hide internal functions
+    
+    commit 13e9ac4d45 "ximcp: Unmark to fabricate key events with XKeyEvent
+    serial" added new _XimFabricateSerial / _XimUnfabricateSerial /
+    _XimIsFabricatedSerial functions; they don't need to be exported by
+    libX11.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/271>
+
+commit 41bc1a9dbe5b634489539f7779078d4a3b35df5e
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Oct 26 11:02:42 2024 -0700
+
+    ximcp: don't leak window if XGetAtomName() fails
+    
+    Found by Oracle Parfait 13.3 static analyzer:
+       X Resource Leak [X-resource-leak]:
+          Leaked X Resource window
+            at line 306 of imDefIm.c in function '_XimPreConnectionIM'.
+              window initialized at line 300 with XCreateSimpleWindow
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/269>
+
+commit df1f1a47f90e71fbe68b1fe57bd021ac2320579b
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Jul 21 12:31:56 2024 -0700
+
+    _XGetRequest: Set data field to 0 when initializing new requests
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/268>
+
+commit f2ebbce6d0978d2d84f840196b03ee35a3ca1736
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Sep 29 10:24:23 2024 -0700
+
+    _XimStrConversionCallback: use size_t to calculate size to malloc
+    
+    Avoids build failures with gcc 14.2 when MALLOC_0_RETURNS_NULL is defined:
+    
+    imCallbk.c:346:9: error: ‘memcpy’ offset 10 is out of the bounds [0, 1]
+     [-Werror=array-bounds=]
+      346 |         memcpy(&buf[p],&cbrec.text->string.mbs,length_in_bytes);
+          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/267>
+
+commit 75c5bdee81b3a1147c2f123db7a052a4a79fbea4
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Sep 29 10:04:40 2024 -0700
+
+    _XimEncodingNegotiation: swap order of arguments to calloc
+    
+    Avoids build failures with gcc 14.2 when MALLOC_0_RETURNS_NULL is defined:
+    
+    imDefIm.c: In function ‘_XimEncodingNegotiation’:
+    imDefIm.c:1739:15: error: ‘memcpy’ offset 8 is out of the bounds [0, 1]
+     [-Werror=array-bounds=]
+     1739 |         (void)memcpy((char *)&buf_s[2], name_ptr, name_len);
+          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/267>
+
+commit 1f01aafa6d9100c5d4a48636b188334cdb223bd5
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Sep 29 09:06:32 2024 -0700
+
+    _XlcDefaultMapModifiers: remove conversions between size_t & int
+    
+    Avoids build failures with gcc 14.2 when MALLOC_0_RETURNS_NULL is defined:
+    
+    lcWrap.c: In function ‘_XlcDefaultMapModifiers’:
+    lcWrap.c:149:9: warning: ‘strcpy’ writing between 4294967296 and
+     9223372036854775806 bytes into a region of size 1 [-Wstringop-overflow=]
+      149 |         strcpy(mods, prog_mods);
+          |         ^~~~~~~~~~~~~~~~~~~~~~~
+    ../../include/X11/Xlibint.h:457:24: note: destination object of size 1
+     allocated by ‘malloc’
+      457 | # define Xmalloc(size) malloc((size_t)((size) == 0 ? 1 : (size)))
+          |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    lcWrap.c:147:12: note: in expansion of macro ‘Xmalloc’
+      147 |     mods = Xmalloc(i);
+          |            ^~~~~~~
+    lcWrap.c:149:9: error: ‘__builtin_memcpy’ forming offset [1, 4294967295]
+     is out of the bounds [0, 1] [-Werror=array-bounds=]
+      149 |         strcpy(mods, prog_mods);
+          |         ^~~~~~~~~~~~~~~~~~~~~~~
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/267>
+
+commit 86e71472bc826ac5c850e200cb3820485b5689cf
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Aug 31 10:49:16 2024 -0700
+
+    SetFontPath: if ndirs is 0, skip work to make a list of directories
+    
+    Clears warning from gcc 14.1:
+    
+    SetFPath.c: In function ‘XSetFontPath’:
+    ../include/X11/Xlibint.h:463:24: warning: argument 1 value is zero
+     [-Walloc-zero]
+      463 | # define Xmalloc(size) malloc((size_t)(size))
+          |                        ^~~~~~~~~~~~~~~~~~~~~~
+    SetFPath.c:61:18: note: in expansion of macro ‘Xmalloc’
+       61 |         if ((p = Xmalloc (nbytes))) {
+          |                  ^~~~~~~
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/266>
+
+commit 19b2f5c2d0935cbf9c17ecf30604f80592807b59
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Fri Aug 9 10:24:13 2024 +0200
+
+    Fix indentation
+    
+    Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/264>
+
+commit f3d6ebac35301d4ad068e307f0fbe6aa12ccbccb
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Fri Aug 9 09:21:31 2024 +0200
+
+    Close xcb connection after freeing display structure
+    
+    Commit 1472048b7 to fix a colormap threading issue added a display
+    lock/unlock and a call to SyncHandle() to _XcmsFreeClientCmaps().
+    
+    When running synchronized, that means calling XSync().
+    
+    _XcmsFreeClientCmaps() is called from _XFreeDisplayStructure() via
+    XCloseDisplay() after the xcb connection is closed.
+    
+    So when running synchronized, we may end up calling XSync() after the
+    xcb connection to the display is closed, which will generate a spurious
+    XIO error:
+    
+      | #0 in _XDefaultIOError () at /lib64/libX11.so.6
+      | #1 in _XIOError () at /lib64/libX11.so.6
+      | #2 in _XReply () at /lib64/libX11.so.6
+      | #3 in XSync () at /lib64/libX11.so.6
+      | #4 in _XSyncFunction () at /lib64/libX11.so.6
+      | 8#5 in _XFreeDisplayStructure () at /lib64/libX11.so.6
+      | 8#6 in XCloseDisplay () at /lib64/libX11.so.6
+    
+    To avoid that issue, closed the xcb connection to the display last.
+    
+    v2: And same in OutOfMemory() as well (José Expósito)
+    
+    Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+    Reviewed-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/264>
+
+commit ed9fb5535efe1e5278654b6b3994a34337b4bf1a
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Jul 28 10:37:55 2024 -0700
+
+    libX11 1.8.10
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 92014b39634e0b0aa52d4bff955a7aac3ed0a915
+Author: Kelly Roadkill <roadkell@pm.me>
+Date:   Tue Jul 23 08:12:01 2024 +0500
+
+    Revert "nls: add compose seq's for symbols absent from Cyrillic layouts to ru_RU"
+    
+    Testing by multilingual typists revealed that the
+    proposed sequences are too complex for everyday
+    use. It seems that the inherent problems with
+    JCUKEN can only be fixed with better kbd layouts.
+    
+    This reverts commit 174df0b8b6ada7e1c741373c7d686e00f42d8bd5.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/261>
+
+commit be137dffa6f0b7640ce80b4266539009544bb045
+Author: Kelly Roadkill <roadkell@pm.me>
+Date:   Fri Jul 19 16:47:40 2024 +0500
+
+    nls: add compose sequences for hryvnia currency
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/259>
+
+commit 39d57cbeda627115f7e8bd305b6cbd9df1daa007
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Jul 13 10:14:02 2024 -0700
+
+    xlibi18n/lcFile.c: avoid use of possibly-NULL pointer with strcpy
+    
+    Fixes gcc warnings:
+    lcFile.c: In function ‘_XlcLocaleLibDirName’:
+    lcFile.c:708:5: warning: use of possibly-NULL ‘last_dir_name’ where
+     non-null expected [CWE-690] [-Wanalyzer-possible-null-argument]
+      708 |     strcpy (last_dir_name, dir_name);
+          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/258>
+
+commit 8abcaba1a7ee363a35ad8d869715095096995c76
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Jul 6 09:37:50 2024 -0700
+
+    Revert "unifdef __vax__"
+    
+    This reverts commit 4ce3962b701c502acc96b6eaf104a5ffc317c5d7.
+    Requested by NetBSD which still has a supported VAX port.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/257>
+
+commit 751fbc59c30604980fdd19cb4b333d3cf2eccb24
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Fri Jun 21 14:37:24 2024 +0200
+
+    Fix deadlock in XRebindKeysym()
+    
+    Xlib is now built with threading support enabled from the constructor
+    by default.
+    
+    XRebindKeysym() acquires the display lock, then calls:
+    
+    | XRebindKeysym()
+    |  LockDisplay()
+    |  ComputeMaskFromKeytrans()
+    |    -> XkbKeysymToModifiers()
+    |        -> _XkbLoadDpy()
+    |            -> XkbGetMap()
+    |                -> XkbGetUpdatedMap()
+    |                   LockDisplay()
+    
+    And the dead lock:
+    
+    | Xlib ERROR: XKBGetMap.c line 575 thread 1fc6e580: locking display already
+    | locked at KeyBind.c line 937
+    
+    To avoid the issue, call ComputeMaskFromKeytrans() from outside the display
+    lock.
+    
+    Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+    Closes: https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/216
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/256>
+
+commit bc8c908ae8007d0bfe9b58c7752dd00fd282d999
+Author: Kelly Roadkill <roadkell@pm.me>
+Date:   Tue Jun 18 14:49:50 2024 +0500
+
+    nls: delete compose sequence with anomalous post-fixed cedilla
+    
+    The only sequence with post-fixed cedilla in the
+    whole en_US.UTF-8 was introduced in cf040016 with
+    the merge of GTK+ compose sequences 12 years ago.
+    It goes against the established patterns.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/255>
+
+commit 1472048b7a02d1b7fc25cfeda761db23fba21eac
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Fri Jun 7 09:05:55 2024 +0200
+
+    Make colormap private interfaces thread safe.
+    
+    Protect access to the dpy structure by a display lock, so that these can
+    be called outside of a global display lock.
+    
+    That allows the XCMS colormap functions to be thread safe without having
+    the whole functions within a display lock, to avoid deadlocks.
+    
+    Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+    See-also: https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/215
+    See-also: https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/94
+    Reviewed-by: Adam Jackson <ajax@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/254>
+
+commit 739fce4c12c7aa39112353d80c8a3bf25bdd5274
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Fri Jun 7 09:07:39 2024 +0200
+
+    Revert "Protect colormap add/removal with display lock"
+    
+    That commit 99a2cf1aa was moving the calls to the _Xcms*CmapRec*()
+    family of functions within a display lock to make the XCMS colormap
+    functions thread safe.
+    
+    Unfortunately, that causes a deadlock in XCopyColormapAndFree(), because
+    _XcmsCopyCmapRecAndFree() calls CmapRecForColormap() which calls
+    XGetVisualInfo() which also tries to acquire the display lock.
+    
+    So, instead of moving the entire functions within the display lock,
+    let's try to make the functions themselves thread safe in the following
+    commit, and revert this change which causes a deadlock.
+    
+    This reverts commit 99a2cf1aa0b58391078d5d3edf0a7dab18c7745d.
+    
+    Fixes: https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/215
+    See-also: https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/94
+    Reviewed-by: Adam Jackson <ajax@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/254>
+
+commit 5dfedaf4aa1a032ea6cb4e871abd2e065f798129
+Author: Olivier Fourdan <ofourdan@redhat.com>
+Date:   Thu Jun 6 16:25:26 2024 +0200
+
+    Revert "Fix XTS regression in XCopyColormapAndFree"
+    
+    This change was to fix the next change that we are to revert as well.
+    
+    This reverts commit 68c72a7341b114277ab232f2499ee3bd035af8a0.
+    
+    Reviewed-by: Adam Jackson <ajax@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/254>
+
+commit c099d0105f7a4f969cf922f333cb54c177aceacb
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat May 18 11:41:36 2024 -0700
+
+    Avoid buffer overflow in _XimLookupMBText & _XimLookupUTF8Text
+    
+    Reported-by: u32i <u32i@proton.me>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/251>
+
+commit 0af3328dc330cbd8e097e2971b336b44466b1ab0
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Sun Jul 16 11:31:22 2023 -0400
+
+    NLS: Add 6 Multi_key sequences for Ezh
+    
+    Ezh is a Latin-Script letter belonging to several Uralic, Caucasian,
+    and West-African languages. It is present on some Finnish keyboards,
+    but users of many other layouts cannot presently type it. This commit
+    adds Multi_key sequences for both Capital and lowercase Ezh, as well
+    as Multi_key + dead_caron sequences for Ezh with a caron, which is
+    used in Laz and Skolt Sámi.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/221>
+
+commit 174df0b8b6ada7e1c741373c7d686e00f42d8bd5
+Author: Kelly Roadkill <roadkell@pm.me>
+Date:   Sun Dec 3 00:53:55 2023 +0500
+
+    nls: add compose seq's for symbols absent from Cyrillic layouts to ru_RU
+    
+    JCUKEN (ЙЦУКЕН) - the default and de-facto standard layout for most Cyrillic scripts - lacks a number of ASCII symbols from QWERTY counterpart, forcing users to switch back-and-forth between layouts to type them.
+    This adds sequences for them to the ru_RU compose map in an intuitive and consistent manner.
+    
+    Fixes #200 for ru_RU (but other Cyrillic layouts might benefit too)
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/238>
+
+commit 763f3f938c24993e9ceb1d6960d939b022fa8dfe
+Author: Mohamed Akram <mohd.akram@outlook.com>
+Date:   Fri May 24 18:18:43 2024 +0400
+
+    nls: add Arabic hamza compose sequences
+    
+    These sequences are intended for use in the ara(mac-phonetic) and
+    my(phonetic) layouts. They are based on the following layouts listed in
+    the CLDR:
+    
+    - https://github.com/unicode-org/cldr/blob/release-43/keyboards/osx/ar-t-k0-osx-qwerty.xml
+    - https://github.com/unicode-org/cldr/blob/release-43/keyboards/osx/ms-t-k0-osx.xml
+    
+    The sequences are listed in the `<transforms>` section, and are
+    reproduced below:
+    
+    ```
+    <transforms type="simple">
+            <transform from="ء\u{64E}" to="آ"/> <!--  ءَ → آ -->
+            <transform from="ء\u{650}" to="إ"/> <!--  ءِ → إ -->
+            <transform from="ء " to="ء"/>
+            <transform from="ء\u{A0}" to="ء"/>
+            <transform from="ء!" to="إ"/>
+            <transform from="ء١" to="إ"/>
+            <transform from="ءا" to="أ"/>
+            <transform from="ءس" to="ئ"/>
+            <transform from="ءو" to="ؤ"/>
+            <transform from="ءي" to="ئ"/>
+            <transform from="ءى" to="ئ"/>
+    </transforms>
+    ```
+    
+    We limit ourselves to the sequences that strictly combine a character
+    and a hamza, and generate that character with a hamza on it, following
+    the behavior in sequences of other dead keys. Additional sequences,
+    potentially for other layouts as well, could be added later on as
+    necessary.
+    
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/218>
+
+commit 97fb5bda3d0777380cd4b964f48771a82ef3f2a7
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 18:21:08 2024 +0200
+
+    Fix buffer overrun in parse_omit_name
+    
+    When `num_fields == 12`, if the last character of the pattern is '-',
+    the `buf` array is overrun.
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: OVERRUN (CWE-119):
+        libX11-1.8.7/modules/om/generic/omGeneric.c:691: cond_at_most:
+          Checking "length > 255" implies that "length" may be up to 255 on
+          the false branch.
+        libX11-1.8.7/modules/om/generic/omGeneric.c:695: alias:
+          Assigning: "last" = "buf + length - 1". "last" may now point to as
+          high as byte 254 of "buf" (which consists of 256 bytes).
+        libX11-1.8.7/modules/om/generic/omGeneric.c:718: ptr_incr:
+          Incrementing "last". "last" may now point to as high as byte 255
+          of "buf" (which consists of 256 bytes).
+        libX11-1.8.7/modules/om/generic/omGeneric.c:720: ptr_incr:
+          Incrementing "last". "last" may now point to as high as byte 256
+          of "buf" (which consists of 256 bytes).
+        libX11-1.8.7/modules/om/generic/omGeneric.c:720: overrun-local:
+          Overrunning array of 256 bytes at byte offset 256 by
+          dereferencing pointer "++last".
+        #  718|               *++last = '*';
+        #  719|
+        #  720|->         *++last = '-';
+        #  721|           break;
+        #  722|       case 13:
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit f67a87dad40141f50f4da35b28a92a974bfdf7e1
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 18:04:35 2024 +0200
+
+    Fix memory leak in _XimProtoSetIMValues
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: RESOURCE_LEAK (CWE-772):
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1316: alloc_fn:
+          Storage is returned from allocation function "calloc".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1316: var_assign:
+          Assigning: "tmp" = storage returned from
+          "calloc((size_t)((buf_size + data_len == 0) ? 1 : (buf_size + data_len)), 1UL)".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1319: noescape:
+          Resource "tmp" is not freed or pointed-to in "memcpy".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1320: var_assign:
+          Assigning: "buf" = "tmp".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1302: var_assign:
+          Assigning: "data" = "buf".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1303: noescape:
+          Resource "data" is not freed or pointed-to in
+          "_XimEncodeIMATTRIBUTE".
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1333: leaked_storage:
+          Variable "data" going out of scope leaks the storage it points to.
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1333: leaked_storage:
+          Variable "buf" going out of scope leaks the storage it points to.
+        libX11-1.8.7/modules/im/ximcp/imDefIm.c:1333: leaked_storage:
+          Variable "tmp" going out of scope leaks the storage it points to.
+        # 1331|
+        # 1332|       if (!total)
+        # 1333|->         return (char *)NULL;
+        # 1334|
+        # 1335|       buf_s = (CARD16 *)&buf[XIM_HEADER_SIZE];
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit af1312d2873d2ce49b18708a5029895aed477392
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 17:37:39 2024 +0200
+
+    XKBMAlloc: Check that needed is >= 0 in XkbResizeKeyActions
+    
+    Passing a negative value in `needed` to the `XkbResizeKeyActions()`
+    function can create a `newActs` array of an unespected size.
+    Check the value and return if it is invalid.
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: OVERRUN (CWE-119):
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:811: cond_const:
+          Checking "xkb->server->size_acts == 0" implies that
+          "xkb->server->size_acts" is 0 on the true branch.
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:811: buffer_alloc:
+          "calloc" allocates 8 bytes dictated by parameters
+          "(size_t)((xkb->server->size_acts == 0) ? 1 : xkb->server->size_acts)"
+          and "8UL".
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:811: var_assign:
+          Assigning: "newActs" = "calloc((size_t)((xkb->server->size_acts == 0) ? 1 : xkb->server->size_acts), 8UL)".
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:815: assignment:
+          Assigning: "nActs" = "1".
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:829: cond_at_least:
+          Checking "nCopy > 0" implies that "nCopy" is at least 1 on the
+          true branch.
+        libX11-1.8.7/src/xkb/XKBMAlloc.c:830: overrun-buffer-arg:
+          Overrunning buffer pointed to by "&newActs[nActs]" of 8 bytes by
+          passing it to a function which accesses it at byte offset 15
+          using argument "nCopy * 8UL" (which evaluates to 8).
+        #  828|
+        #  829|           if (nCopy > 0)
+        #  830|->             memcpy(&newActs[nActs], XkbKeyActionsPtr(xkb, i),
+        #  831|                      nCopy * sizeof(XkbAction));
+        #  832|           if (nCopy < nKeyActs)
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit 836a8f2cf5e930c8a56b512273fdf9890282ba04
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 16:49:26 2024 +0200
+
+    Fix use of uninitialized variable in _XimEncodeICATTRIBUTE
+    
+    In the `res->resource_size == XimType_NEST` code path, if
+    `res->xrm_name != pre_quark` and `res->xrm_name != sts_quark`, `len` can
+    be used uninitialized.
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: UNINIT (CWE-457):
+        libX11-1.8.7/modules/im/ximcp/imRmAttr.c:1106: var_decl:
+          Declaring variable "len" without initializer.
+        libX11-1.8.7/modules/im/ximcp/imRmAttr.c:1179: uninit_use:
+          Using uninitialized value "len".
+        # 1177|           }
+        # 1178|
+        # 1179|->         if (len == 0) {
+        # 1180|               continue;
+        # 1181|           } else if (len < 0) {
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit eaad761e24722b1743d3edee3383294bfb4947d6
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 16:41:40 2024 +0200
+
+    Fix use of uninitialized variable in _XimExtension
+    
+    `_XimRead()` is being called with `reply` as target buffer instead of
+    using `preply`, accessing uninitialized memory a few lines later.
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: UNINIT (CWE-457):
+        libX11-1.8.7/modules/im/ximcp/imExten.c:468: alloc_fn:
+          Calling "malloc" which returns uninitialized memory.
+        libX11-1.8.7/modules/im/ximcp/imExten.c:468: assign:
+          Assigning: "preply" = "malloc((size_t)((buf_size == 0) ? 1 : buf_size))",
+          which points to uninitialized data.
+        libX11-1.8.7/modules/im/ximcp/imExten.c:479: uninit_use:
+          Using uninitialized value "*((CARD8 *)preply)".
+        #  477|           return False;
+        #  478|       buf_s = (CARD16 *)((char *)preply + XIM_HEADER_SIZE);
+        #  479|->     if (*((CARD8 *)preply) == XIM_ERROR) {
+        #  480|           _XimProcError(im, 0, (XPointer)&buf_s[3]);
+        #  481|               if(reply != preply)
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit 4f5541193dd5a004ed5ea44c12fc25e227113c9b
+Author: José Expósito <jexposit@redhat.com>
+Date:   Tue Apr 30 16:37:21 2024 +0200
+
+    Fix use of uninitialized variable in _XimTriggerNotify
+    
+    `_XimRead()` is being called with `reply` as target buffer instead of
+    using `preply`, accessing uninitialized memory a few lines later.
+    
+    This error has been found by a static analysis tool. This is the report:
+    
+        Error: UNINIT (CWE-457):
+        libX11-1.8.7/modules/im/ximcp/imDefLkup.c:561: alloc_fn:
+          Calling "malloc" which returns uninitialized memory.
+        libX11-1.8.7/modules/im/ximcp/imDefLkup.c:561: assign:
+          Assigning: "preply" = "malloc((size_t)((len == 0) ? 1 : len))",
+          which points to uninitialized data.
+        libX11-1.8.7/modules/im/ximcp/imDefLkup.c:573: uninit_use:
+          Using uninitialized value "*((CARD8 *)preply)".
+        #  571|       }
+        #  572|       buf_s = (CARD16 *)((char *)preply + XIM_HEADER_SIZE);
+        #  573|->     if (*((CARD8 *)preply) == XIM_ERROR) {
+        #  574|           _XimProcError(im, 0, (XPointer)&buf_s[3]);
+        #  575|           if(reply != preply)
+    
+    Signed-off-by: José Expósito <jexposit@redhat.com>
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/250>
+
+commit 90b8fc65da1e773b0091a50be46b23609591e8b7
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 26 01:29:39 2024 +0900
+
+    imDefIm: Add LIBX11_ENABLE_FABRICATED_ORDER env
+    
+    If an XIM application does not return the XKeyEvent from XNextEvent()
+    to XFilterEvent(), a timeout is reached and the behavior is fallen
+    back to the previous one with a warning messsage and we can ask
+    the application to send the XKeyEvent to XFilterEvent() but also
+    libX11 provides LIBX11_ENABLE_FABRICATED_ORDER environment variable.
+    If the application runs with LIBX11_ENABLE_FABRICATED_ORDER=0, the
+    previous behavior is available until the application is fixed.
+    
+    Closes: !246
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit 898746f9b1fb384d6d24ed827c836ec8a0b3da3b
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 26 01:29:34 2024 +0900
+
+    ximcp: Unmark fabricated with serial 0 and Xic commit_info
+    
+    GTK2 XIM resets the XKeyEvent serial to 0 even if _XimCommitRecv()
+    sets the serial so now checks if the events are sent with
+    Xic->private.proto.commit_info.
+    
+    Closes: !246
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit 5a1e62d77b65ba148b1c6d1d22a81dc2b07e7d9e
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 26 01:29:26 2024 +0900
+
+    Accept anon windows in XFilterEvent to update XIM state
+    
+    When input focuses are switched quickly with shortcut keys in a Java
+    window, the focus is sometimes lost and the Window=0 is assigned in
+    XFilterEvent() but the XKeyEvent was forwarded by a XIM serer(IBus)
+    with XIM_FORWARD_EVENT -> XNextEvent() -> XFilterEvent() and the event
+    needs to be forwarded to the XIM XKeyEvent press and release filters
+    to update the XIM state with Window=0 likes _XimPendingFilter() and
+    _XimUnfabricateSerial().
+    
+    Closes: #205, #206
+    Fixes: 024d229f ("ximcp: Unmark to fabricate key events with XKeyEvent serial")
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit 5a14178c7cc408f425fe298aeade3dee749b1ca1
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 26 00:49:14 2024 +0900
+
+    ximcp: Add fabricated_time in XimProtoPrivate for timeout
+    
+    When users type keys quickly, some applications using Steam or Java
+    do not call XNextEvent() for a key event but _XimFilterKeypress()
+    and _XimFilterKeyrelease() expect to receive the key events
+    forwarded by input methods.
+    
+    Now fabricated_time Time value is added to XimProtoPrivate to check
+    the timeout value.
+    
+    Closes: #205
+    Fixes: 024d229f ("ximcp: Unmark to fabricate key events with XKeyEvent serial")
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit 1181abd6ffede3ac5663a3a3d4ee66aef1fa553b
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 12 10:50:33 2024 +0900
+
+    imDefLkup: Mark and unmark fabricated with serial 0
+    
+    GTK2 applications with GTK_IM_MODULE=xim sets the serial number 0
+    to the XKeyEvent and the previous _XimFabricateSerial() logic did
+    not work for the applications.
+    Now the API marks to fabricate with the serial 0.
+    
+    Closes: #205
+    Fixes: 024d229f ("ximcp: Unmark to fabricate key events with XKeyEvent serial")
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit c7790072657f9fdbe8cda031776617088c5f11db
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 12 10:21:43 2024 +0900
+
+    imDefLkup: Commit first info in XimCommitInfo
+    
+    Xic.private.proto.commit_info can receive multiple XimCommitInfo
+    when typing keys very quickly like an bar code scanner (or evemu-play)
+    and the first info in XimCommitInfo should be committed to keep
+    the typing key order.
+    
+    This and 041b5291 are same patches but the regression issues will be
+    fixed by the later patches.
+    
+    Closes: #198
+    Fixes: 041b5291 ("imDefLkup: Commit first info in XimCommitInfo")
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit 13e9ac4d458069c81d795f6b4842814d30431b4b
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Fri Apr 12 10:21:41 2024 +0900
+
+    ximcp: Unmark to fabricate key events with XKeyEvent serial
+    
+    _XimProtoKeypressFilter() and _XimProtoKeyreleaseFilter() can
+    receive XKeyEvent from both the typing on the keyboard and the
+    callback of XIM_FORWARD_EVENT.
+    
+    If the filter functions unmark to fabricate XKeyEvent from the typing
+    on the keyboard during receiving XKeyEvent from the callback of
+    XIM_FORWARD_EVENT with typing keys very quickly likes an bar code
+    scanner (or evemu-play), XIM server cannot receive some key events and
+    it causes the key typing order to get scrambled.
+    
+    Now XIM client saves the serial in XKeyEvent and the filter functions
+    unmark to fabricate XKeyEvent from the callback of XIM_FORWARD_EVENT
+    only.
+    
+    This and 024d229f are same patches but the regression issues will be
+    fixed by the later patches.
+    
+    Closes: #198
+    Fixes: 024d229f ("ximcp: Unmark to fabricate key events with XKeyEvent serial")
+    Part-of: <https://gitlab.freedesktop.org/xorg/lib/libx11/-/merge_requests/246>
+
+commit a465588218c1643eedc35b3c24409cb775454eee
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Fri Apr 5 15:50:06 2024 -0700
+
+    libX11 1.8.9
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 52a191ee096e93cf711f77b6a56c508b68afc0b6
+Author: Peter Hutterer <peter.hutterer@who-t.net>
+Date:   Fri Apr 5 13:15:32 2024 +1000
+
+    Revert "ximcp: Unmark to fabricate key events with XKeyEvent serial"
+    
+    This commit causes a regression, see #205, #206, #207, #208.
+    
+    This reverts commit 024d229fdf88a7755577b01b46af6ef908d599e0.
+
+commit 3ea9f4f769fecbbc8c5210c5833ad83ab8d9e97e
+Author: Peter Hutterer <peter.hutterer@who-t.net>
+Date:   Fri Apr 5 13:14:33 2024 +1000
+
+    Revert "imDefLkup: Commit first info in XimCommitInfo"
+    
+    This commit causes a regression, see #205, #206, #207, #208.
+    
+    This reverts commit 041b5291f0956c5cda5054be2981c0d02b009a4c.
+
+commit 9afd55ada5d7a3c1d3ed23ff8451629a1d989a7f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Mar 25 11:51:03 2024 -0700
+
+    xlibi18n: restore parse_line1 for WIN32 builds
+    
+    Accidentally removed by __UNIXOS2__ cleanup
+    Closes: #204
+    Fixes: 225a4bbb ("unifdef __UNIXOS2__")
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit e4927d0c4fbf950bc45fc27309290e1911e75f42
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Mar 24 15:02:23 2024 -0700
+
+    libX11 1.8.8
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 4ab58f26d388c82ffe46ef1c7dd1cee6259eec8a
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Wed Feb 21 18:23:36 2024 -0800
+
+    unifdef NULL_NOT_ZERO
+    
+    I can't find any evidence this was ever defined, should only have
+    been needed for odd-ball pre-C89 compilers.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 7bb2a5050a2f6049c92b301fae1cf89532b70060
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Wed Feb 21 18:18:46 2024 -0800
+
+    unifdef USL_SHAREDLIB
+    
+    I can't find any history of this being set in the imake or autoconf builds
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 4400a68b3a5ecacd1f997d41a0572544fa8fe544
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Feb 17 15:37:41 2024 -0800
+
+    unifdef Lynx
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 1e56b27429667e772b15b0f39863a8467297062b
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:15:00 2024 -0800
+
+    unifdef __QNX__
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit ab0a3014822687da48cd3784253c34dea0a6ad2c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:10:59 2024 -0800
+
+    unifdef __uxp__
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 4ce3962b701c502acc96b6eaf104a5ffc317c5d7
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:07:15 2024 -0800
+
+    unifdef __vax__
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 65a6f162fd9fee4e647ac49c546c5d6a1655c58c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:03:19 2024 -0800
+
+    unifdef __sgi_not_xconsortium
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 3296d7b8d14a6c114489d40b76e8da339e11b25c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:01:25 2024 -0800
+
+    unifdef __sgi
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 4322fff7e125c7975dc1b83c433b904c7d3384b5
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 15:00:34 2024 -0800
+
+    unifdef sgi
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 613d3624c2cc0ab2f18206e165a3e4a02e261148
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 14:59:28 2024 -0800
+
+    unifdef hpux
+    
+    Also removes shl_load() support, which was only buildable for HP-UX
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 225a4bbbbd174e26cc408640e10f3c37f81f3a3f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 14:56:22 2024 -0800
+
+    unifdef __UNIXOS2__
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 0df284b450933e0239d1a85a7ff2d0c9d44d22af
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 14:50:29 2024 -0800
+
+    unifdef ultrix
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit c3f3eb1284c59305568288923810dc155df6025c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 14:49:13 2024 -0800
+
+    unifdef AIXV3
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit b35344c9a74b478509e33384cc99bcc4fd092a2d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Feb 11 14:47:31 2024 -0800
+
+    unifdef __osf__
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 041b5291f0956c5cda5054be2981c0d02b009a4c
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Wed Jan 31 20:27:57 2024 +0900
+
+    imDefLkup: Commit first info in XimCommitInfo
+    
+    Xic.private.proto.commit_info can receive multiple XimCommitInfo
+    when typing keys very quickly like an bar code scanner (or evemu-play)
+    and the first info in XimCommitInfo should be committed to keep
+    the typing key order.
+    
+    Fixes: #198
+
+commit 024d229fdf88a7755577b01b46af6ef908d599e0
+Author: Takao Fujiwara <tfujiwar@redhat.com>
+Date:   Wed Jan 31 20:26:40 2024 +0900
+
+    ximcp: Unmark to fabricate key events with XKeyEvent serial
+    
+    _XimProtoKeypressFilter() and _XimProtoKeyreleaseFilter() can
+    receive XKeyEvent from both the typing on the keyboard and the
+    callback of XIM_FORWARD_EVENT.
+    
+    If the filter functions unmark to fabricate XKeyEvent from the typing
+    on the keyboard during receiving XKeyEvent from the callback of
+    XIM_FORWARD_EVENT with typing keys very quickly likes an bar code
+    scanner (or evemu-play), XIM server cannot receive some key events and
+    it causes the key typing order to get scrambled.
+    
+    Now XIM client saves the serial in XKeyEvent and the filter functions
+    unmark to fabricate XKeyEvent from the callback of XIM_FORWARD_EVENT
+    only.
+    
+    Fixes: #198
+
+commit ae3eca18cec44a953789c7f77ffab888713ed132
+Author: Peter Hutterer <peter.hutterer@who-t.net>
+Date:   Thu Nov 30 15:05:51 2023 +1000
+
+    Fix _XkbReadGetDeviceInfoReply for nButtons == dev->buttons
+    
+    XkbGetDeviceInfo(dpy, XkbXI_ButtonActionsMask, 2, 0, 0) always returns
+    NULL because the number of buttons on the device equals (unsurpisingly)
+    the number of buttons requested (i.e. first + nBtns == dev->nbuttons).
+    
+    This currently causes it to bail out and return NULL.
+    
+    Fixes f293659d5a4024bda386305bb7ebeb4647c40934
+
+commit 0a951047f64e87c5ab328084310bf27bcd4964f3
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 17:18:19 2024 +0100
+
+    _XimProtoIMFree:no need to check arg for Xfree()
+    
+       Xfree() will happily ignore NULL, no need to check
+
+commit dce614623e1f069d79d33a233305e0754fa2fd48
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 17:01:44 2024 +0100
+
+    _XimEncodeString:no need to check arg for Xfree()
+    
+    Xfree() will happily ignore NULL, no need to check
+
+commit 4f78b615806fa1cfe2bdcf3f7c868b8a00dede77
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 16:50:52 2024 +0100
+
+    Fix XCreateIC() memory leak (Part 2)
+    
+    Direct leak of 12 byte(s) in 2 object(s) allocated from:
+        #0 0x7f4f25c3f7a7 in strdup (/usr/lib64/libasan.so.6+0x5c7a7)
+        #1 0x7f4f252ce6a1 in _XimEncodeString libX11-1.8.3/modules/im/ximcp/imRm.c:818
+        #2 0x7f4f252ce6a1 in _XimEncodeString libX11-1.8.3/modules/im/ximcp/imRm.c:807
+        #3 0x7f4f252d2f0f in _XimSetICValueData libX11-1.8.3/modules/im/ximcp/imRm.c:2912
+        #4 0x7f4f252b536a in _XimLocalCreateIC libX11-1.8.3/modules/im/ximcp/imLcIc.c:176
+        #5
+    
+     0x7f4f251f0105 in XCreateIC libX11-1.8.3/src/xlibi18n/ICWrap.c:251
+    
+    detected and fix by Patrick Lerda <patrick9876@free.fr>
+    applied with adjustment, do changes when OOM (unlikely but good practise)
+
+commit ed0b97e480d7d07c24719007273989b2eb3e4046
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 16:21:02 2024 +0100
+
+    _XimLocalDestroyIC:fix possible mem leak
+    
+    Adapted:
+    Fix XCreateIC() memory leak by Patrick Lerda <patrick9876@free.fr> Part 1
+
+commit 07978634b8f4f7d9537c7f46ddcd48f2ab3efcb8
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 15:16:11 2024 +0100
+
+    _XimLocalCreateIC: get rid of bzero
+
+commit 59c9a89e250d479334bdd4d800ca6cfa919b8fc3
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 15:09:49 2024 +0100
+
+    _XimLocalCreateIC: minor cleanup
+    
+    minor cleanup, no code change
+
+commit e5b14e59a16fa49c7e7af0acfc1e4311bebec536
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 13:35:28 2024 +0100
+
+    _XimLocalCreateIC:no need to check arg for Xfree()
+    
+    Xfree() will happily ignore NULL, no need to check
+
+commit e6310b5212f1dea184e1626ad5eeec167fcb41ac
+Author: Walter Harms <wharms@bfs.de>
+Date:   Mon Jan 8 13:06:03 2024 +0100
+
+    _XimLocalDestroyIC: no need to check arg for Xfree()
+    
+    Xfree() will happily ignore NULL, no need to check
+
+commit 1261802fb316f088504b99ffe80095d13825a85b
+Author: Walter Harms <wharms@bfs.de>
+Date:   Sun Jan 7 18:30:30 2024 +0100
+
+    fix table width
+    
+    the width of first column was to small and
+    caused a hyphenation. there is only one word,
+    fix for me.
+
+commit c745719e23af44a4b40ab4508447637b35d91a1e
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Tue Oct 3 09:00:01 2023 -0700
+
+    libX11 1.8.7
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 7916869d16bdd115ac5be30a67c3749907aea6a0
+Author: Yair Mizrahi <yairm@jfrog.com>
+Date:   Thu Sep 7 16:15:32 2023 -0700
+
+    CVE-2023-43787: Integer overflow in XCreateImage() leading to a heap overflow
+    
+    When the format is `Pixmap` it calculates the size of the image data as:
+        ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
+    There is no validation on the `width` of the image, and so this
+    calculation exceeds the capacity of a 4-byte integer, causing an overflow.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit b4031fc023816aca07fbd592ed97010b9b48784b
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Sep 7 16:12:27 2023 -0700
+
+    XCreatePixmap: trigger BadValue error for out-of-range dimensions
+    
+    The CreatePixmap request specifies height & width of the image as CARD16
+    (unsigned 16-bit integer), so if either is larger than that, set it to 0
+    so the X server returns a BadValue error as the protocol requires.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 73a37d5f2fcadd6540159b432a70d80f442ddf4a
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Sep 7 15:55:04 2023 -0700
+
+    XPutImage: clip images to maximum height & width allowed by protocol
+    
+    The PutImage request specifies height & width of the image as CARD16
+    (unsigned 16-bit integer), same as the maximum dimensions of an X11
+    Drawable, which the image is being copied to.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 204c3393c4c90a29ed6bef64e43849536e863a86
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Sep 7 15:54:30 2023 -0700
+
+    CVE-2023-43786: stack exhaustion from infinite recursion in PutSubImage()
+    
+    When splitting a single line of pixels into chunks to send to the
+    X server, be sure to take into account the number of bits per pixel,
+    so we don't just loop forever trying to send more pixels than fit in
+    the given request size and not breaking them down into a small enough
+    chunk to fix.
+    
+    Fixes: "almost complete rewrite" (Dec. 12, 1987) from X11R2
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 6858d468d9ca55fb4c5fd70b223dbc78a3358a7f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Sep 17 14:19:40 2023 -0700
+
+    CVE-2023-43785: out-of-bounds memory access in _XkbReadKeySyms()
+    
+    Make sure we allocate enough memory in the first place, and
+    also handle error returns from _XkbReadBufferCopyKeySyms() when
+    it detects out-of-bounds issues.
+    
+    Reported-by: Gregory James DUCK <gjduck@gmail.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 78b37accff1abbe713349d59fdefd963ffa04bbc
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Sep 17 10:11:02 2023 -0700
+
+    XOpenDisplay: ensure each screen has a valid root_visual pointer
+    
+    Other code assumes this pointer cannot be NULL, so fail the connection
+    if a bug has caused the X server to give a non-existent visual ID for
+    the default visual of any screen.
+    
+    Reported-by: Gregory James DUCK <gjduck@gmail.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 3962080b7846d79fd3cf10b16eddacf68eb321b7
+Author: Antti Savolainen <antti.savo@gmail.com>
+Date:   Tue Aug 8 11:37:03 2023 +0000
+
+    Add two compose sequences for dagger/obelisk symbols
+    
+    The dagger symbol has several modern uses such as marking someone as
+    dead or something as extinct. Historically it has been used to indicate
+    a footnote.
+
+commit 15bbc81cf6b7c76b8a59cab6d77c9aba88b8562d
+Author: Christopher Chavez <chrischavez@gmx.us>
+Date:   Sat Jul 29 16:58:05 2023 +0000
+
+    Xutil.h: use Bool for XEmptyRegion(), XEqualRegion()
+
+commit 5433cb93513c31e9cba2a447cf48d4b9aeb53285
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon Jul 17 08:02:09 2023 +0200
+
+    nls: add two compose sequences for currency symbol `฿` (the Thai baht)
+    
+    The compose sequences are obvious: the capital B plus the vertical bar.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 2ff401a472c5f210844cc358d5a27bd340546796
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon Jul 17 07:56:14 2023 +0200
+
+    nls: reshuffle the compose sequences for currencies into ascending order
+    
+    That is: sort them according to code point.
+
+commit c0e2d42d411be3245498ffe6484b35421f096c02
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon Jul 17 07:27:14 2023 +0200
+
+    nls: add compose sequences for `₲` (guaraní), `₭` (kip), and `₮` (tugrik)
+    
+    When Ghana, Nigeria, Costa Rica and El Salvador have compose sequences
+    for their currency symbols (cedi: `₵`, naira: `₦`, colón: `₡`), then
+    Paraguay, Laos, and Mongolia deserve to have such sequences as well.
+    
+    The sequences should be obvious: the relevant capital letter of the
+    name of the currency (G, K, T) plus a vertical bar, a minus sign,
+    and an equals sign, respectively.
+    
+    Also add two sequences for `$` (the dollar sign), for consistency.
+    
+    Drop the tentative comments for drachma, penny, and austral, as those
+    currencies have been obsolete for more than twenty years.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit d9fe5dc735c75398e36998c226d2418137229673
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon Jul 17 07:06:51 2023 +0200
+
+    nls: change result of sequence `<C> <bar>` from `¢` (CENT) to `₵` (CEDI)
+    
+    As a cent is a small coin, it makes no sense to use an uppercase letter
+    to compose the `¢` symbol -- having four sequences with a lowercase `c`
+    plus a `bar` or a `slash` available for composing `¢` should be enough.
+    
+    Use the sequence `<C> <bar` (with the uppercase `C`) for composing `₵`
+    (the CEDI SIGN) instead.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 031e63060ed11eb8a876aac7515bc5a67371ed6b
+Author: Antti Savolainen <antti.savo@gmail.com>
+Date:   Thu Aug 17 18:25:20 2023 +0300
+
+    nls: add a compose sequence with double dead_tilde for ≈ (almost equal to)
+    
+    Some keyboards lack direct asciitilde and instead have only dead tilde.
+    This compose sequence allows those keyboards to type the almost equal
+    to sign.
+
+commit df2a18c4643bb4a50f2f795a75a905a1032a004a
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon Jul 17 17:03:16 2023 +0200
+
+    nls: delete twenty seven untypable Greek compose sequences
+    
+    Only a few keyboard layouts contain the `dead_iota` keysym, and none
+    of those layouts contains the `acute` keysym, so compose sequences
+    that combine the two symbols cannot be typed and are thus useless.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 44f908d9283710ffc75b22d2ae7a8948119b3e61
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 15:11:04 2023 -0700
+
+    docs: fix names for XkbKeyKeyType & XkbKeyKeyTypeIndex
+    
+    Implementation had "Key" twice in these macro names,
+    but the docs had only listed it once.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 7b16c55063ba4eb258bf91c170e378c1e2d398bd
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 15:01:09 2023 -0700
+
+    docs: remove XkbKeySymsOffset
+    
+    This function was documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 41a157dfeefe943f5a79948e4f9ef93473144fd8
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:52:18 2023 -0700
+
+    docs: remove XkbGetNameChanges
+    
+    This function was documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 3442a8cee25dc0254ee69bcf83a89d287a86c97a
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:44:18 2023 -0700
+
+    docs: remove XkbChangeIndicators and Xkb{Get,Note}IndicatorChanges
+    
+    These functions were documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit b7a15d6c6efd0bfddc81cf8443073c4bc1c9772d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:31:20 2023 -0700
+
+    docs: XkbSAActionSetCtrls is really named XkbActionSetCtrls
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit a1d8dd726757e00e3a774b92456f5c742492475b
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:18:32 2023 -0700
+
+    docs: remove XkbGetStickyKeysOptions & XkbSetStickyKeysOptions
+    
+    These functions were documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit bf13f197406fe745c5ff46a4748a41b6646aebf6
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:09:35 2023 -0700
+
+    docs: remove XkbGetSlowKeysDelay & XkbSetSlowKeysDelay
+    
+    These functions were documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit caab7321d2ec14ee776ec329ed2facf0816a3136
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 14:04:15 2023 -0700
+
+    docs: remove XkbGetAccessXTimeout & XkbSetAccessXTimeout
+    
+    These functions were documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 843e89bd2467a58cb454705a09d095726b96d93f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 12:58:47 2023 -0700
+
+    docs: remove XkbAllocDeviceLedInfo
+    
+    This function was documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 2686dd7a9d6e8e02ce2868e446cdec11617ffab4
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sun Aug 20 12:41:42 2023 -0700
+
+    docs: finish removing XkbGetBounceKeysDelay & XkbSetBounceKeysDelay
+    
+    These functions were documented but never implemented.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 188991fe7e41bbf2f384d0875ab2e25c936b0b41
+Author: G. Branden Robinson <g.branden.robinson@gmail.com>
+Date:   Sat Jul 29 10:10:00 2023 -0700
+
+    configure script reports stray, confusing "yes"
+    
+    Closes issue #194
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 70f44d76fd8fad96f33ba5c80a394d68b77dda03
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sun Jul 16 17:08:52 2023 +0200
+
+    nls: add, correct, and normalize some comments of compose sequences
+    
+    Add comments for the Khmer digraphs, correct the comments for the
+    Arabic lam-alef decompositions, and normalize the comments for the
+    Breton digraphs and trigraphs.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 2a57c32e14779cf1c0c1d2da98a9cac21c00c095
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sun Jun 25 10:01:05 2023 +0200
+
+    nls: harmonize the comments for compose sequences with combining accents
+    
+    Replace the "WITH" with "plus" and lowercase the "AND" in the comments
+    for sequences with combining accents, to make it slightly clearer that
+    the resulting string consists of multiple code points.  Also, use the
+    word "COMBINING" in the names of the accents, so that these sequences
+    can be easily grepped, and drop the redundant word "ACCENT".
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 757ab5ddd86f6cdce24b8ae2c43206b7beb7ab44
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Aug 14 08:33:28 2023 -0700
+
+    Remove XkbSetBounceKeysDelay.man from list of man pages to build
+    
+    Fixes: f90e6bfa ("rm XkbSetBounceKeysDelay.man")
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit f90e6bface92fd192b26f03b7ae745661d9c2690
+Author: Walter Harms <wharms@bfs.de>
+Date:   Sun Aug 13 22:42:50 2023 +0200
+
+    rm XkbSetBounceKeysDelay.man
+    
+    there is no function XkbSetBounceKeysDelay().
+    It is listed in the specs but never implemented if someone
+    does it, feel free to get the file back.
+    
+    closes issue #105
+
+commit b2c3fb7b4dd4c4c7b9d28c7af7776cccc8e0a98b
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sat Jul 8 08:11:39 2023 +0200
+
+    nls: use the shorter and more consistent name for the dead capital schwa
+    
+    The `dead_SCHWA` name is available since xorgproto-2023.1, which was
+    released last month.
+
+commit e45dff5c2a51ad0392061208a8ad33211d952385
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Fri Jun 16 11:37:20 2023 -0400
+
+    NLS: Drop two math sequences, slightly clean up APL sequences.
+    
+    * Two compose sequences containing `leftshoe` and `rightshoe` are
+    dropped as no keyboard layout uses these keysyms.
+    * The compose sequences for `therefore` and `because` in the APL
+    block are moved to ascending Unicode order.
+    * The comments for the compose sequences for `U2299` are corrected to
+    more accurately reflect its sequence nodes and its real name in
+    Unicode.
+
+commit af2b6dfab1616dc85be9c9b196e4c56d00447851
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sun Jun 25 09:09:21 2023 +0200
+
+    nls: delete twenty eight compose sequences that cannot be typed
+    
+    The letters `Ǫ` (U+01EA, O with ogonek), `Ȩ` (U+0228, E with cedilla),
+    `Ȯ` (U+022E, O with dot above), `Ạ` (U+1EA0, A with dot below), and
+    their lowercase forms do not occur in any layout of xkeyboard-config,
+    meaning that the compose sequences that contained these letters could
+    not be typed.  Delete their dead weight.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit ab0442d3fa835ce16559b29532ac7f674f8557f4
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sat Jun 24 09:46:07 2023 +0200
+
+    nls: remove four unobvious and redundant compose sequences for ¥ (yen)
+    
+    Composing ¥ with Y and a minus sign seems to have been added in analogy
+    to composing £ with L and a minus sign.  But ¥ clearly has a double line
+    through it, so using the equals sign for this is far more logical (and
+    those compose sequences of course exist).  Also, L plus an equals sign
+    produces ₤ (lira), not £ (sterling).  So... make these sequences more
+    consistent and allow composing ¥ only with Y/y plus an equals sign.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 933912480c08495428d45988eebb48fcbe62f14b
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sat Jun 24 10:02:45 2023 +0200
+
+    nls: order a few compose sequences left first, and in mirroring pairs
+
+commit 178c4fefd3b0b4be5e69274108b86a51f08ec3a6
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Fri Jun 16 09:33:03 2023 +0200
+
+    nls: remove three duplicated combining acute accents
+    
+    For the Cyrillic YU with combining acute accent, the string between
+    the quotes contained two U+0301 code points, whereas one is enough,
+    like for all the neighboring strings.
+    
+    (This duplication was found by accident with `nano --mini --cons`.)
+
+commit 695e90ad26f632feb0f58ad94882fb3a263bf114
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Jun 15 09:14:48 2023 -0700
+
+    libX11 1.8.6
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 304a654a0d57bf0f00d8998185f0360332cfa36c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Jun 10 16:30:07 2023 -0700
+
+    InitExt.c: Add bounds checks for extension request, event, & error codes
+    
+    Fixes CVE-2023-3138: X servers could return values from XQueryExtension
+    that would cause Xlib to write entries out-of-bounds of the arrays to
+    store them, though this would only overwrite other parts of the Display
+    struct, not outside the bounds allocated for that structure.
+    
+    Reported-by: Gregory James DUCK <gjduck@gmail.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 71b08b8af20474bb704a11affaa8ea39b06d5ddf
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Wed May 31 17:45:40 2023 -0700
+
+    libX11 1.8.5
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 03ba0140940cc76524d83096a47309f5c398541f
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon May 22 12:02:06 2023 +0200
+
+    nls: use a slash instead of a combining solidus in compose sequences
+    
+    First: combining diacritics like the combining long solidus (`U+0338`)
+    are not meant to be used in compose sequences.  Second: there is just
+    one layout in xkeyboard-config that contains the `U0338` character:
+    the deprecated/obsolete German T3 layout.  So, practically speaking,
+    these compose sequences with `U0338` were untypable.  So, use a slash
+    instead, that almost all layouts have.  This does require that the
+    sequence `<Compose> <less> <slash>` changes its meaning from backslash
+    to not-less-than (`≮`).  This seems like an acceptable sacrifice, as
+    the sequence `<Compose> <slash> <slash>` is a faster/easier sequence
+    for the backslash and most layouts contain a backslash already anyway.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 616701317e25b2c0f509f4d93af5dee6de09012d
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Mon May 22 11:19:32 2023 +0200
+
+    nls: delete six compose sequences that cannot be typed
+    
+    None of the layouts in xkeyboard-config contain `Ohook` or `Uhook`
+    or `U+01D3` (U with caron) nor their lowercase forms, so these six
+    sequences cannot be typed on any known keyboard.
+    
+    (Also, the target characters of the sequences with hook and horn
+    seem to occur only in Vietnamese, where the horn is part of the
+    vowel and the hook is a tonal mark.  All Vietnamese layouts in
+    xkeyboard-config contain `Ohorn` and `Uhorn`, and then the five
+    tonal marks as dead keys, `dead_hook` among them.  It does not
+    make sense to want to apply a horn to a vowel that already has
+    a tonal mark, nor is it possible with the Vietnamese layouts.)
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 35d9621d78cb196b4ccd3ee1baa1ce2a21e4674b
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Sun May 21 16:17:32 2023 +0200
+
+    nls: sort three sequences alphabetically in their group, like all others
+    
+    Also, consistently form uppercase+lowercase pairs, like for most others.
+
+commit 208d550954c7266fa8093b02a2a97047e1478c00
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Thu Apr 13 17:25:35 2023 +0200
+
+    nls: make the Amharic compose sequences use the dead-vowel symbols
+    
+    Last year, commit 488b156fe2 changed mistaken ASCII characters to the
+    code points that were actually used in the Ethiopian keyboard layout.
+    
+    But those code points were mistaken too: the intention was not to use
+    the code point U+FE68 in the layout but the raw symbol code 0xfe68 --
+    and so on for the other codes.  The symbols that these raw codes were
+    intended to refer to were `dead_a` and friends.  But these dead vowels
+    were added under different codes: 0xfe80 to 0xfe8b.
+    
+    So, correct the Amharic compose sequences to make use of the dead-vowel
+    symbols that were specifically added for them fifteen years ago.
+    
+    (As soon as this is merged, xkeyboard-config wil be changed too to use
+    the dead vowels in the Ethiopian layout.)
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 96cbac89a02220eb21e13ca5fa7c8c5adf77028a
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Fri Mar 31 09:47:03 2023 -0400
+
+    nls: add compose sequence for capital schwa, and delete a deviant one
+    
+    This sequence has already been defined in the iso8859-9e compose
+    file meant for the Azerbaijani locale, yet for the longest time, only
+    the lowercase form has existed in the en_US.UTF-8 master compose
+    file. This patch adds one sequence for Latin Capital Letter Schwa for
+    the Azerbaijani language.
+    
+    Additionally, the sequence in the pt_BR.UTF-8 locale for capital
+    schwa has been removed as it uses two lowercase e's as part of its
+    sequence, which in practice would make typing both `Multi_key e e`
+    and `Multi_key E E` output capital schwa.
+
+commit a6528d92b3865adb4f9951df91a714f55f56d59e
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Tue Apr 4 11:35:44 2023 +0200
+
+    XSetScreenSaver.man: restore the part that was accidentally snipped
+    
+    Four years ago, while removing private macros, commit fe46eb2871
+    unintentionally truncated the XSetScreenSaver manpage.  Restore
+    the snipped part (minus trailing spaces and a mistaken singular).
+    
+    This fixes issue #187.
+    
+    Reported-by: Sergio Gelato
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit eb166af8f9f4184108fe8e0611a09af03d12059e
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Fri Mar 24 08:37:32 2023 -0400
+
+    NLS: Remove strange dead_cedilla cedi sign sequences
+    
+    These sequences appear to be a leftover artifact of auto-generating
+    dead_currency sequences for cent and the cedi sign, where chaining
+    with ascii "c" vs "ccedilla" would output cent vs the cedi sign
+    respectively, but somehow this ended up creating strange sequences
+    with dead_cedilla followed by cent or the colon sign to output the
+    cedi sign, the latter sequence of which was already removed recently.
+    Additionally, sequences beginninng with dead_cedilla followed by
+    currency have been removed as they also appear to be related to these
+    artifacts. The two remaining sequences beginning with dead_currency
+    followed by dead_cedilla are maintained and moved to the stretch of
+    dead_currency sequences next to ccedilla, and sorted in order of
+    unicode decompositional complexity.
+
+commit 6e889f34679bb96f4d61ef069259c042cb4a9a59
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Fri Mar 24 09:41:48 2023 +0100
+
+    nls: remove twenty two untypable Greek compose sequences
+    
+    None of the keyboard layouts in xkeyboard-config contains accented
+    Greek characters like `Greek_alphaaccent` or `Greek_iotadieresis`
+    (nor in their Unicode hexadecimal forms, like U03AC or 0x10003CA),
+    so none of these sequences could be typed on an existing layout.
+    
+    Also, the two sequences that started with `Greek_accentdieresis`
+    were plain wrong: making a spacing character into a dead key.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit 98be4cb23a5eadc98f81f05c4696f687119152c8
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Fri Mar 24 09:00:48 2023 +0100
+
+    nls: remove four hundred and sixty untypable Greek compose sequences
+    
+    None of the keyboard layouts in xkeyboard-config contains code points
+    in the range U+1F00..U+1FFF (the Greek Extended block), so none of the
+    removed sequences could be typed on an existing layout.
+    
+    (Of course it is possible that some people have their own private layout
+    that contains some of the Greek Extended characters, but if they do,
+    then they can also define private compose sequences, when needed.)
+    
+    Modern Greek does not use these characters with polytonic diacritics
+    anyway -- they are useful only for typing traditional Greek.
+    
+    The useless sequences were removed with this command:
+    
+      sed -i '/<U1F..>/d' nls/en_US.UTF-8/Compose.pre
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit ff8706a5eae25b8bafce300527079f68a201d27f
+Author: Benno Schulenberg <bensberg@telfort.nl>
+Date:   Wed Jun 15 11:54:54 2022 +0200
+
+    nls: delete compose sequences that pointlessly mix upper and lower case
+    
+    It's nice to have compose sequences for things like © and ®, but allowing
+    them to be composed also with letters of different case is unneeded.  It
+    is good enough to have sequences of only lowercase and only uppercase.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@telfort.nl>
+
+commit ca99e338a9b8aad300933b1336f9e3c091392213
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Sun Mar 12 15:13:27 2023 +0000
+
+    NLS: move dead-caron subscript compositions to the relevant Unicode block
+
+commit dac2985b347cebc0f631e43e41eaeddb68de1676
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Sun Mar 12 14:49:47 2023 +0000
+
+    NLS: implement the expansion of the six Breton N-graph keysyms
+    
+    These one-keysym-to-multiple-characters sequences will allow fully defining
+    the Breton keyboard layout, without needing custom compose sequences.
+
+commit e45ca7b41dcd3ace7681d6897505f85d374640f2
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Tue Mar 14 10:22:48 2023 -0700
+
+    gitlab CI: add workflow rules
+    
+    Needed due to the gitlab config changes described in:
+     https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/438
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 72eeeb6dedc39f68608312eb0001f77fffccd499
+Author: jmcwilliams403 <jmcwilliams403@gmail.com>
+Date:   Sun Mar 5 13:33:38 2023 +0000
+
+    NLS: move long S compositions to respective blocks
+
+commit 8bbbed75a20556e41658103265974decee974645
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Sat Mar 4 10:44:45 2023 -0800
+
+    configure: Use LT_INIT from libtool 2 instead of deprecated AC_PROG_LIBTOOL
+    
+    AC_PROG_LIBTOOL was replaced by LT_INIT in libtool 2 in 2008,
+    so it's time to rely on it.
+    
+    Clears autoconf warnings:
+    
+    configure.ac:20: warning: The macro `AC_PROG_LIBTOOL' is obsolete.
+    configure.ac:20: You should run autoupdate.
+    m4/libtool.m4:100: AC_PROG_LIBTOOL is expanded from...
+    configure.ac:20: the top level
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 53bf8584e8d7d5d4a4a8114bff26a6f631c7fac1
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Feb 6 14:09:45 2023 -0800
+
+    configure: replace deprecated AC_HELP_STRING with AS_HELP_STRING
+    
+    This silences an autoconf warning.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 31a9451111fb1e3ae1199d44f94cd0b134ca455d
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Feb 6 13:13:21 2023 -0800
+
+    configure: raise minimum autoconf requirement to 2.70
+    
+    Needed for builds on NetBSD to work correctly, since it depends on
+    AC_USE_SYSTEM_EXTENSIONS defining _OPENBSD_SOURCE to expose the
+    prototype for reallocarray() in the system headers.
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 1ba02f878f83e3b42389547e01b24371f0a50e60
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Mon Feb 6 13:32:02 2023 -0800
+
+    gitlab CI: Add libtool to required packages
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
 commit fc5ec8edda1efdf5d66db4e76796e3c407527b3b
 Author: Alan Coopersmith <alan.coopersmith@oracle.com>
 Date:   Sat Feb 4 12:02:29 2023 -0800
@@ -3106,7 +5283,7 @@ Date:   Fri Jun 7 23:35:33 2019 +0200
     Tested-by: Jean-Philippe Mengual <jpmengual@hypra.fr>
 
 commit 99a2cf1aa0b58391078d5d3edf0a7dab18c7745d
-Author: Tapani Pälli  <tapani.palli@intel.com>
+Author: Tapani Pälli <tapani.palli@intel.com>
 Date:   Mon May 13 08:29:49 2019 +0300
 
     Protect colormap add/removal with display lock
@@ -3132,7 +5309,7 @@ Date:   Wed Mar 13 13:12:20 2019 +0000
     Windows.
 
 commit 87c77a1e6d7034536e9d25ce24a667ebf53486a7
-Author: Matthias Dieter Wallnöfer  <matthias.wallnoefer@lugbz.org>
+Author: Matthias Dieter Wallnöfer <matthias.wallnoefer@lugbz.org>
 Date:   Mon Mar 11 14:19:52 2019 +0000
 
     locale.alias.pre - add the de_IT locale
@@ -3140,7 +5317,7 @@ Date:   Mon Mar 11 14:19:52 2019 +0000
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 568f77f414072506bbe48646637c872987c97e63
-Author: Matthias Dieter Wallnöfer  <matthias.wallnoefer@lugbz.org>
+Author: Matthias Dieter Wallnöfer <matthias.wallnoefer@lugbz.org>
 Date:   Mon Mar 11 14:17:10 2019 +0000
 
     locale.dir.pre - add the de_IT locale
@@ -3148,7 +5325,7 @@ Date:   Mon Mar 11 14:17:10 2019 +0000
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 38c0c92feaef7dc4a72920b1dd79872e6578086c
-Author: Matthias Dieter Wallnöfer  <matthias.wallnoefer@lugbz.org>
+Author: Matthias Dieter Wallnöfer <matthias.wallnoefer@lugbz.org>
 Date:   Mon Mar 11 14:12:07 2019 +0000
 
     compose.dir.pre - add de_IT locale
@@ -3156,7 +5333,7 @@ Date:   Mon Mar 11 14:12:07 2019 +0000
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 49f835611ba6ab82e68b7b851507931c142db7a5
-Author: Matthias Dieter Wallnöfer  <matthias.wallnoefer@lugbz.org>
+Author: Matthias Dieter Wallnöfer <matthias.wallnoefer@lugbz.org>
 Date:   Tue Jan 29 15:34:34 2019 +0000
 
     Update locale.alias.pre - introduce the de_LI aliases (equivalent to de_CH)
@@ -3164,7 +5341,7 @@ Date:   Tue Jan 29 15:34:34 2019 +0000
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit ed669234d0cd5933618aa5fd2da697b59845b9be
-Author: Matthias Dieter Wallnöfer  <matthias.wallnoefer@lugbz.org>
+Author: Matthias Dieter Wallnöfer <matthias.wallnoefer@lugbz.org>
 Date:   Tue Jan 29 15:28:18 2019 +0000
 
     locale.dir.pre - fix the de_LI latin15 locale
@@ -3486,7 +5663,7 @@ Date:   Tue Oct 9 10:26:05 2018 -0400
     Signed-off-by: Matt Turner <mattst88@gmail.com>
 
 commit 823a0f8a820247b6c1e092f679b49cbdc2ea5c95
-Author: Michel Dänzer  <michel.daenzer@amd.com>
+Author: Michel Dänzer <michel.daenzer@amd.com>
 Date:   Fri Sep 28 17:24:17 2018 +0200
 
     poll_for_event: Allow using xcb_poll_for_queued_event
@@ -3498,7 +5675,7 @@ Date:   Fri Sep 28 17:24:17 2018 +0200
     Reviewed-by: Uli Schlachter <psychon@znc.in>
 
 commit 406afe4b0f1b655c0db19bbc9a0c48da9a46acf5
-Author: Michel Dänzer  <michel.daenzer@amd.com>
+Author: Michel Dänzer <michel.daenzer@amd.com>
 Date:   Tue Sep 25 17:10:58 2018 +0200
 
     poll_for_response: Call poll_for_event again if xcb_poll_for_reply fails
@@ -4027,7 +6204,7 @@ Date:   Fri Feb 10 18:48:18 2017 +0500
     Signed-off-by: Mihail Konev <k.mvc@ya.ru>
 
 commit 23d9623c661694aba8cf1e8f277dffa7a86cf065
-Author: Petr Písař < <petr.pisar@atlas.cz>
+Author: Petr Písař <petr.pisar@atlas.cz>
 Date:   Sun Oct 30 12:49:11 2016 +0100
 
     Revert cs_CZ.UTF-8 XLC_LOCALE to en_US.UTF-8
@@ -8520,7 +10697,7 @@ Date:   Sun Feb 12 19:01:43 2012 -0800
     Signed-off-by: Jeremy Huddleston <jeremyhu@apple.com>
 
 commit f180e043f55531933bedfa6e0ff36a00a9ec07f3
-Author: Frédéric Boiteux < <fboiteux@calistel.com>
+Author: Frédéric Boiteux <fboiteux@calistel.com>
 Date:   Wed Nov 30 12:47:31 2011 +0000
 
     Compositions with the dead greek symbol
@@ -10100,7 +12277,7 @@ Date:   Mon Mar 14 14:45:35 2011 -0700
     Signed-off-by: Jamey Sharp <jamey@minilop.net>
 
 commit 690f8bffd48a4e7e74298360ddd0431dc95dcd3f
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Tue Jan 18 15:58:20 2011 +0200
 
     xkb: XkbPropertyPtr determined allocation success from wrong variables
@@ -10116,7 +12293,7 @@ Date:   Tue Jan 18 15:58:20 2011 +0200
     Reviewed-by: Alan Coopersmith <alan.coopersmith at oracle.com>
 
 commit 6a4d027284e7bb5dd458157947bbb1ff580ad071
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 10 16:37:22 2011 +0200
 
     keyBind: Use Xcalloc to initialize allocated _XKeytrans
@@ -10129,7 +12306,7 @@ Date:   Mon Jan 10 16:37:22 2011 +0200
     Reviewed-by: Alan Coopersmith <alan.coopersmith at oracle.com>
 
 commit b993d73bb3214ecc24646f5427c8003b816c6921
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 10 16:22:45 2011 +0200
 
     im/ximcp: release modifiermap before returning
@@ -10241,7 +12418,7 @@ Date:   Fri Feb 11 14:20:24 2011 -0800
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 502d414118c97d35a44f8e295709682022876331
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Thu Feb 3 17:08:57 2011 +0200
 
     xcms/cmsProp: don't deal with uninitialized values, fail instead
@@ -10315,7 +12492,7 @@ Date:   Wed Feb 2 08:56:00 2011 -0800
     Reviewed-by: Julien Cristau <jcristau@debian.org>
 
 commit 450e17422c0e374d25c643f343ea268cec68da38
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:01:57 2011 +0200
 
     XlibInt: Use strncpy+zero termination instead of strcpy to enforce buffer size
@@ -10345,7 +12522,7 @@ Date:   Mon Jan 31 14:02:13 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 03f81ad8fb9783986cf9b17661dd31e95c396681
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:16 2011 +0200
 
     xlibi18n/lcFile: Removed superfluous check for NULL target_dir
@@ -10360,7 +12537,7 @@ Date:   Mon Jan 31 14:02:16 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 1346b9ea3b3882201ff8c3ee462ff4b0d4edf639
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:15 2011 +0200
 
     ximcp/imLckup: Handle negative return value from _Xlcwctomb
@@ -10381,7 +12558,7 @@ Date:   Mon Jan 31 14:02:15 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 79a5c86e020f08cc108184298a72e2777036de39
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:14 2011 +0200
 
     ximcp/imTrX: Handle failing XGetWindowProperty
@@ -10413,7 +12590,7 @@ Date:   Mon Jan 31 14:02:12 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 2b16a7e683e355c9746290b2cee2fd0dd2bf342a
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:10 2011 +0200
 
     GetProp: Zero-initialized error so its resourceID field is initialized
@@ -10453,7 +12630,7 @@ Date:   Mon Jan 31 14:02:08 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit be3e6c205d94dedc1cdebf5d17b987f0f828377a
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:06 2011 +0200
 
     Xrm: Handle the extremely unlikely situation of fstat failing
@@ -10466,7 +12643,7 @@ Date:   Mon Jan 31 14:02:06 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 3fae16c64d6ef76fd4a25a54c7f7de76596457db
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:05 2011 +0200
 
     Xrm: NEWTABLE had a memory leak after a memory allocation error
@@ -10482,7 +12659,7 @@ Date:   Mon Jan 31 14:02:05 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 7110ac653349a23c80c365f11f6270dc27c8975a
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:03 2011 +0200
 
     ImUtil: Handle a memory leak in one early return branch
@@ -10497,7 +12674,7 @@ Date:   Mon Jan 31 14:02:03 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit d695f5da9f5b778e54b6987d9177048e32818c4d
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:02:01 2011 +0200
 
     ximcp/imRm: Handle leaking colormap_ret
@@ -10512,7 +12689,7 @@ Date:   Mon Jan 31 14:02:01 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit f9eda19d08c1ea0973dfe0bc10a2519d6fd26cc7
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:01:59 2011 +0200
 
     ximcp/imRmAttr: Handle leaking missing_list
@@ -10527,7 +12704,7 @@ Date:   Mon Jan 31 14:01:59 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit 3183269e0979c9dbce9d55d9e03937897dc9fb3b
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:01:58 2011 +0200
 
     ximcp/imRmAttr: Handle leaking colormap_ret
@@ -10541,7 +12718,7 @@ Date:   Mon Jan 31 14:01:58 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit f66a032a937030f2d9baa81744d36dc585bb085c
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:01:56 2011 +0200
 
     xlibi18n/lcGeneric: Initialize uninitialized local variable
@@ -10554,7 +12731,7 @@ Date:   Mon Jan 31 14:01:56 2011 +0200
     Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
 
 commit d0266e06d38110ec908ca28379014eff743630b7
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 31 14:01:54 2011 +0200
 
     xcmx/cmxColNm: Removed unused assignments to pBuf (in two functions)
@@ -10601,7 +12778,7 @@ Date:   Mon Jan 31 14:50:19 2011 -0500
     Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
 
 commit e994ab227ed28655565c3193e63733630105e7f9
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Tue Jan 18 12:49:48 2011 +0200
 
     Comparing array against NULL is not useful "&xkb->server->vmods != NULL"
@@ -10612,7 +12789,7 @@ Date:   Tue Jan 18 12:49:48 2011 +0200
     Signed-off-by: Erkki Seppälä <erkki.seppala@vincit.fi>
 
 commit 4115f051e62f9b098efce691e070d44f09f30f1c
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Wed Jan 12 15:51:11 2011 +0200
 
     Variable "entry" tracked as NULL was dereferenced.
@@ -10624,7 +12801,7 @@ Date:   Wed Jan 12 15:51:11 2011 +0200
     Signed-off-by: Erkki Seppälä <erkki.seppala@vincit.fi>
 
 commit 0edb76d1d5fdca5a2543332699be2e72386dab24
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Thu Jan 27 09:54:00 2011 +0200
 
     Dereferencing possibly NULL "str" in call to function "memcpy" (Deref assumed on the basis of 'nonnull' parameter attribute.)
@@ -10636,7 +12813,7 @@ Date:   Thu Jan 27 09:54:00 2011 +0200
     Signed-off-by: Erkki Seppälä <erkki.seppala@vincit.fi>
 
 commit 59da8a211ef723909d0530c0331d541db8e63378
-Author: Erkki Seppälä < <erkki.seppala@vincit.fi>
+Author: Erkki Seppälä <erkki.seppala@vincit.fi>
 Date:   Mon Jan 10 16:17:47 2011 +0200
 
     Using freed pointer "e"
@@ -12481,7 +14658,7 @@ Date:   Tue Jan 26 19:41:08 2010 -0500
     Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
 
 commit eb289b34bfc9978eef724e0f268975938334c06c
-Author: Kristian Høgsberg  <krh@bitplanet.net>
+Author: Kristian Høgsberg <krh@bitplanet.net>
 Date:   Thu Jan 21 13:39:17 2010 -0500
 
     XErrorDB: Add new DRI2 request names
@@ -13787,7 +15964,7 @@ Date:   Sat Feb 21 14:48:42 2009 -0500
     Signed-off-by: Chris Ball <cjb@laptop.org>
 
 commit da6bbca07c796c69172a649405474f03bee66754
-Author: Emilio Jesús Gallego Arias  <egallego@babel.ls.fi.upm.es>
+Author: Emilio Jesús Gallego Arias <egallego@babel.ls.fi.upm.es>
 Date:   Sat Feb 21 20:17:23 2009 +0100
 
     xcb_io: Avoid datatype overflow on AMD64 and friends.
@@ -14468,7 +16645,7 @@ Date:   Wed Sep 17 10:43:52 2008 -0400
     Bug #17616: Fix an XCB leak when the client has a non-fatal error handler.
 
 commit db0b85db29699be6bf7e78dede655d59ba926dfc
-Author: Rafael Ávila de Espíndola < <rafael.espindola@gmail.com>
+Author: Rafael Ávila de Espíndola <rafael.espindola@gmail.com>
 Date:   Sun Sep 14 19:15:26 2008 -0400
 
     Fix problem with <dead_acute> <c> in pt_BR.UTF-8
@@ -14874,7 +17051,7 @@ Date:   Thu Feb 28 20:17:41 2008 -0800
     Man page typo fixes
 
 commit 1a1a42a3ca1dfaf42f1094936b71c140fc030fcb
-Author: Søren Sandmann Pedersen  <sandmann@redhat.com>
+Author: Søren Sandmann Pedersen <sandmann@redhat.com>
 Date:   Sun Feb 24 20:03:35 2008 -0500
 
     XIM: Fix a hand when switching input context.
@@ -15104,7 +17281,7 @@ Date:   Fri Aug 31 17:30:33 2007 -0700
     Bug #2081: Note the range limitation of XSetScreenSaver arguments.
 
 commit 31540f1438ec63faf37044f2fd654b335ddf80f0
-Author: Kristian Høgsberg  <krh@redhat.com>
+Author: Kristian Høgsberg <krh@redhat.com>
 Date:   Wed Aug 29 19:50:57 2007 -0400
 
     Add GLX 1.4 requests and errors.
@@ -15959,7 +18136,7 @@ Date:   Wed Nov 8 12:17:41 2006 -0800
     This fixes an XCB locking assertion failure, particularly with emacs.
 
 commit e494ecaac1ec8a22bd9a85f800fca74d02e9d358
-Author: Diego 'Flameeyes' Pettenò  <flameeyes@gentoo.org>
+Author: Diego 'Flameeyes' Pettenò <flameeyes@gentoo.org>
 Date:   Tue Nov 7 09:32:00 2006 -0800
 
     Add xcb-xlib dependency to x11.pc when built against XCB.
@@ -17246,7 +19423,7 @@ Date:   Fri Oct 7 15:00:00 2005 +0000
     Add missing dist tarball files
 
 commit 440399b470c97b159a530602fff11c315aca8d97
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Wed Oct 5 18:27:10 2005 +0000
 
     Add el_GR.UTF-8 compose file
@@ -17301,7 +19478,7 @@ Date:   Fri Sep 2 23:00:30 2005 +0000
     Issue an error if XTRANS macros were not found when generating configure from configure.ac to flag errors early, instead of when people wonder why libX11 can't talk to an Xserver because it has no transports defined
 
 commit 3eb9f2d693af89d04e2fd92492c8205dce332c9c
-Author: Kristian Høgsberg  <krh@redhat.com>
+Author: Kristian Høgsberg <krh@redhat.com>
 Date:   Thu Sep 1 19:24:13 2005 +0000
 
     Use $(X11_LOCALEDATADIR) instead of @X11_LOCALEDATADIR@ so this install destination can be overridden at make install time.
@@ -17582,7 +19759,7 @@ Date:   Fri Jul 1 22:13:35 2005 +0000
     Added if not already present.
 
 commit c162d60ad8f124563f94a2a266de59373936266c
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Wed Jun 22 22:46:31 2005 +0000
 
     Apply these patches from Theo van Klaveren:
@@ -17707,7 +19884,7 @@ Date:   Thu May 19 00:10:07 2005 +0000
     Require automake 1.7 in AM_INIT_AUTOMAKE
 
 commit cd4657c175dbab6aaca36f18a0ca92c95b5567dd
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Tue May 17 22:32:09 2005 +0000
 
     - Check for xproto as its CFLAGS are needed in the .pc file
@@ -17729,7 +19906,7 @@ Date:   Mon May 16 22:35:27 2005 +0000
     Remove the entries from the xlibs tree, as they are not relevant here.
 
 commit 8bd3aea84ce54b8b76a898f3ae00e2b499c14a5e
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Mon May 16 21:48:36 2005 +0000
 
     Mon May 16 17:48:03 2005 Søren Sandmann <sandmann@redhat.com>
@@ -17743,7 +19920,7 @@ Date:   Mon May 16 21:27:35 2005 +0000
     Remove the entries from the xlibs tree, as they are not relevant here.
 
 commit 7eee605e3aeed549d1053325a03027c5e8cbf71b
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Fri May 13 22:53:36 2005 +0000
 
     - For now put xtrans in X11/Xtrans/X11, since libX11 is looking for it in <X11/...>
@@ -17877,7 +20054,7 @@ Date:   Mon Nov 15 13:29:56 2004 +0000
     Bugzilla #1864, http://freedesktop.org/bugzilla/show_bug.cgi?id=1864 Initialize pointer to NULL to avoid freeing random memory
 
 commit 436108cd6c84053698e5ca629096f59b34f50c2a
-Author: Kristian Høgsberg  <krh@redhat.com>
+Author: Kristian Høgsberg <krh@redhat.com>
 Date:   Thu Nov 11 15:37:01 2004 +0000
 
     Fix #1818
@@ -17935,7 +20112,7 @@ Date:   Wed Oct 13 07:38:00 2004 +0000
     Use attributes instead of pragmas for weak symbols on gcc 2.95 as well. Using pragmas may result in the symbols being undefined with big -O. (FreeBSD ports/69708, Masakazu HIGAKI <higamasa@dream.com>)
 
 commit d80237db627bf71ad5615ff4ba05e6ab436aa740
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Fri Oct 8 22:57:56 2004 +0000
 
     Fri Oct 8 18:53:11 2004 Soeren Sandmann <sandmann@redhat.com>
@@ -18021,7 +20198,7 @@ Date:   Tue Jul 27 06:06:05 2004 +0000
     - remove unused file.
 
 commit 6e884b12911eedfb003e90a3829ce66f7fc9cf2d
-Author: Søren Sandmann Pedersen  <sandmann@daimi.au.dk>
+Author: Søren Sandmann Pedersen <sandmann@daimi.au.dk>
 Date:   Tue Jul 20 17:48:09 2004 +0000
 
     Tue Jul 20 19:38:06 2004 Soeren Sandmann <sandmann@daimi.au.dk>

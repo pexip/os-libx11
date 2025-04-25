@@ -473,6 +473,10 @@ XOpenDisplay (
 		}
 	    }
 	    sp->root_visual = _XVIDtoVisual(dpy, root_visualID);
+	    if (sp->root_visual == NULL) {
+		OutOfMemory(dpy);
+		return(NULL);
+	    }
 	}
 
 	if(usedbytes != setuplength){
@@ -705,7 +709,10 @@ void _XFreeDisplayStructure(Display *dpy)
 
 static void OutOfMemory(Display *dpy)
 {
-    if(dpy->xcb->connection)
-	xcb_disconnect(dpy->xcb->connection);
-    _XFreeDisplayStructure (dpy);
+	xcb_connection_t *connection = dpy->xcb->connection;
+
+	_XFreeDisplayStructure (dpy);
+
+	if (connection)
+	    xcb_disconnect(connection);
 }
