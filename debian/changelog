@@ -1,3 +1,9 @@
+libx11 (2:1.8.12-1+pexip25u1) pexip-trixie; urgency=medium
+
+  * Initial trixie build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Tue, 29 Apr 2025 22:38:19 +0100
+
 libx11 (2:1.8.12-1) unstable; urgency=medium
 
   * New upstream release.
